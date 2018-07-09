@@ -2,7 +2,7 @@
 Access Control List
 ####################
 
-Access Control List (ACL) are key-value stores that can be used to manage what operations can 
+An Access Control List (ACL) is a key-value store that can be used to manage what operations can 
 be performed by which user on group, dataset, or committed type objects.  Operations on other 
 objects (e.g. links, dataspace, or attributes) use the ACL of the object they belong to.
 
@@ -10,8 +10,8 @@ Each ACL consists of 1 or more items in the form:
 
 (username, read, create, update, delete, readACL, updateACL)
 
-where username is a string, and read, create, update, delete, readACL, updateACL are booleans.
-There flags have the following semantics when the given username is provided in the http
+where username is a string, and read, create, update, delete, readACL and updateACL are booleans.
+These flags have the following semantics when the given username is provided in the http
 Authorization header:
 
 * read: The given user is authorized for read access to the resource (generally all GET requests)
@@ -22,7 +22,7 @@ Authorization header:
 * updateACL: The given user is authorized to modify the ACLs of a resource
 
 A special username 'default' is used to denote the access permission for all other users who
-or not list in the ACL (including un-authenticated requests that don't provide a username).
+are not listed in the ACL (including un-authenticated requests that don't provide a username).
 
 Example
 -------
@@ -67,7 +67,7 @@ Finally the same set of requests are sent with 'ann' as the user:
 * PUT /datasets/<id>/attributes/<name> - denied (returns HTTP Status 201 - Created)
 * DELETE /datasets/<id>  - denied (returns HTTP Status 200 - OK)
  
-Note: HTTP Status 401 basically says: "you can't have access until you tell me who your are", 
+Note: HTTP Status 401 basically says: "you can't have access until you tell me who you are", 
 while HTTP Status 403 says: "I know who you are, but you don't have permissions to access this
 resource."
 
@@ -76,7 +76,7 @@ Root ACL Inheritance
 
 In many cases it will be desired to have a default ACL that applies to each resource in the domain.
 This can be accomplished by defining an ACL for the root group.  This will control the access 
-rights for any resource unless of ACL is present in that resource for the requesting user.
+rights for any resource unless an ACL is present in that resource for the requesting user.
 
 The default ACL can be read or updated by forming a request with a uri that includes the root group id, 
 i.e.: "/groups/<root_id>/acls", or by using the uri path for the domain, i.e. "/acls".

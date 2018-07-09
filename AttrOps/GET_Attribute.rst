@@ -77,16 +77,16 @@ A JSON object that represents the dataspace of the attribute.  Subkeys of shape 
 class: A string with one of the following values:
 
  * H5S_NULL: A null dataspace, which has no elements
- * H5S_SCALAR: A dataspace with a single element (although possibly of a complext datatype)
+ * H5S_SCALAR: A dataspace with a single element (although possibly of a complex datatype)
  * H5S_SIMPLE: A dataspace that consists of a regular array of elements
  
 dims: An integer array whose length is equal to the number of dimensions (rank) of the 
-dataspace.  The value of each element gives the the current size of each dimension.  Dims
+dataspace.  The value of each element gives the current size of each dimension.  Dims
 is not returned for H5S_NULL or H5S_SCALAR dataspaces.
 
 value
 ^^^^^
-A json array (or string or number for scalar datasets) giving the values of the requested 
+A JSON array (or string or number for scalar datasets) giving the values of the requested 
 attribute.
 
 hrefs
@@ -96,7 +96,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples
@@ -105,7 +105,7 @@ Examples
 Sample Request
 --------------
 
-Get an attribute named "attr1" from a group with UUID: "45a882e1-...".
+Get an attribute named "attr1" from a group with UUID: "1a956e54-...".
 
 .. code-block:: http
 

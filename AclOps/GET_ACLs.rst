@@ -78,22 +78,22 @@ On success, a JSON response will be returned with the following elements:
 acls
 ^^^^
 A JSON list that contains one element for each user specified in the ACL.
-The elements will be JSON object that describe the users acces permisions.  
-Subkeys of the element are are:
+The elements will be JSON objects that describe each user's access permissions.  
+The subkeys of each element are:
 
 userName: the userid of the user ('default' for the default access)
 
-create: A boolean flag that indicated if the user is authorized to create new resources
+create: A boolean flag that indicates if the user is authorized to create new resources
 
-delete: A boolean flag that indicated if the user is authorized to delete resources
+delete: A boolean flag that indicates if the user is authorized to delete resources
 
-read: A boolean flag that indicated if the user is authorized to read (GET) resources
+read: A boolean flag that indicates if the user is authorized to read (GET) resources
 
-update: A boolean flag that indicated if the user is authorized to update resources
+update: A boolean flag that indicates if the user is authorized to update resources
 
-readACL: A boolean flag that indicated if the user is authorized to read the object's ACL
+readACL: A boolean flag that indicates if the user is authorized to read the object's ACL
 
-updateACL: A boolean flag that indicated if the user is authorized to update the object's ACL
+updateACL: A boolean flag that indicates if the user is authorized to update the object's ACL
 
  
 hrefs
@@ -103,7 +103,7 @@ An array of hypertext links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples

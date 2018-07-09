@@ -5,7 +5,7 @@ GET Attributes
 Description
 ===========
 Gets all the attributes of a dataset, group, or committed datatype.
-For each attribute the request returns the attributes name, type, and shape.  To get 
+For each attribute the request returns the attribute's name, type, and shape.  To get 
 the attribute data use :doc:`GET_Attribute`.
 
 Requests
@@ -91,7 +91,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples
@@ -100,7 +100,7 @@ Examples
 Sample Request
 --------------
 
-Get attributes of a group with UUID: "45a882e1-...".
+Get attributes of a group with UUID: "1a956e54-...".
 
 .. code-block:: http
 
@@ -164,8 +164,8 @@ Sample Response
 Sample Request - get Batch
 ---------------------------
 
-Get 5 the five attributes that occur after attribute "a0004" from a of a group with UUID: 
-"45a882e1-...".
+Get the five attributes that occur after attribute "a0004" from a group with UUID: 
+"4cecd4dc-...".
 
 .. code-block:: http
 

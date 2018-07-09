@@ -54,13 +54,13 @@ Request Elements
 ----------------
 
 The request body must include a JSON object with "type" key.  Optionally a "shape"
-key can be provide to make a non-scalar attribute.
+key can be provided to make a non-scalar attribute.
 
 
 type
 ^^^^
 
-Specify's the desired type of the attribute.  Either a string that is one of the 
+Specifies the desired type of the attribute.  Either a string that is one of the 
 predefined type values, a uuid of a committed type, or a JSON object describing the type.
 See :doc:`../Types/index` for details of the type specification.
 
@@ -102,7 +102,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples
@@ -205,7 +205,7 @@ Sample Response - string attribute
 Sample Request - compound type
 ----------------------------------
 
-Create a two-element, attribute of group with UUID of 
+Create a two-element, attribute in the group with UUID of 
 "be319519-" named "attr_compound".   The attribute has a compound type with an integer
 and a floating point element. 
 

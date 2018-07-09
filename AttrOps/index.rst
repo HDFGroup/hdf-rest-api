@@ -4,7 +4,7 @@ Attributes
 
 Like datasets (see :doc:`../DatasetOps/index`), attributes are objects that contain a 
 homogeneous collection of elements
-and have associatted type information.  Attributes are typically small metadata objects
+and have associated type information.  Attributes are typically small metadata objects
 that describe some aspect of the object (dataset, group, or committed datatype) that 
 contains the attribute.
 
@@ -20,8 +20,8 @@ attributes) is included in the request.
 
 Reading and Writing Data
 -------------------------
-Unlike datasets, attribute's data can not be
-read or written partially.  Data can only be written as part of the PUT requests.  
+Unlike datasets, an attribute's data can not be
+read or written partially.  Data can only be written as part of the PUT request.  
 Reading the data of an attribute is done by :doc:`GET_Attribute`.
 
 Listing attributes
