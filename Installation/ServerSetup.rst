@@ -326,6 +326,6 @@ will contain links to all HDF5 files in the data folder (and sub-folders).
 inventories new files on first access, but won't see some changes (e.g. new group is created)
 made to the file outside the REST api.
 
-*Note: HDF5 that are newly created (copied into) the datapath directory will be "noticed"
+*Note:* HDF5 that are newly created (copied into) the datapath directory will be "noticed"
 by the service and added into the TOC.
      
