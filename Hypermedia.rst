@@ -2,13 +2,13 @@
 Hypermedia
 *************************
 
-h5serv supports the REST convention of **HATEOAS** or *Hypermedia as the Engine of 
-Application State*.  The idea is (see http://en.wikipedia.org/wiki/HATEOS for a full 
-explanation) is that each response include links to related resources related to 
+HDF Kita supports the REST convention of **HATEOAS** or *Hypermedia as the Engine of 
+Application State*.  The idea (see http://en.wikipedia.org/wiki/HATEOS for a full 
+explanation) is that each response includes links to resources related to 
 the requested resource.
 
 For example, consider the request for a dataset: ``GET /datasets/<id>``.  The response
-will be a JSON representation of the dataset describing it's type, shape, and other
+will be a JSON representation of the dataset describing its type, shape, and other
 aspects.  Related resources to the dataset would include:
 
  * the dataset's attributes
@@ -17,7 +17,7 @@ aspects.  Related resources to the dataset would include:
  * the root group of the domain the dataset is in
  * the domain resource
  
-So the ``GET /datasets/<id>`` response includes a key ``hrefs`` that contains an
+So the ``GET /datasets/<id>`` response includes a key ``hrefs`` that contains
 a JSON array.  Each array element has a key: ``href`` - the related resource, and a key:
 ``rel`` that denotes the type of relation.   Example:
 
@@ -33,12 +33,12 @@ a JSON array.  Each array element has a key: ``href`` - the related resource, an
       ] 
     }
     
-This enables clients to "explore" the api without detailed knowledge of the API.
+This enables clients to "explore" the API without detailed knowledge of it.
 
-This is the list of relations used in h5serv:
+This is the list of relations used in HDF Kita:
 
  * attributes - the attributes of the resource 
- * data - the resources data (used for datasets)
+ * data - the resource's data (used for datasets)
  * database - the collection of all datasets in the domain
  * groupbase - the collection of all groups in the domain
  * home - the domain the resource is a member of

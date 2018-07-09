@@ -1,12 +1,12 @@
-.. h5serv documentation master file, created by
-   sphinx-quickstart on Fri Oct 24 14:51:58 2014.
+.. HDF Kita documentation master file, created by
+   sphinx-quickstart on Mon Jul  9 10:29:28 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-h5serv Developer Documentation
-==================================
+HDF Kita Developer Documentation
+====================================
 
-This is the developer documentation for h5serv, a WebService for HDF5 content.
+This is the developer documentation for HDF Kita, a WebService for HDF5 content.
 
 Contents:
 
@@ -38,4 +38,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

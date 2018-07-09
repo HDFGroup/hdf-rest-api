@@ -2,7 +2,7 @@
 Using Iteration
 ***************
 
-There are some operations that may return an arbitrary large list of results. For 
+There are some operations that may return an arbitrarily large list of results. For 
 example: ``GET /groups/<id>/attributes`` returns all the attributes of the 
 group object with the given id.  It's possible (if not common in practice) that the 
 group may contain hundreds or more attributes.
@@ -10,11 +10,11 @@ group may contain hundreds or more attributes.
 If you desire to retrieve the list of attributes in batches (say you are developing a 
 user interface that has a "get next page" style button), you can use iteration.
 
-This is accomplished by adding query parameters to the request the limit the number of
+This is accomplished by adding query parameters to the request that limit the number of
 items returned and a marker parameter that identifies where the iteration should start 
 off.
 
-Let's flush out our example by supposing the group with UUID <id> has 1000 attributes 
+Let's flesh out our example by supposing the group with UUID <id> has 1000 attributes 
 named "a0000", "a0001", and so on.
 
 If we'd like to retrieve just the first 100 attributes, we can add a limit value to the 
@@ -31,7 +31,7 @@ marker value for the next request:
 
 This request will return attributes "a0100", "a0101", through "a0199".
 
-Repeat this pattern until less the limit items are returned.  This indicates that you've
+Repeat this pattern until less than 'Limit' items are returned.  This indicates that you've
 completed the iteration through all elements of the group.
 
 Iteration is also supported for links in a group, and the groups, datasets, and datatypes

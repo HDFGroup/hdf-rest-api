@@ -5,6 +5,7 @@ Admin Tools
 The scripts described here are intended to be run on the server by "privileged" users.  These are all
 located in the ``util\admin`` directory.
 
+TODO: HSDS Admin scripts
 makepwd_file.py
 ---------------
 

@@ -4,15 +4,14 @@ Authorization and Authentication
 
 Request Authentication
 -----------------------
-h5serv supports HTTP Basic authentication to authenticate users by comparing an encrypted 
-username and password against a value stored within a password file.  
-(See :doc:`AdminTools` to create a password file and add user accounts.) 
+HDF Kita supports HTTP Basic authentication to authenticate users by comparing an encrypted 
+username and password against a value stored within a password file.
 
 If neither the requested object (Group, Dataset, or Committed Datatype) nor the object's root group
 has an Access Control List (ACL), authorization is not required and no authentication string
 needs to be supplied. See :doc:`../AclOps/index`) for information on how to use ACL's.
 
-If the requested object (or object's root group), does have an ACL, authorization may be required 
+If the requested object (or object's root group) does have an ACL, authorization may be required 
 (if the object is not publically readable),
 and if so the requestor will need to provide an Authorization header in the request.  If 
 authoriazation is required, but not provided, the server will return an HTTP Status of 401 - 
@@ -37,12 +36,11 @@ If the authorization string is validated, the server will verify the request is 
 per the object's ACL list.  If not authorized a http status 403 - Forbidden will be returned.
 
 
-User ids and passwords
+User IDs and passwords
 ----------------------
 
-User ids and passwords are maintained in an HDF5 file referenced in the server config: 
-'password_file'.  The admin tool (See :doc:`AdminTools`) script: update_pwd.py can be used 
-to create new users and update passwords.
+User IDs and passwords are maintained in a plaintext file: 
+``admin/config/passwd.txt``.
 
 
- 
+

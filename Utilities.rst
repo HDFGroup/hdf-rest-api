@@ -2,9 +2,10 @@
 Utilities
 ###################
 
-The h5serv distribution includes the following utility scripts.  These are all
+The HDF Kita distribution includes the following utility scripts.  These are all
 located in the ``util`` directory.
 
+TODO: HSDS util scripts
 dumpobjdb.py
 ------------
 
