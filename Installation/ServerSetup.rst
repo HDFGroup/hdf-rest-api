@@ -166,7 +166,7 @@ A path indicating the directory where HDF5 files will be be stored.
 
 *Note*: Any HDF5 file content that you put in this directory will be exposed via the
 server REST api (unless the domain's ACL is configured to prevent public access, see: 
-:doc:`../AclOps`).
+:doc:`../AclOps/index`).
 
 Default: ``../data/``
 

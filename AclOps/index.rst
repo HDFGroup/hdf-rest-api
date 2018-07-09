@@ -16,7 +16,7 @@ Authorization header:
 
 * read: The given user is authorized for read access to the resource (generally all GET requests)
 * create: The given user is authorized to create new resources (generally POST or PUT requests)
-* update: The given user is authorized to modified a resource (e.g. :doc:`../DatasetOps\PUT_Value`)
+* update: The given user is authorized to modified a resource (e.g. :doc:`../DatasetOps/PUT_Value`)
 * delete: The given user is authorized to delete a resource (e.g. Delete a Group)
 * readACL: The given user is authorized to read the ACLs of a resource
 * updateACL: The given user is authorized to modify the ACLs of a resource
