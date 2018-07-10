@@ -2,7 +2,7 @@
 Committed Datatypes
 #######################
 
-Committed datatypes (also know as "named types"), are object that describe types.  These
+Committed datatypes (also known as "named types"), are objects that describe types.  These
 types can be used in the creation of datasets and attributes.
 
 Committed datatypes can be linked to from a Group and can contain attributes, just like
@@ -20,7 +20,7 @@ Getting information about a committed datatype
 Use the :doc:`GET_Datatype` operation to retrieve information about a committed datatype.
 To list all the committed datatypes within a domain use 
 :doc:`GET_Datatypes`.  To list the committed types linked to a particular group use 
-:doc:`../GroupOps/GET_Links` and examine link object with a "collection" key of 
+:doc:`../GroupOps/GET_Links` and examine link objects with a "collection" key of 
 "datatypes".
 
 Deleting committed datatypes

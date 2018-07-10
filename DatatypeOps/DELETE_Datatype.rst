@@ -5,7 +5,7 @@ DELETE Datatype
 Description
 ===========
 The implementation of the DELETE operation deletes the committed datatype
- named in the URI.  All attributes the datatype will also be deleted.
+ named in the URI.  All attributes of the datatype will also be deleted.
 
 Requests
 ========
@@ -50,7 +50,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples

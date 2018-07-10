@@ -2,10 +2,10 @@
 License and Legal Info
 #######################
  
-Copyright Notice and License Terms for h5serv Software Service, Libraries and Utilities
----------------------------------------------------------------------------------------
+Copyright Notice and License Terms for HDF Kita Software Service, Libraries and Utilities
+-----------------------------------------------------------------------------------------
 
-h5serv (HDF5 REST Server) Service, Libraries and Utilities
+HDF Kita (HDF5 REST Server) Service, Libraries and Utilities
 
 Copyright (c) |copyright|
 

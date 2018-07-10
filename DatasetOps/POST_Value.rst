@@ -4,7 +4,7 @@ POST Value
 
 Description
 ===========
-Gets values of a data for a given point selection (provided in the body of the 
+Gets values of a dataset for a given point selection (provided in the body of the 
 request).
 
 Requests
@@ -58,13 +58,13 @@ On success, a JSON response will be returned with the following elements:
 value
 ^^^^^
 An array of values where the length of the array is equal to the number of points 
-in the request.  Each value will be a string, integer, or JSON object consist
-with the dataset type (e.g. an compound type).
+in the request.  Each value will be a string, integer, or JSON object consistent
+with the dataset type (e.g. a compound type).
 
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples

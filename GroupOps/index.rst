@@ -16,15 +16,15 @@ Groups all have attributes which can be used to store meta-data about the group.
 Creating Groups
 ---------------
 
-Use the :doc:`POST_Group` to create new Groups.  Initially the new group will have no
+Use the :doc:`POST_Group` operation to create new Groups.  Initially the new group will have no
 links and no attributes.
 
 
 Getting information about Groups
 --------------------------------
 
-Use :doc:`GET_Group` to get information about a group: attribute count, link count,
-creation and modification times.
+Use :doc:`GET_Group` to get information about a group such as the attribute count, link count
+and creation and modification times.
 
 To retrieve the UUIDs of all the groups in a domain, use :doc:`GET_Groups`.
 
@@ -49,9 +49,9 @@ Use :doc:`DELETE_Group` to remove a group.  All attributes and links of the grou
 will be deleted.
 
 *Note:* deleting a group will not delete any objects (datasets or other groups) that the
-the group's links points to.  These objects may become *anonymous*, i.e. they are not
-referenced by any link, but can still be accessed via ``GET`` request with the object
-uuid.
+the group's links point to.  These objects may become *anonymous*, i.e. they are not
+referenced by any link, but can still be accessed via a ``GET`` request with the object
+UUID.
 
 List of Operations
 ------------------

@@ -4,7 +4,7 @@ GET Shape
 
 Description
 ===========
-Gets shape of a dataset.
+Gets the shape of a dataset.
 
 Requests
 ========
@@ -50,11 +50,11 @@ A JSON object with the following keys:
 class: A string with one of the following values:
 
  * H5S_NULL: A null dataspace, which has no elements
- * H5S_SCALAR: A dataspace with a single element (although possibly of a complext datatype)
+ * H5S_SCALAR: A dataspace with a single element (although possibly of a complex datatype)
  * H5S_SIMPLE: A dataspace that consists of a regular array of elements
  
 dims: An integer array whose length is equal to the number of dimensions (rank) of the 
-dataspace.  The value of each element gives the the current size of each dimension.  Dims
+dataspace.  The value of each element gives the current size of each dimension.  Dims
 is not returned for H5S_NULL or H5S_SCALAR dataspaces.
 
 maxdims: An integer array whose length is equal to the number of dimensions of the 
@@ -62,8 +62,8 @@ dataspace.  The value of each element gives the maximum size of each dimension. 
 of 0 indicates that the dimension has *unlimited* extent.  maxdims is not returned for
 H5S_SIMPLE dataspaces which are not extensible or for H5S_NULL or H5S_SCALAR dataspaces.
 
-fillvalue: A value of compatible with the dataset's type, which gives the *fill* value
-for the dataset (the value for which elements will be initialized to when a dataspace
+fillvalue: A value, of a type compatible with the dataset's type, which gives the *fill* value
+for the dataset (the value which elements will be initialized to when a dataspace
 is extended).  fillvalue is only returned for extensible dataspaces.
 
 created
@@ -83,7 +83,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples

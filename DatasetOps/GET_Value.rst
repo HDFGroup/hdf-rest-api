@@ -68,8 +68,8 @@ of "application/octet-stream".  Use this accept value if a binary response is de
 more efficient for large data requests.  If a binary response can be returned, the "Content-Type" response
 header will be "application/octet-stream".  Otherwise the response header will be "json".
 
-Note: Binary responses are only supported for dataset that have a fixed-length type
-(i.e. either a fixed length primitive type or compound type that in turn consists of fixed=length types).  Namely
+Note: Binary responses are only supported for datasets that have a fixed-length type
+(i.e. either a fixed length primitive type or compound type that in turn consists of fixed-length types).  Namely
 variable length strings and variable length data types will always be returned as JSON.
 
 Note: if a binary response is returned, it will consist of the equivalent binary data of the "data" item in the JSON
@@ -98,7 +98,7 @@ dataset region.
 
 index
 ^^^^^
-A list of indexes for each element that met the query condition (only provided when 
+A list of indices for each element that met the query condition (only provided when 
 the query request parameter is used).
 
 hrefs
@@ -108,7 +108,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples
@@ -209,7 +209,7 @@ Sample Response - Selection
 Sample Request - Query
 --------------------------
 
-Get elements from dataset where the 'date' field is equal to 20 and the 'temp' field is greater or equal to 70.
+Get elements from dataset where the 'date' field is equal to 20 and the 'temp' field is greater than or equal to 70.
 
 .. code-block:: http
 

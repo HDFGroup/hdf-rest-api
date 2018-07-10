@@ -2,17 +2,17 @@
 What's New 
 ###################
 
-
-h5serv 1.1
------------
+TODO: HSDS versions and features
+HDF Kita 1.1
+------------
 Significant features:
   * Support was added for http over SSL (https)
   * Support was added for authentication and simple user management
   * Acess Control List (ACL) - Enables access to HDF objects to be controled for specific users
 
-h5serv 1.0
-----------
-This is the first release of h5serv.  
+HDF Kita 1.0
+------------
+This is the first release of HDF Kita.  
 
 Significant features:
 

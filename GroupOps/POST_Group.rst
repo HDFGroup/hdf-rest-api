@@ -6,7 +6,7 @@ Description
 ===========
 Creates a new Group.
 
-*Note:* By default he new Group will not be linked from any other group in the domain.
+*Note:* By default the new Group will not be linked from any other group in the domain.
 A link element can be included in the request body to have an existing group link to 
 the new group.
 Alternatively, use the *PUT link* operation to link the new 
@@ -38,7 +38,7 @@ Optionally the request body can be a JSON object that has a link key with sub-ke
 
 id
 ^^
-The UUID of the group the new group should be linked to.  If the UUID is not valid,
+The UUID of the group that the new group should be linked to.  If the UUID is not valid,
 the request will fail and a new group will not be created.
 
 name
@@ -88,7 +88,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples

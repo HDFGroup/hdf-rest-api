@@ -51,7 +51,7 @@ link["collection"]
 ^^^^^^^^^^^^^^^^^^
 For hard links, the domain collection for which the object the link points to is a 
 member of.  The value will be one of: "groups", "datasets", "datatypes".
-For symbol links, this element is not present.
+For symbolic links, this element is not present.
 
 link["class"]
 ^^^^^^^^^^^^^
@@ -93,7 +93,7 @@ An array of hypertext links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples

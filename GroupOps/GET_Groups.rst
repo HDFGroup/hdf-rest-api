@@ -24,11 +24,11 @@ optional):
 
 Limit
 ^^^^^
-If provided, a positive integer value specifying the maximum number of UUID's to return.
+If provided, a positive integer value specifying the maximum number of UUIDs to return.
 
 Marker
 ^^^^^^
-If provided, a string value indicating that only UUID's that occur after the
+If provided, a string value indicating that only UUIDs that occur after the
 marker value will be returned.
 
 Request Headers
@@ -63,7 +63,7 @@ An array of hypertext links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples

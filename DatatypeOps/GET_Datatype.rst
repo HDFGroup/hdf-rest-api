@@ -57,11 +57,11 @@ The number of attributes belonging to the datatype.
 
 created
 ^^^^^^^
-A timestamp giving the time the dataset was created in UTC (ISO-8601 format).
+A timestamp giving the time the datatype was created in UTC (ISO-8601 format).
 
 lastModified
 ^^^^^^^^^^^^
-A timestamp giving the most recent time the dataset has been modified (i.e. attributes updated) in UTC (ISO-8601 format).
+A timestamp giving the most recent time the datatype has been modified (i.e. attributes updated) in UTC (ISO-8601 format).
 
 hrefs
 ^^^^^
@@ -70,7 +70,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples

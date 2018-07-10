@@ -37,7 +37,7 @@ start:
 An optional key that gives the starting coordinate of the selection to be updated.  The
 start value can either be an integer (for 1 dimensional arrays) or an array of integers
 where the length of the array is equal to the number of dimensions of the dataset.  Each
-value must be greater than equal to zero and less than the extent of the corresponding
+value must be greater than or equal to zero and less than the extent of the corresponding
 dimension.
 
 If start is not provided, the selection starts at 0 for each dimension.
@@ -47,7 +47,7 @@ stop:
 An optional key that gives the ending coordinate of the selection to be updated.
 The stop value can either be an integer (for 1 dimensional arrays) or an array of integers
 where the length of the array is equal to the number of dimensions of the dataset.  Each
-value must be greater than equal to start (or zero if start is not provided) and less than
+value must be greater than or equal to start (or zero if start is not provided) and less than
 the extent of the corresponding dimension.
 
 step:
@@ -55,14 +55,14 @@ step:
 An optional key that gives the step value (i.e. the increment of the coordinate for
 each supplied value). The step value can either be an integer (for 1 dimensional arrays) or
 an array of integers where the length of the array is equal to the number of dimensions of
-the dataset.  Each value must be greater than equal to start (or zero if start is not 
+the dataset.  Each value must be greater than or equal to start (or zero if start is not 
 provided) and less than or equal to the extent of the corresponding dimension.
 
 points:
 ^^^^^^^
 
-An optional key that contains a list of array elements to be updated.  Each element of the list should be an 
-an integer if the dataset is of rank 1 or an n-element list (which n is the dataset rank) is the dataset
+An optional key that contains a list of array elements to be updated.  Each element of the list should be 
+an integer if the dataset is of rank 1 or an n-element list (where n is the dataset rank) if the dataset
 rank is greater than 1.  If points is provided (indicating a point selection update), then start, stop, 
 and step (used for hyperslab selection) should not be provied.
 
@@ -96,7 +96,7 @@ No response elements are returned.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples
@@ -106,7 +106,7 @@ Examples
 Sample Request
 --------------
 
-This example writes a 10x10 integer datasets with the values 0-99 inclusive.
+This example writes a 10x10 integer dataset with the values 0-99 inclusive.
 
 .. code-block:: http
 

@@ -37,22 +37,22 @@ to most requests.  See :doc:`../CommonRequestHeaders`
 
 Request Elements
 ----------------
-The request body must include a JSON object that has the following key:
+The request body must include a JSON object that has the following keys:
 
 id
 ^^
-The UUID of the group the new group should be linked to.  If the UUID is not valid,
-the request will fail and a new group will not be created.
-If this key is present, the h5path and h5domain keys will be ignored
+For Hard links - The UUID of the object to link to.  If the UUID is not valid, the request
+will fail and a new link will not be created.
+If this key is present, the h5path and h5domain keys will be ignored.
 
 h5path
 ^^^^^^
-A string describing a path to an external resource.  If this key is present an
+For Soft and External links - A string describing a path to an external resource.  If this key is present a
 soft or external link will be created.
 
 h5domain
 ^^^^^^^^
-A string giving the external domain where the resource is present.
+For External links - A string giving the external domain where the resource is present.
 If this key is present, the h5path key must be provided as well.
  
 
@@ -77,7 +77,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples
@@ -170,7 +170,7 @@ Sample Request - Create External Link
 -------------------------------------
 
 In group "d2f8bd6b-...", create an external link named "extlink" that references the  
-object at path: "/somewhere" in domain: "external_target.test.hdfgroup.org".
+object at path: "/dset1" in domain: "external_target.test.hdfgroup.org".
 
 .. code-block:: http
 

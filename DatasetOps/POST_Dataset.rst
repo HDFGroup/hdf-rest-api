@@ -33,7 +33,7 @@ The request body must include a JSON object with a "type" key.  Optionally "shap
 
 type
 ^^^^
-Either a string that is one of the predefined type values, a uuid of a committed type,
+Either a string that is one of the predefined type values, a UUID of a committed type,
 or a JSON object describing the type.  See :doc:`../Types/index` for details of the
 type specification.
 
@@ -49,7 +49,7 @@ dataset has attributes and a type, but will not be able to store any values.
 maxdims
 ^^^^^^^
 An integer array describing the maximum extent of each dimension (or 0 for unlimited
-dimensions).  If maxdims is not provided that resulting dataset will be non-extensible.
+dimensions).  If maxdims is not provided the resulting dataset will be non-extensible.
 Not valid to include if ``H5S_NULL`` is specified for the shape.
 
 creationProperties
@@ -58,12 +58,12 @@ A JSON object that can specify chunk layout, filters, fill value, and other aspe
 See: http://hdf5-json.readthedocs.org/en/latest/bnf/dataset.html#grammar-token-dcpl for a complete 
 description of fields that can be used.
 
-If creationProperties is not provided, default values will be used
+If creationProperties is not provided, default values will be used.
 
 link["id"]
 ^^^^^^^^^^
-The UUID of the group the new group should be linked to.  If the UUID is not valid,
-the request will fail and a new group will not be created.
+The UUID of the group that the new dataset should be linked to.  If the UUID is not valid,
+the request will fail and a new dataset will not be created.
 
 link["name"]
 ^^^^^^^^^^^^
@@ -107,7 +107,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples
@@ -272,7 +272,7 @@ Sample Response - Resizable Dataset
 Sample Request - Committed Type
 ----------------------------------
 
-  Create a two-dimensional dataset which uses a committed type with uuid: 
+  Create a two-dimensional dataset which uses a committed type with UUID: 
   
 .. code-block:: http
 

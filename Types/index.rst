@@ -2,11 +2,11 @@
 Types
 ####################
 
-The h5serv REST API supports the rich type capabilities provided by HDF.  Types are 
+The HDF Kita REST API supports the rich type capabilities provided by HDF.  Types are 
 are described in JSON and these JSON descriptions are used in operations involving 
 datasets, attributes, and committed types.  
 
-There is not a separate request for creating types, rather the description of the type in
+There is not a separate request for creating types; rather, the description of the type is
 included with the request to create the dataset, attribute, or committed type.   Once
 a type is created it is immutable and will exist until the containing object is deleted.
 
@@ -26,17 +26,17 @@ one of the following strings:
  * ``H5T_STD_I16{LE|BE}``: a two byte signed integer
  * ``H5T_STD_U32{LE|BE}``: a four byte unsigned integer
  * ``H5T_STD_I32{LE|BE}``: a four byte signed integer
- * ``H5T_STD_U64{LE|BE}``: a eight byte unsigned integer
- * ``H5T_STD_I64{LE|BE}``: a eight byte signed integer
+ * ``H5T_STD_U64{LE|BE}``: an eight byte unsigned integer
+ * ``H5T_STD_I64{LE|BE}``: an eight byte signed integer
  * ``H5T_IEEE_F32{LE|BE}``: a four byte floating-point value
- * ``H5T_IEEE_F64{LE|BE}``: a eight byte floating-point integer
+ * ``H5T_IEEE_F64{LE|BE}``: an eight byte floating-point value
         
-Predefined types ending in "LE" or little-endian formatted and types ending in "BE"
+Predefined types ending in "LE" are little-endian formatted and types ending in "BE"
 are big-endian.  E.g. ``H5T_STD_I64LE`` would be an eight byte, signed, little-endian
 integer.    
 
-*Note:* little vs. big endian are used to specify the byte ordering in the server storage
-system and are not reflected in the JSON representation of the values.
+*Note:* "little vs. big endian" is used to specify the byte ordering in the server storage
+system and is not reflected in the JSON representation of the values.
 
 Example 
 -------
@@ -102,7 +102,7 @@ String Types - Variable Length
 ==============================
 
 Variable length strings allow each element of an array to only use as much storage
-as needed.  This is convenient when the maximum string length is not know before hand,
+as needed.  This is convenient when the maximum string length is not known before hand,
 or there is a great deal of variability in the lengths of strings.  
 
 *Note:* Typically there is a slight performance penalty in accessing variable length
@@ -157,7 +157,7 @@ contains an array of sub-types.
 Each of these sub-types can be a primitive type, a string, or another 
 compound type.  Each sub-type has a name that can be used to refer to the element.
 
-*Note:* The field names are not shown in the representation of an dataset or attribute's
+*Note:* The field names are not shown in the representation of a dataset's or attribute's
 values.
 
 Example 
@@ -203,7 +203,7 @@ a set of strings.  This allows the semantic meaning of a given set of values to 
 described along with the data.
 
 To specify an enumerated type, use the class ``H5T_ENUM``, provide a base type (must be
-some form of integer), and a "mapping" key that list strings with their associated 
+some form of integer), and a "mapping" key that lists strings with their associated 
 numeric values.
 
 
@@ -237,7 +237,7 @@ Example
 Array Types
 ===========
 
-Array types are used when it is desired for each element of a attribute or dataset
+Array types are used when it is desired for each element of an attribute or dataset
 to itself be a (typically small) array.
 
 To specify an array type, use the class ``H5T_ARRAY`` and provide the dimensions 
@@ -287,7 +287,7 @@ Object Reference Types
 An object reference type enables you to define an array where each element of the
 array is a reference to another dataset, group or committed datatype.
 
-To specify a object reference type, use ``H5T_REFERENCE`` as the type class, and
+To specify an object reference type, use ``H5T_REFERENCE`` as the type class, and
 ``H5T_STD_REF_OBJ`` as the base type.
 
 The elements of the array consist of strings that have the prefix: "groups/", 
@@ -297,7 +297,7 @@ The elements of the array consist of strings that have the prefix: "groups/",
 Example 
 -------
 
-A JSON representation of an attribute that consist of a 3 element array of object 
+A JSON representation of an attribute that consists of a 3 element array of object 
 references.  The first element points to a group, the second element is null, and the 
 third element points to a group.
 
@@ -323,7 +323,7 @@ third element points to a group.
 Region Reference Types
 ======================
 
-A region reference types allows the creation of attributes or datasets where each array
+A region reference type allows the creation of attributes or datasets where each array
 element references a section (point selection or hyperslab) of another dataset.
 
 To specify a region reference type, use ``H5T_REFERENCE`` as the type class, and

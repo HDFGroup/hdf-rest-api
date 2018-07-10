@@ -9,19 +9,19 @@ TODO: HSDS util scripts
 dumpobjdb.py
 ------------
 
-This script prints all the UUID's in an h5serv data file.
+This script prints all the UUID's in an HDF Kita data file.
 
 Usage:
 
 ``python dumpobjdb.py <hdf5_file>``
 
-hdf5_file is a file from the h5serv data directory.  Output is a list of All UUID's and
+hdf5_file is a file from the HDF Kita data directory.  Output is a list of All UUID's and
 a path to the associated object.
 
 exportjson.py
 -------------
 
-This script makes a series of rest requests to the desired h5serv endpoint and
+This script makes a series of rest requests to the desired HDF Kita endpoint and
 constructs a JSON file representing the domain's contents.
 
 Usage: 
@@ -44,7 +44,7 @@ Options:
 exporth5.py
 -----------
 
-This script makes a series of rest requests to the desired h5serv endpoint and
+This script makes a series of rest requests to the desired HDF Kita endpoint and
 constructs a HDF5 file representing the domain's contents.
 
 usage: ``python exporth5.py [-v] [-endpoint=<server_ip>]  [-port=<port] <domain> <filename>``

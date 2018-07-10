@@ -5,11 +5,11 @@ DELETE Group
 Description
 ===========
 The implementation of the DELETE operation deletes the group with the UUID given in the
-URI.  All attributes and links of the group will also be deleted.  In addition any 
+URI.  All attributes and links of the group will also be deleted.  In addition, any 
 links from other groups **TO** the deleted group will be removed.
 
 *Note:* Groups, datatypes, and datasets that are referenced by the group's links will 
-**not** be deleted.  Use the DELETE operation for those objects to remove.
+**not** be deleted.  Use the DELETE operation for those objects to remove them.
 
 Requests
 ========
@@ -54,7 +54,7 @@ An array of links to related resources.  See :doc:`../Hypermedia`.
 Special Errors
 --------------
 
-The implementation of the operation does not return special errors.  For general 
+This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
 Examples
