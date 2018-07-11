@@ -1,10 +1,13 @@
+#######################
+License and Legal Info
+#######################
+ 
+Copyright Notice and License Terms for HDF Kita Software Service, Libraries and Utilities
+-----------------------------------------------------------------------------------------
 
-Copyright Notice and License Terms for 
-HDF Kita Software Service, Libraries and Utilities
------------------------------------------------------------------------------
+HDF Kita (HDF5 REST Server) Service, Libraries and Utilities
 
-HDF Cloud Service, Libraries and Utilities
-Copyright 2014-2018 by The HDF Group.
+Copyright (c) |copyright|
 
 All rights reserved.
 
@@ -38,3 +41,4 @@ THIS SOFTWARE IS PROVIDED BY THE HDF GROUP AND THE CONTRIBUTORS
 event shall The HDF Group or the Contributors be liable for any damages 
 suffered by the users arising out of the use of this software, even if 
 advised of the possibility of such damage. 
+
