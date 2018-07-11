@@ -2,7 +2,7 @@
 Types
 ####################
 
-The HDF Kita REST API supports the rich type capabilities provided by HDF.  Types are 
+The HDF REST API supports the rich type capabilities provided by HDF.  Types are 
 are described in JSON and these JSON descriptions are used in operations involving 
 datasets, attributes, and committed types.  
 

@@ -4,7 +4,7 @@ Authorization and Authentication
 
 Request Authentication
 -----------------------
-HDF Kita supports HTTP Basic authentication to authenticate users by comparing an encrypted 
+The HDF REST API supports HTTP Basic authentication to authenticate users by comparing an encrypted 
 username and password against a value stored within a password file.
 
 If neither the requested object (Group, Dataset, or Committed Datatype) nor the object's root group
@@ -34,13 +34,6 @@ easily reversible and if using plain http there is no assurance that the passwor
 
 If the authorization string is validated, the server will verify the request is authorized as
 per the object's ACL list.  If not authorized a http status 403 - Forbidden will be returned.
-
-
-User IDs and passwords
-----------------------
-
-User IDs and passwords are maintained in a plaintext file: 
-``admin/config/passwd.txt``.
 
 
 

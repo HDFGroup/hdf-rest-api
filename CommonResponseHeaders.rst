@@ -2,7 +2,7 @@
 Common Response Headers
 ***************************
 
-The following describes some of the common response lines returned by HDF Kita.
+The following describes some of the common response lines returned by the HDF REST API.
 
  * Status Line: the first line of the response will always be: "``HTTP/1.1``" followed by 
     a status code (e.g. 200) followed by a reason message (e.g. "``OK``").  For errors, 

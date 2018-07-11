@@ -2,12 +2,13 @@
 Domains
 #######################
 
-In HDF Kita, domains are containers for a related collection of resources, similar to a
-file in the traditional HDF5 library.  In the HDF Kita implementation of the HDF5 REST API,
+In the HDF REST API, domains are containers for a related collection of resources, similar to a
+file in the traditional HDF5 library.  In the HDF Kita implementation of the HDF REST API,
 domains *are* files, but in general the HDF REST API supports alternative implementations 
 (e.g. data that is stored in a database).
 Most operations of the service act on a domain resource that is provided in 
 the *Host* http header or (alternatively) the Host query parameter.
+TODO: X-Hdf-domain header, domain/host query parameter
 
 Mapping of file paths to domain names
 -------------------------------------

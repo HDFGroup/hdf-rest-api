@@ -2,7 +2,7 @@
 Hypermedia
 *************************
 
-HDF Kita supports the REST convention of **HATEOAS** or *Hypermedia as the Engine of 
+The HDF REST API supports the REST convention of **HATEOAS** or *Hypermedia as the Engine of 
 Application State*.  The idea (see http://en.wikipedia.org/wiki/HATEOS for a full 
 explanation) is that each response includes links to resources related to 
 the requested resource.
@@ -35,7 +35,7 @@ a JSON array.  Each array element has a key: ``href`` - the related resource, an
     
 This enables clients to "explore" the API without detailed knowledge of it.
 
-This is the list of relations used in HDF Kita:
+This is the list of relations used in the HDF REST API:
 
  * attributes - the attributes of the resource 
  * data - the resource's data (used for datasets)
