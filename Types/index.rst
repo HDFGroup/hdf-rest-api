@@ -46,17 +46,17 @@ JSON Representation of an attribute with a ``H5T_STD_I8LE`` (signed, one byte) t
 .. code-block:: json
 
     {
-    "name": "attr1", 
-    "shape": {
-        "class": "H5S_SIMPLE", 
-        "dims": [27]
-    }, 
-    "type": {
-        "class": "H5T_INTEGER",
-        "base": "H5T_STD_I8LE"
+        "name": "attr1", 
+        "shape": {
+            "class": "H5S_SIMPLE", 
+            "dims": [27]
+        }, 
+        "type": {
+            "class": "H5T_INTEGER",
+            "base": "H5T_STD_I8LE"
         },
-    "value": [49, 115, 116, 32, 97, 116, 116, 114, 105, 98, 117, 116, 101, 32, 
-              111, 102, 32, 100, 115, 101, 116, 49, 46, 49, 46, 49, 0]
+        "value": [49, 115, 116, 32, 97, 116, 116, 114, 105, 98, 117, 116, 101, 32, 
+                  111, 102, 32, 100, 115, 101, 116, 49, 46, 49, 46, 49, 0]
     }
 
 
@@ -85,17 +85,17 @@ JSON representation of a dataset using a fixed width string of 40 characters:
 .. code-block:: json
 
     {
-    "id": "1e8a359c-ac46-11e4-9f3e-3c15c2da029e",
-    "shape": {
-        "class": "H5S_SCALAR", 
-    }, 
-    "type": {
-        "class": "H5T_STRING", 
-        "charSet": "H5T_CSET_ASCII", 
-        "strPad": "H5T_STR_NULLPAD", 
-        "length": 40
+        "id": "1e8a359c-ac46-11e4-9f3e-3c15c2da029e",
+        "shape": {
+            "class": "H5S_SCALAR", 
+        }, 
+        "type": {
+            "class": "H5T_STRING", 
+            "charSet": "H5T_CSET_ASCII", 
+            "strPad": "H5T_STR_NULLPAD", 
+            "length": 40
         },
-    "value": "Hello, World!"
+        "value": "Hello, World!"
     }
     
 String Types - Variable Length
@@ -126,23 +126,23 @@ JSON representation of a attribute using a variable length string:
 .. code-block:: json
 
     {
-    "name": "A1", 
-    "shape": {
-        "class": "H5S_SIMPLE", 
-        "dims": [4]
-    }, 
-    "type": {
-        "class": "H5T_STRING", 
-        "charSet": "H5T_CSET_ASCII", 
-        "strPad": "H5T_STR_NULLTERM", 
-        "length": "H5T_VARIABLE"
-    }, 
-    "value": [
-        "Hypermedia", 
-        "as the", 
-        "engine", 
-        "of state."
-      ]
+        "name": "A1", 
+        "shape": {
+            "class": "H5S_SIMPLE", 
+            "dims": [4]
+        }, 
+        "type": {
+            "class": "H5T_STRING", 
+            "charSet": "H5T_CSET_ASCII", 
+            "strPad": "H5T_STR_NULLTERM", 
+            "length": "H5T_VARIABLE"
+        }, 
+        "value": [
+            "Hypermedia", 
+            "as the", 
+            "engine", 
+            "of state."
+        ]
     }
 
     
@@ -169,30 +169,30 @@ floating point elements:
 .. code-block:: json
 
     {
-    "name": "mycomplex", 
-    "shape": {
-        "class": "H5S_SCALAR" 
-    }, 
-    "type": {
-        "class": "H5T_COMPOUND", 
-        "fields": [
+        "name": "mycomplex", 
+        "shape": {
+            "class": "H5S_SCALAR" 
+        }, 
+        "type": {
+            "class": "H5T_COMPOUND", 
+            "fields": [
                 {
-                "name": "real_part", 
-                "type": {
+                    "name": "real_part", 
+                    "type": {
                         "base": "H5T_IEEE_F64LE", 
                         "class": "H5T_FLOAT"
                     }
                 }, 
                 {
-                "name": "imaginary_part", 
-                "type": {
+                    "name": "imaginary_part", 
+                    "type": {
                         "base": "H5T_IEEE_F64LE", 
                         "class": "H5T_FLOAT"
                     }
                 }
             ]
-    }, 
-    "value": [ 1.2345, -2.468 ]
+        }, 
+        "value": [ 1.2345, -2.468 ]
     }
     
 Enumerated Types
@@ -213,25 +213,25 @@ Example
 .. code-block:: json
     
     {
-    "id": "1e8a359c-ac46-11e4-9f3e-3c15c2da029e",
-    "shape": {
-        "class": "H5S_SIMPLE", 
-        "dims": [ 7 ]
-    }, 
-    "type": {
-        "class": "H5T_ENUM",
-        "base": {
-            "class": "H5T_INTEGER",
-            "base": "H5T_STD_I16BE" 
-        },  
-        "mapping": {
-            "GAS": 2, 
-            "LIQUID": 1, 
-            "PLASMA": 3, 
-            "SOLID": 0
-        }
-    }, 
-    "value": [ 0, 2, 3, 2, 0, 1, 1 ]
+        "id": "1e8a359c-ac46-11e4-9f3e-3c15c2da029e",
+        "shape": {
+            "class": "H5S_SIMPLE", 
+            "dims": [ 7 ]
+        }, 
+        "type": {
+            "class": "H5T_ENUM",
+            "base": {
+                "class": "H5T_INTEGER",
+                "base": "H5T_STD_I16BE" 
+            },  
+            "mapping": {
+                "GAS": 2, 
+                "LIQUID": 1, 
+                "PLASMA": 3, 
+                "SOLID": 0
+            }
+        }, 
+        "value": [ 0, 2, 3, 2, 0, 1, 1 ]
     }
                 
 Array Types
@@ -252,24 +252,24 @@ A dataset with 3 elements, each of which is a 2x2 array of integers.
 .. code-block:: json
 
     {
-    "id": "9348ad51-7bf7-11e4-a66f-3c15c2da029e",
-    "shape": {
-        "class": "H5S_SIMPLE", 
-        "dims": [ 3 ]
-    }, 
-    "type": {
-        "class": "H5T_ARRAY", 
-        "base": {
-            "class": "H5T_INTEGER",
-            "base": "H5T_STD_I16BE"
+        "id": "9348ad51-7bf7-11e4-a66f-3c15c2da029e",
+        "shape": {
+            "class": "H5S_SIMPLE", 
+            "dims": [ 3 ]
         }, 
-        "dims": [ 2, 2 ]
-    }, 
-    "value": [
-        [ [1, 2], [3, 4] ],
-        [ [2, 1], [4, 3] ],
-        [ [1, 1], [4, 4] ]
-      ]
+        "type": {
+            "class": "H5T_ARRAY", 
+            "base": {
+                "class": "H5T_INTEGER",
+                "base": "H5T_STD_I16BE"
+            }, 
+            "dims": [ 2, 2 ]
+        }, 
+        "value": [
+            [ [1, 2], [3, 4] ],
+            [ [2, 1], [4, 3] ],
+            [ [1, 1], [4, 4] ]
+        ]
     }
     
 Opaque Types
@@ -304,20 +304,20 @@ third element points to a group.
 .. code-block:: json
 
     {
-    "name": "objref_attr", 
-    "shape": {
-        "class": "H5S_SIMPLE", 
-        "dims": [ 3 ]
-    }, 
-    "type": {
-        "class": "H5T_REFERENCE",
-        "base": "H5T_STD_REF_OBJ"
-    }, 
-    "value": [
-        "groups/a09a9b99-7bf7-11e4-aa4b-3c15c2da029e", 
-        "",
-        "datasets/a09a8efa-7bf7-11e4-9fb6-3c15c2da029e"
-      ]
+        "name": "objref_attr", 
+        "shape": {
+            "class": "H5S_SIMPLE", 
+            "dims": [ 3 ]
+        }, 
+        "type": {
+            "class": "H5T_REFERENCE",
+            "base": "H5T_STD_REF_OBJ"
+        }, 
+        "value": [
+            "groups/a09a9b99-7bf7-11e4-aa4b-3c15c2da029e", 
+            "",
+            "datasets/a09a8efa-7bf7-11e4-9fb6-3c15c2da029e"
+        ]
     }
     
 Region Reference Types
@@ -347,34 +347,34 @@ gives the boundary of the selection.
 .. code-block:: json
 
     {
-    "id": "68ee8647-7bed-11e4-9397-3c15c2da029e",
-    "shape": {
-        "class": "H5S_SIMPLE", 
-        "dims": [2]
-    }, 
-    "type": {
-        "class": "H5T_REFERENCE",
-        "base": "H5T_STD_REF_DSETREG"
-    }, 
-    "value": [
-        {
-        "id": "68ee967a-7bed-11e4-819c-3c15c2da029e", 
-        "select_type": "H5S_SEL_POINTS", 
-        "selection": [ 
-            [0, 1], [2, 11], [1, 0], [2, 4]
-          ]
+        "id": "68ee8647-7bed-11e4-9397-3c15c2da029e",
+        "shape": {
+            "class": "H5S_SIMPLE", 
+            "dims": [2]
         }, 
-        {
-          "id": "68ee967a-7bed-11e4-819c-3c15c2da029e", 
-          "select_type": "H5S_SEL_HYPERSLABS", 
-          "selection": [
-            [ [0, 0],  [0, 2] ], 
-            [ [0, 11],  [0, 13] ], 
-            [ [2, 0],  [2, 2] ], 
-            [ [2, 11],  [2, 13] ]
-          ]
-        }
-      ]
+        "type": {
+            "class": "H5T_REFERENCE",
+            "base": "H5T_STD_REF_DSETREG"
+        }, 
+        "value": [
+            {
+                "id": "68ee967a-7bed-11e4-819c-3c15c2da029e", 
+                "select_type": "H5S_SEL_POINTS", 
+                "selection": [ 
+                    [0, 1], [2, 11], [1, 0], [2, 4]
+                ]
+            }, 
+            {
+                "id": "68ee967a-7bed-11e4-819c-3c15c2da029e", 
+                "select_type": "H5S_SEL_HYPERSLABS", 
+                "selection": [
+                    [ [0, 0],  [0, 2] ], 
+                    [ [0, 11],  [0, 13] ], 
+                    [ [2, 0],  [2, 2] ], 
+                    [ [2, 11],  [2, 13] ]
+                ]
+            }
+        ]
     }  
     
 Type Keys
