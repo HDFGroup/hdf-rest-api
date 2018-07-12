@@ -7,8 +7,7 @@ file in the traditional HDF5 library.  In the HDF Kita implementation of the HDF
 domains *are* files, but in general the HDF REST API supports alternative implementations 
 (e.g. data that is stored in a database).
 Most operations of the service act on a domain resource that is provided in 
-the *Host* http header or (alternatively) the Host query parameter.
-TODO: X-Hdf-domain header, domain/host query parameter
+the *X-Hdf-domain* http header or (alternatively) the domain query parameter.
 
 Mapping of file paths to domain names
 -------------------------------------
