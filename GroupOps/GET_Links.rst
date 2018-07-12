@@ -14,11 +14,16 @@ Syntax
 .. code-block:: http
 
     GET /groups/<id>/links HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /groups/<id>/links?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 * *<id>* is the UUID of the group the links to be returned are a member of.
-    
+
 Request Parameters
 ------------------
 This implementation of the operation uses the following request parameters (both 
@@ -76,91 +81,114 @@ Sample Request
 
 .. code-block:: http
 
-    GET /groups/0ad37be1-a06f-11e4-8651-3c15c2da029e/links HTTP/1.1
-    host: tall.test.hdfgroup.org
+    GET /groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/links HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0  
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/links
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Tue, 20 Jan 2015 06:55:19 GMT
-    Content-Length: 607
+    Date: Thu, 12 Jul 2018 20:34:59 GMT
+    Content-Length: 916
     Etag: "49edcce6a8f724108d41d52c98002d6255286ff8"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-   
+
     {
-    "links": [
-        {
-            "title": "g1.2.1",
-            "class": "H5L_TYPE_HARD",
-            "collection": "groups",
-            "id": "0ad38d45-a06f-11e4-a909-3c15c2da029e"
-        }, 
-        {
-            "title": "extlink",
-            "class": "H5L_TYPE_EXTERNAL",
-            "h5path": "somepath",
-            "file": "somefile"  
-        }
-    ],
-    "hrefs": [
-        {"href": "http://tall.test.hdfgroup.org/groups/0ad37be1-a06f-11e4-8651-3c15c2da029e/links", "rel": "self"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/0ad2e151-a06f-11e4-bc68-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall.test.hdfgroup.org/", "rel": "home"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/0ad37be1-a06f-11e4-8651-3c15c2da029e", "rel": "owner"}
+        "links": [
+            {
+                "id": "g-be6eb652-83c5-11e8-b9ee-0242ac12000a",
+                "title": "g1",
+                "class": "H5L_TYPE_HARD",
+                "collection": "groups",
+                "created": 1531174596.2666101,
+                "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/links/g1",
+                "target": "hsdshdflab.hdfgroup.org/groups/g-be6eb652-83c5-11e8-b9ee-0242ac12000a"
+            },
+            {
+                "id": "g-bf15f8b8-83c5-11e8-8ad9-0242ac120009",
+                "title": "g2",
+                "class": "H5L_TYPE_HARD",
+                "collection": "groups",
+                "created": 1531174597.2827835,
+                "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/links/g2",
+                "target": "hsdshdflab.hdfgroup.org/groups/g-bf15f8b8-83c5-11e8-8ad9-0242ac120009"
+            }
+        ],
+        "hrefs": [
+            {"rel": "self", "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/links"},
+            {"rel": "home", "href": "hsdshdflab.hdfgroup.org/"},
+            {"rel": "owner", "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016"}
         ]
-    } 
-    
+    }
+
 Sample Request Batch
 --------------------
 
 .. code-block:: http
 
-    GET /groups/76bddb1e-a06e-11e4-86d6-3c15c2da029e/links?Marker=g0089&Limit=5 HTTP/1.1
-    host: group1k.test.hdfgroup.org
+    GET /groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/links?Marker=g1&Limit=1 HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0  
-    
+
+Sample cURL command
+-------------------
+
+*URL enclosed in quotes to prevent shell from seeing ampersand*
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/links?Marker=g1&Limit=1"
+
 Sample Response Batch
 ---------------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Tue, 20 Jan 2015 07:30:03 GMT
-    Content-Length: 996
+    Date: Thu, 12 Jul 2018 20:41:25 GMT
+    Content-Length: 597
     Etag: "221affdeae54076d3493ce8ce0ed80ddb89c6e27"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-   
-     
+
     {
-    "links": [
-        {"title": "g0090", "id": "76c53485-a06e-11e4-96f3-3c15c2da029e", "class": "H5L_TYPE_HARD", "collection": "groups"}, 
-        {"title": "g0091", "id": "76c54d40-a06e-11e4-a342-3c15c2da029e", "class": "H5L_TYPE_HARD", "collection": "groups"}, 
-        {"title": "g0092", "id": "76c564f5-a06e-11e4-bccd-3c15c2da029e", "class": "H5L_TYPE_HARD", "collection": "groups"}, 
-        {"title": "g0093", "id": "76c57d19-a06e-11e4-a9a8-3c15c2da029e", "class": "H5L_TYPE_HARD", "collection": "groups"}, 
-        {"title": "g0094", "id": "76c5941c-a06e-11e4-b641-3c15c2da029e", "class": "H5L_TYPE_HARD", "collection": "groups"}
-      ],
-    "hrefs": [
-        {"href": "http://group1k.test.hdfgroup.org/groups/76bddb1e-a06e-11e4-86d6-3c15c2da029e/links", "rel": "self"}, 
-        {"href": "http://group1k.test.hdfgroup.org/groups/76bddb1e-a06e-11e4-86d6-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://group1k.test.hdfgroup.org/", "rel": "home"}, 
-        {"href": "http://group1k.test.hdfgroup.org/groups/76bddb1e-a06e-11e4-86d6-3c15c2da029e", "rel": "owner"}
-      ]
-    } 
-       
+        "links": [
+            {
+                "id": "g-bf15f8b8-83c5-11e8-8ad9-0242ac120009",
+                "title": "g2",
+                "class": "H5L_TYPE_HARD",
+                "collection": "groups",
+                "created": 1531174597.2827835,
+                "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/links/g2",
+                "target": "hsdshdflab.hdfgroup.org/groups/g-bf15f8b8-83c5-11e8-8ad9-0242ac120009"
+            }
+        ],
+        "hrefs": [
+            {"rel": "self", "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/links"},
+            {"rel": "home", "href": "hsdshdflab.hdfgroup.org/"},
+            {"rel": "owner", "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016"}
+        ]
+    }
+
 Related Resources
 =================
 
@@ -168,6 +196,6 @@ Related Resources
 * :doc:`GET_Link`
 * :doc:`GET_Group`
 * :doc:`PUT_Link`
- 
+
 
  

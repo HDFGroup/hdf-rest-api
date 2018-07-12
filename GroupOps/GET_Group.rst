@@ -14,11 +14,16 @@ Syntax
 .. code-block:: http
 
     GET /groups/<id> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /groups/<id>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 *<id>* is the UUID of the requested group.
-    
+
 Request Parameters
 ------------------
 
@@ -48,7 +53,11 @@ On success, a JSON response will be returned with the following elements:
 
 id
 ^^
-The UUID of the requested group
+The UUID of the requested group.
+
+root
+^^^^
+The root group of the domain that the group is within.
 
 attributeCount
 ^^^^^^^^^^^^^^
@@ -85,11 +94,18 @@ Sample Request
 
 .. code-block:: http
 
-    GET /groups/052dcbbd-9d33-11e4-86ce-3c15c2da029e HTTP/1.1
-    host: tall.test.hdfgroup.org
+    GET /groups/g-be6eb652-83c5-11e8-b9ee-0242ac12000a HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-be6eb652-83c5-11e8-b9ee-0242ac12000a
     
 Sample Response
 ---------------
@@ -97,29 +113,31 @@ Sample Response
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Fri, 16 Jan 2015 20:06:08 GMT
-    Content-Length: 660
+    Date: Thu, 12 Jul 2018 18:27:24 GMT
+    Content-Length: 711
     Etag: "2c410d1c469786f25ed0075571a8e7a3f313cec1"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
     {
-    "id": "052dcbbd-9d33-11e4-86ce-3c15c2da029e",
-    "attributeCount": 2,
-    "linkCount": 2,
-    "created": "2015-01-16T03:47:22Z", 
-    "lastModified": "2015-01-16T03:47:22Z",    
-    "hrefs": [
-        {"href": "http://tall.test.hdfgroup.org/groups/052dcbbd-9d33-11e4-86ce-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/052dcbbd-9d33-11e4-86ce-3c15c2da029e/links", "rel": "links"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/052dcbbd-9d33-11e4-86ce-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall.test.hdfgroup.org/", "rel": "home"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/052dcbbd-9d33-11e4-86ce-3c15c2da029e/attributes", "rel": "attributes"}
+        "id": "g-be6eb652-83c5-11e8-b9ee-0242ac12000a",
+        "root": "g-be5996fa-83c5-11e8-a8e6-0242ac120016",
+        "linkCount": 2,
+        "attributeCount": 0,
+        "lastModified": 1531174596.5785563,
+        "created": 1531174596.2463753,
+        "domain": "/shared/tall.h5",
+        "hrefs": [
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be6eb652-83c5-11e8-b9ee-0242ac12000a", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be6eb652-83c5-11e8-b9ee-0242ac12000a/links", "rel": "links"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016", "rel": "root"},
+            {"href": "hsdshdflab.hdfgroup.org/", "rel": "home"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be6eb652-83c5-11e8-b9ee-0242ac12000a/attributes", "rel": "attributes"}
         ]
-     }
-    
+    }
+
 Related Resources
 =================
 
@@ -128,6 +146,6 @@ Related Resources
 * :doc:`GET_Groups`
 * :doc:`POST_Group`
 * :doc:`../AttrOps/GET_Attribute`
- 
+
 
  

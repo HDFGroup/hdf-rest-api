@@ -16,14 +16,20 @@ Requests
 
 Syntax
 ------
+
 .. code-block:: http
 
     DELETE /groups/<id> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
- 
+
+.. code-block:: http
+
+    DELETE /groups/<id>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 *<id>* is the UUID of the group to be deleted.
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -45,11 +51,7 @@ most responses.  See :doc:`../CommonResponseHeaders`.
 Response Elements
 -----------------
 
-On success, a JSON response will be returned with the following elements:
-
-hrefs
-^^^^^
-An array of links to related resources.  See :doc:`../Hypermedia`.
+This implementation of the operation does not return any response elements.
 
 Special Errors
 --------------
@@ -65,37 +67,33 @@ Sample Request
 
 .. code-block:: http
 
-    DELETE /groups/45a882e1-9d01-11e4-8acf-3c15c2da029e HTTP/1.1
-    Host: testGroupDelete.test.hdfgroup.org
+    DELETE /groups/g-76de767c-8606-11e8-9cc2-0242ac120008 HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Authorization: authorization_string
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X DELETE -u username:password --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-76de767c-8606-11e8-9cc2-0242ac120008
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Thu, 15 Jan 2015 21:55:51 GMT
-    Content-Length: 270
+    Date: Thu, 12 Jul 2018 19:05:43 GMT
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
-.. code-block:: json
+    Server: nginx/1.15.0
 
-    
-    {
-    "hrefs": [
-        {"href": "http://testGroupDelete.test.hdfgroup.org/groups", "rel": "self"}, 
-        {"href": "http://testGroupDelete.test.hdfgroup.org/groups/45a06719-9d01-11e4-9b1c-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://testGroupDelete.test.hdfgroup.org/", "rel": "home"}
-    ]
-    }
-    
 Related Resources
 =================
 
 * :doc:`POST_Group`
 * :doc:`GET_Group`
- 
+
 
  

@@ -20,9 +20,14 @@ Syntax
 .. code-block:: http
 
     POST /groups HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    POST /groups?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -62,7 +67,11 @@ On success, a JSON response will be returned with the following elements:
 
 id
 ^^
-The UUID of the newly created group
+The UUID of the newly created group.
+
+root
+^^^^
+The root group of the domain which the group was created in.
 
 attributeCount
 ^^^^^^^^^^^^^^
@@ -81,10 +90,6 @@ lastModified
 A timestamp giving the most recent time the group has been modified (i.e. attributes or 
 links updated) in UTC (ISO-8601 format).
 
-hrefs
-^^^^^
-An array of links to related resources.  See :doc:`../Hypermedia`.
-
 Special Errors
 --------------
 
@@ -102,11 +107,18 @@ Create a new, un-linked Group.
 .. code-block:: http
 
     POST /groups HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Content-Length: 0
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: testGroupPost.test.hdfgroup.org
     Accept: */*
     Accept-Encoding: gzip, deflate
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X POST -u username:password --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups
     
 Sample Response
 ---------------
@@ -114,52 +126,52 @@ Sample Response
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Content-Length: 705
-    Content-Location: http://testGroupPost.test.hdfgroup.org/groups/777978c5-a078-11e4-8755-3c15c2da029e
-    Server: TornadoServer/3.2.2
-    Location: http://testGroupPost.test.hdfgroup.org/groups/777978c5-a078-11e4-8755-3c15c2da029e
-    Date: Tue, 20 Jan 2015 07:46:38 GMT
+    Content-Length: 202
+    Server: nginx/1.15.0
+    Date: Thu, 12 Jul 2018 16:49:10 GMT
     Content-Type: application/json
     
 .. code-block:: json
-  
+
     {
-    "id": "777978c5-a078-11e4-8755-3c15c2da029e",
-    "created": "2015-01-20T07:46:38Z", 
-    "lastModified": "2015-01-20T07:46:38Z", 
-    "attributeCount": 0, 
-    "linkCount": 0,
-    "hrefs": [
-        {"href": "http://testGroupPost.test.hdfgroup.org/groups/777978c5-a078-11e4-8755-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://testGroupPost.test.hdfgroup.org/groups/777978c5-a078-11e4-8755-3c15c2da029e/links", "rel": "links"}, 
-        {"href": "http://testGroupPost.test.hdfgroup.org/groups/777109b3-a078-11e4-8512-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://testGroupPost.test.hdfgroup.org/", "rel": "home"}, 
-        {"href": "http://testGroupPost.test.hdfgroup.org/groups/777978c5-a078-11e4-8755-3c15c2da029e/attributes", "rel": "attributes"}
-      ]
+        "id": "g-7fbbf52a-85f3-11e8-9cc2-0242ac120008",
+        "root": "g-b116b6f0-85e9-11e8-9cc2-0242ac120008",
+        "created": 1531414150.1522243,
+        "lastModified": 1531414150.1522243,
+        "linkCount": 0,
+        "attributeCount": 0
     }
-    
+
 Sample Request with Link
 ------------------------
 
-Create a new Group, link to root (which has uuid of "36b921f3-...") as "linked_group".
+Create a new Group, link to root (which has uuid of "g-b116b6f0-...") as "linked_group".
 
 .. code-block:: http
 
     POST /groups HTTP/1.1
-    Content-Length: 79
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: testGroupPostWithLink.test.hdfgroup.org
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Content-Length: 82
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "link": {
-        "id": "36b921f3-a07a-11e4-88da-3c15c2da029e", 
-        "name": "linked_group"
-      }
+        "link": {
+            "id": "g-b116b6f0-85e9-11e8-9cc2-0242ac120008",
+            "name": "linked_group"
+        }
     }
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X POST -u username:password --header "X-Hdf-domain: /shared/tall.h5"
+      -d "{\"link\": {\"id\": \"g-b116b6f0-85e9-11e8-9cc2-0242ac120008\", \"name\": \"linked_group\"}}" hsdshdflab.hdfgroup.org/groups
     
 Sample Response with Link
 -------------------------
@@ -167,30 +179,22 @@ Sample Response with Link
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Content-Length: 745
-    Content-Location: http://testGroupPostWithLink.test.hdfgroup.org/groups/36cbe08a-a07a-11e4-8301-3c15c2da029e
-    Server: TornadoServer/3.2.2
-    Location: http://testGroupPostWithLink.test.hdfgroup.org/groups/36cbe08a-a07a-11e4-8301-3c15c2da029e
-    Date: Tue, 20 Jan 2015 07:59:09 GMT
+    Content-Length: 200
+    Server: nginx/1.15.0
+    Date: Thu, 12 Jul 2018 16:57:57 GMT
     Content-Type: application/json
     
 .. code-block:: json
-     
+
     {
-    "id": "36cbe08a-a07a-11e4-8301-3c15c2da029e",   
-    "attributeCount": 0, 
-    "linkCount": 0, 
-    "created": "2015-01-20T07:59:09Z", 
-    "lastModified": "2015-01-20T07:59:09Z", 
-    "hrefs": [
-        {"href": "http://testGroupPostWithLink.test.hdfgroup.org/groups/36cbe08a-a07a-11e4-8301-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://testGroupPostWithLink.test.hdfgroup.org/groups/36cbe08a-a07a-11e4-8301-3c15c2da029e/links", "rel": "links"}, 
-        {"href": "http://testGroupPostWithLink.test.hdfgroup.org/groups/36b921f3-a07a-11e4-88da-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://testGroupPostWithLink.test.hdfgroup.org/", "rel": "home"}, 
-        {"href": "http://testGroupPostWithLink.test.hdfgroup.org/groups/36cbe08a-a07a-11e4-8301-3c15c2da029e/attributes", "rel": "attributes"}
-        ]
+        "id": "g-b9bd362a-85f4-11e8-a549-0242ac12000b",
+        "root": "g-b116b6f0-85e9-11e8-9cc2-0242ac120008",
+        "linkCount": 0,
+        "attributeCount": 0,
+        "lastModified": 1531414676.963812,
+        "created": 1531414676.963812
     }
-    
+
 Related Resources
 =================
 
