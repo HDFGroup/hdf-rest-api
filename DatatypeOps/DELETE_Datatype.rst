@@ -15,11 +15,16 @@ Syntax
 .. code-block:: http
 
     DELETE /datatypes/<id> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    DELETE /datatypes/<id>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 *<id>* is the UUID of the datatype to be deleted.
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -41,11 +46,7 @@ most responses.  See :doc:`../CommonResponseHeaders`.
 Response Elements
 -----------------
 
-On success, a JSON response will be returned with the following elements:
-
-hrefs
-^^^^^
-An array of links to related resources.  See :doc:`../Hypermedia`.
+This implementation of the operation does not return any response elements.
 
 Special Errors
 --------------
@@ -61,34 +62,30 @@ Sample Request
 
 .. code-block:: http
 
-    DELETE /datatypes/93b6a335-ac44-11e4-8d71-3c15c2da029e HTTP/1.1
+    DELETE /datatypes/t-6b0bdf9a-86b2-11e8-89f2-0242ac120009 HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Content-Length: 0
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: namedtype_deleted.test.hdfgroup.org
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X DELETE -u username:password --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/datatypes/t-6b0bdf9a-86b2-11e8-89f2-0242ac120009
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Wed, 04 Feb 2015 08:05:26 GMT
-    Content-Length: 363
+    Date: Fri, 13 Jul 2018 15:49:44 GMT
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
-.. code-block:: json
-  
-    {
-    "hrefs": [
-        {"href": "http://namedtype_deleted.test.hdfgroup.org/datatypes", "rel": "self"}, 
-        {"href": "http://namedtype_deleted.test.hdfgroup.org/", "rel": "home"}, 
-        {"href": "http://namedtype_deleted.test.hdfgroup.org/groups/93b51245-ac44-11e4-8a21-3c15c2da029e", "rel": "root"}
-      ]
-    }
-    
+    Server: nginx/1.15.0
+
 Related Resources
 =================
 
@@ -98,6 +95,6 @@ Related Resources
 * :doc:`POST_Datatype`
 * :doc:`../DatasetOps/POST_Dataset`
 * :doc:`../AttrOps/PUT_Attribute`
- 
+
 
  

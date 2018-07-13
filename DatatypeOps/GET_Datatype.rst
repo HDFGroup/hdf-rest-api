@@ -14,11 +14,16 @@ Syntax
 .. code-block:: http
 
     GET /datatypes/<id> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /datatypes/<id>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 *<id>* is the UUID of the requested datatype.
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -44,8 +49,11 @@ On success, a JSON response will be returned with the following elements:
 
 id
 ^^
-
 The UUID of the datatype object.
+
+root
+^^^^
+The root group of the domain which the datatype is within.
 
 type
 ^^^^
@@ -76,50 +84,60 @@ information on standard error codes, see :doc:`../CommonErrorResponses`.
 Examples
 ========
 
-Get the committed datatype with UUID: "f545543d-...".
+Get the committed datatype with UUID: "t-3e37ab7e-...".
 
 Sample Request
 --------------
 
 .. code-block:: http
 
-    GET /datatypes/f545543d-a1b4-11e4-8fa4-3c15c2da029e HTTP/1.1
-    host: namedtype.test.hdfgroup.org
+    GET /datatypes/t-3e37ab7e-86b3-11e8-bce3-0242ac12000c HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/datatypes/t-3e37ab7e-86b3-11e8-bce3-0242ac12000c
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Wed, 21 Jan 2015 21:36:49 GMT
-    Content-Length: 619
+    Date: Fri, 13 Jul 2018 15:57:37 GMT
+    Content-Length: 602
     Etag: "c53bc5b2d3c3b5059b71ef92ca7d144a2df54456"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
     {
-    "id": "f545543d-a1b4-11e4-8fa4-3c15c2da029e",
-    "type": {
-        "base": "H5T_IEEE_F32LE", 
-        "class": "H5T_FLOAT"
-      }, 
-    "created": "2015-01-21T21:32:01Z", 
-    "lastModified": "2015-01-21T21:32:01Z", 
-    "attributeCount": 1, 
-    "hrefs": [
-        {"href": "http://namedtype.test.hdfgroup.org/datatypes/f545543d-a1b4-11e4-8fa4-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://namedtype.test.hdfgroup.org/groups/f545103d-a1b4-11e4-b4a1-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://namedtype.test.hdfgroup.org/datatypes/f545543d-a1b4-11e4-8fa4-3c15c2da029e/attributes", "rel": "attributes"}, 
-        {"href": "http://namedtype.test.hdfgroup.org/", "rel": "home"}
-      ]     
+        "id": "t-3e37ab7e-86b3-11e8-bce3-0242ac12000c",
+        "root": "g-b116b6f0-85e9-11e8-9cc2-0242ac120008",
+        "domain": "/shared/tall.h5",
+        "type": {
+            "class": "H5T_FLOAT",
+            "base": "H5T_IEEE_F64LE"
+        },
+        "attributeCount": 0,
+        "created": 1531496503.6064572,
+        "lastModified": 1531496503.6064572,
+        "hrefs": [
+            {"rel": "self", "href": "hsdshdflab.hdfgroup.org/datatypes/t-3e37ab7e-86b3-11e8-bce3-0242ac12000c"},
+            {"rel": "root", "href": "hsdshdflab.hdfgroup.org/groups/g-b116b6f0-85e9-11e8-9cc2-0242ac120008"},
+            {"rel": "home", "href": "hsdshdflab.hdfgroup.org/"},
+            {"rel": "attributes", "href": "hsdshdflab.hdfgroup.org/datatypes/t-3e37ab7e-86b3-11e8-bce3-0242ac12000c/attributes"}
+        ]
     }
-    
+
+
 Related Resources
 =================
 
@@ -128,6 +146,6 @@ Related Resources
 * :doc:`POST_Datatype`
 * :doc:`../DatasetOps/POST_Dataset`
 * :doc:`../AttrOps/PUT_Attribute`
- 
+
 
  
