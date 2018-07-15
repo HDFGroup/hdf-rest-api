@@ -171,9 +171,9 @@ Sample Response with Marker and Limit
             "t-b4f32ffc-86c9-11e8-9cb8-0242ac120008"
         ],
         "hrefs": [
-            {"href": "hsds.local/datatypes", "rel": "self"},
-            {"href": "hsds.local/groups/g-b116b6f0-85e9-11e8-9cc2-0242ac120008", "rel": "root"},
-            {"href": "hsds.local/", "rel": "home"}
+            {"href": "hsdshdflab.hdfgroup.org/datatypes", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-b116b6f0-85e9-11e8-9cc2-0242ac120008", "rel": "root"},
+            {"href": "hsdshdflab.hdfgroup.org/", "rel": "home"}
         ]
     }
 
