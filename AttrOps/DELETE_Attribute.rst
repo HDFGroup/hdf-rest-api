@@ -4,8 +4,7 @@ DELETE Attribute
 
 Description
 ===========
-The implementation of the DELETE operation deletes the attribute named in the URI.  All 
-attributes and links of the dataset will also be deleted.
+The implementation of the DELETE operation deletes the attribute named in the URI.
 
 Requests
 ========
@@ -15,12 +14,39 @@ Syntax
 .. code-block:: http
 
     DELETE /groups/<id>/<name> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    DELETE /groups/<id>/<name>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    DELETE /datasets/<id>/<name> HTTP/1.1
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    DELETE /datasets/<id>/<name>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    DELETE /datatypess/<id>/<name> HTTP/1.1
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    DELETE /datatypes/<id>/<name>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 * *<id>* is the UUID of the dataset/group/committed datatype
 * *<name>* is the url-encoded name of the requested attribute
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -62,35 +88,34 @@ Sample Request
 
 .. code-block:: http
 
-    DELETE /groups/36ae688a-ac0e-11e4-a44b-3c15c2da029e/attributes/attr1 HTTP/1.1
-    Content-Length: 0
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: tall_updated.test.hdfgroup.org
+    DELETE /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr1 HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X DELETE -u username:password --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr1
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Wed, 04 Feb 2015 01:36:17 GMT
-    Content-Length: 420
+    Date: Sun, 15 Jul 2018 16:06:54 GMT
+    Content-Length: 13
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-  
-    {
-    "hrefs": [
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/36ae688a-ac0e-11e4-a44b-3c15c2da029e/attributes", "rel": "self"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/36ae688a-ac0e-11e4-a44b-3c15c2da029e", "rel": "owner"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/36ae688a-ac0e-11e4-a44b-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/", "rel": "home"}
-      ]
-    }
-    
+
+    {"hrefs": []}
+
 Related Resources
 =================
 
@@ -100,6 +125,6 @@ Related Resources
 * :doc:`../DatatypeOps/GET_Datatype`
 * :doc:`../GroupOps/GET_Group`
 * :doc:`PUT_Attribute`
- 
+
 
  

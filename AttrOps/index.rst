@@ -14,7 +14,7 @@ Creating Attributes
 Use :doc:`PUT_Attribute` to create an attribute.  If there is an existing attribute
 with the same name, it will be overwritten by this request.  You can use
 :doc:`GET_Attribute` to inquire if the attribute already exists or not.
-When creating an attribute, the attribute name, type, and shape (for non-scalar
+When creating an attribute, the attribute name, type and shape (for non-scalar
 attributes) is included in the request.
 
 
