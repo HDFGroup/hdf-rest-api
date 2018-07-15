@@ -30,7 +30,7 @@ one of the following strings:
  * ``H5T_STD_I64{LE|BE}``: an eight byte signed integer
  * ``H5T_IEEE_F32{LE|BE}``: a four byte floating-point value
  * ``H5T_IEEE_F64{LE|BE}``: an eight byte floating-point value
-        
+
 Predefined types ending in "LE" are little-endian formatted and types ending in "BE"
 are big-endian.  E.g. ``H5T_STD_I64LE`` would be an eight byte, signed, little-endian
 integer.    
@@ -85,7 +85,7 @@ JSON representation of a dataset using a fixed width string of 40 characters:
 .. code-block:: json
 
     {
-        "id": "1e8a359c-ac46-11e4-9f3e-3c15c2da029e",
+        "id": "d-be8bace4-83c5-11e8-90e7-0242ac120013",
         "shape": {
             "class": "H5S_SCALAR", 
         }, 
@@ -97,7 +97,7 @@ JSON representation of a dataset using a fixed width string of 40 characters:
         },
         "value": "Hello, World!"
     }
-    
+
 String Types - Variable Length
 ==============================
 
@@ -145,7 +145,7 @@ JSON representation of a attribute using a variable length string:
         ]
     }
 
-    
+
 
 Compound Types
 ==============
@@ -194,7 +194,7 @@ floating point elements:
         }, 
         "value": [ 1.2345, -2.468 ]
     }
-    
+
 Enumerated Types
 =================
 
@@ -213,7 +213,7 @@ Example
 .. code-block:: json
     
     {
-        "id": "1e8a359c-ac46-11e4-9f3e-3c15c2da029e",
+        "id": "d-be9c3582-83c5-11e8-947e-0242ac120014",
         "shape": {
             "class": "H5S_SIMPLE", 
             "dims": [ 7 ]
@@ -233,7 +233,7 @@ Example
         }, 
         "value": [ 0, 2, 3, 2, 0, 1, 1 ]
     }
-                
+
 Array Types
 ===========
 
@@ -252,7 +252,7 @@ A dataset with 3 elements, each of which is a 2x2 array of integers.
 .. code-block:: json
 
     {
-        "id": "9348ad51-7bf7-11e4-a66f-3c15c2da029e",
+        "id": "d-bf1cb98c-83c5-11e8-b9ee-0242ac12000a",
         "shape": {
             "class": "H5S_SIMPLE", 
             "dims": [ 3 ]
@@ -314,12 +314,12 @@ third element points to a group.
             "base": "H5T_STD_REF_OBJ"
         }, 
         "value": [
-            "groups/a09a9b99-7bf7-11e4-aa4b-3c15c2da029e", 
+            "groups/g-be836c0a-83c5-11e8-947e-0242ac120014", 
             "",
-            "datasets/a09a8efa-7bf7-11e4-9fb6-3c15c2da029e"
+            "datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013"
         ]
     }
-    
+
 Region Reference Types
 ======================
 
@@ -338,7 +338,7 @@ Example
 A JSON representation of a region reference dataset with two elements.
 
 The first element is a point selection element that references 4 elements
-in the dataset with UUID of "68ee967a-...".
+in the dataset with UUID of "d-be9c3582-...".
 
 The second element is a hyperslab selection that references 4 hyper-slabs in 
 the same dataset as the first element.  Each element is a pair of points that
@@ -347,7 +347,7 @@ gives the boundary of the selection.
 .. code-block:: json
 
     {
-        "id": "68ee8647-7bed-11e4-9397-3c15c2da029e",
+        "id": "d-bf1cb98c-83c5-11e8-b9ee-0242ac12000a",
         "shape": {
             "class": "H5S_SIMPLE", 
             "dims": [2]
@@ -358,14 +358,14 @@ gives the boundary of the selection.
         }, 
         "value": [
             {
-                "id": "68ee967a-7bed-11e4-819c-3c15c2da029e", 
+                "id": "d-be9c3582-83c5-11e8-947e-0242ac120014", 
                 "select_type": "H5S_SEL_POINTS", 
                 "selection": [ 
                     [0, 1], [2, 11], [1, 0], [2, 4]
                 ]
             }, 
             {
-                "id": "68ee967a-7bed-11e4-819c-3c15c2da029e", 
+                "id": "d-be9c3582-83c5-11e8-947e-0242ac120014", 
                 "select_type": "H5S_SEL_HYPERSLABS", 
                 "selection": [
                     [ [0, 0],  [0, 2] ], 
@@ -376,7 +376,7 @@ gives the boundary of the selection.
             }
         ]
     }  
-    
+
 Type Keys
 =========
 

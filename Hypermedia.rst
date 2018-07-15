@@ -24,15 +24,15 @@ a JSON array.  Each array element has a key: ``href`` - the related resource, an
 .. code-block:: json
        
     {
-    "hrefs": [
-        {"href": "http://tall.test.hdfgroup.org/datasets/<id>", "rel": "self"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/<id>", "rel": "root"}, 
-        {"href": "http://tall.test.hdfgroup.org/datasets/<id>/attributes", "rel": "attributes"}, 
-        {"href": "http://tall.test.hdfgroup.org/datasets/<id>/value", "rel": "data"}, 
-        {"href": "http://tall.test.hdfgroup.org/", "rel": "home"}
-      ] 
+        "hrefs": [
+            {"href": "http://tall.test.hdfgroup.org/datasets/<id>", "rel": "self"}, 
+            {"href": "http://tall.test.hdfgroup.org/groups/<id>", "rel": "root"}, 
+            {"href": "http://tall.test.hdfgroup.org/datasets/<id>/attributes", "rel": "attributes"}, 
+            {"href": "http://tall.test.hdfgroup.org/datasets/<id>/value", "rel": "data"}, 
+            {"href": "http://tall.test.hdfgroup.org/", "rel": "home"}
+        ] 
     }
-    
+
 This enables clients to "explore" the API without detailed knowledge of it.
 
 This is the list of relations used in the HDF REST API:
