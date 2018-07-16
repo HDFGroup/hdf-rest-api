@@ -14,9 +14,14 @@ Syntax
 .. code-block:: http
 
     GET /groups HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /groups?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 Request Parameters
 ------------------
 This implementation of the operation uses the following request parameters (both 
@@ -52,7 +57,7 @@ On success, a JSON response will be returned with the following elements:
 
 groups
 ^^^^^^
-An array of UUIDs - one for each group (including the root group) in the domain.
+An array of UUIDs - one for each group (excluding the root group) in the domain.
 If the "Marker" and/or "Limit" request parameters are used, a subset of the UUIDs
 may be returned.
 
@@ -75,84 +80,97 @@ Sample Request
 .. code-block:: http
 
     GET /groups HTTP/1.1
-    host: tall.test.hdfgroup.org
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Fri, 16 Jan 2015 21:53:48 GMT
-    Content-Length: 449
+    Date: Thu, 12 Jul 2018 18:40:30 GMT
+    Content-Length: 443
     Etag: "83575a7865761b6d4eaf5d285ab1de062c49250b"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-    
+
     {
-    "groups": [
-        "052e001e-9d33-11e4-9a3d-3c15c2da029e", 
-        "052e13bd-9d33-11e4-91a6-3c15c2da029e", 
-        "052e5ae8-9d33-11e4-888d-3c15c2da029e", 
-        "052e700a-9d33-11e4-9fe4-3c15c2da029e", 
-        "052e89c7-9d33-11e4-b9bc-3c15c2da029e"
+        "groups": [
+            "g-be6eb652-83c5-11e8-b9ee-0242ac12000a",
+            "g-be836c0a-83c5-11e8-947e-0242ac120014",
+            "g-beaaa824-83c5-11e8-a8e6-0242ac120016",
+            "g-beb56bba-83c5-11e8-87e1-0242ac12000c",
+            "g-bf15f8b8-83c5-11e8-8ad9-0242ac120009"
         ],
-    "hrefs": [
-        {"href": "http://tall.test.hdfgroup.org/groups", "rel": "self"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/052dcbbd-9d33-11e4-86ce-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall.test.hdfgroup.org/", "rel": "home"}
-        ] 
+        "hrefs": [
+            {"href": "hsdshdflab.hdfgroup.org/groups", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016", "rel": "root"},
+            {"href": "hsdshdflab.hdfgroup.org/", "rel": "home"}
+        ]
     }
-    
+
 Sample Request with Marker and Limit
 ------------------------------------
 
 This example uses the "Marker" request parameter to return only UUIDs after the given
 Marker value.
-The "Limit" request parameter is used to limit the number of UUIDs in the response to 5.
+The "Limit" request parameter is used to limit the number of UUIDs in the response to 2.
 
 .. code-block:: http
 
-    GET /groups?Marker=cba6e3fd-9dbd-11e4-bf4a-3c15c2da029e&Limit=5 HTTP/1.1
-    host: group1k.test.hdfgroup.org
+    GET /groups?Marker=g-be836c0a-83c5-11e8-947e-0242ac120014&Limit=2 HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
- 
+
+Sample cURL command
+-------------------
+
+*URL enclosed in quotes to prevent shell from seeing ampersand*
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" "hsdshdflab.hdfgroup.org/groups?Marker=g-be836c0a-83c5-11e8-947e-0242ac120014&Limit=2"
+
 Sample Response with Marker and Limit
 -------------------------------------
 
- .. code-block:: http
- 
+.. code-block:: http
+
     HTTP/1.1 200 OK
-    Date: Fri, 16 Jan 2015 22:02:46 GMT
-    Content-Length: 458
+    Date: Thu, 12 Jul 2018 18:52:35 GMT
+    Content-Length: 317
     Etag: "49221af3436fdaca7e26c74b491ccf8698555f08"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-   
- .. code-block:: json
-    
+    Server: nginx/1.15.0
+
+.. code-block:: json
+
     {
-    "groups": [
-        "cba6fc19-9dbd-11e4-846e-3c15c2da029e", 
-        "cba71842-9dbd-11e4-abd0-3c15c2da029e", 
-        "cba73442-9dbd-11e4-a6e9-3c15c2da029e", 
-        "cba74fc5-9dbd-11e4-bc15-3c15c2da029e", 
-        "cba77c2e-9dbd-11e4-9c71-3c15c2da029e"
-        ],  
-    "hrefs": [
-        {"href": "http://group1k.test.hdfgroup.org/groups", "rel": "self"}, 
-        {"href": "http://group1k.test.hdfgroup.org/groups/cb9ebf11-9dbd-11e4-9e83-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://group1k.test.hdfgroup.org/", "rel": "home"}
+        "groups": [
+            "g-beaaa824-83c5-11e8-a8e6-0242ac120016",
+            "g-beb56bba-83c5-11e8-87e1-0242ac12000c"
+        ],
+        "hrefs": [
+            {"href": "hsdshdflab.hdfgroup.org/groups", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016", "rel": "root"},
+            {"href": "hsdshdflab.hdfgroup.org/", "rel": "home"}
         ]
-    } 
-        
+    }
+
 Related Resources
 =================
 

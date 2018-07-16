@@ -19,9 +19,14 @@ Syntax
 .. code-block:: http
 
     PUT / HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    PUT /?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -53,14 +58,18 @@ created
 ^^^^^^^
 A timestamp giving the time the domain was created in UTC (ISO-8601 format).
 
+owner
+^^^^^
+The user which owns the domain.
+
 lastModified
 ^^^^^^^^^^^^
 A timestamp giving the most recent time that any content in the domain has been
 modified in UTC (ISO-8601 format).
 
-hrefs
-^^^^^
-An array of links to related resources.  See :doc:`../Hypermedia`.
+acls
+^^^^
+A JSON object representing the :doc:`../AclOps/index` values for the domain.
 
 Special Errors
 --------------
@@ -79,39 +88,43 @@ Sample Request
 .. code-block:: http
 
     PUT / HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/newfile.h5
     Content-Length: 0
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: newfile.test.hdfgroup.org
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/newfile.h5" hsdshdflab.hdfgroup.org/
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Fri, 16 Jan 2015 04:11:52 GMT
-    Content-Length: 523
+    Date: Thu, 12 Jul 2018 16:16:34 GMT
+    Content-Length: 380
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
-    
-  {
-    "root": "cd31cfdc-9d35-11e4-aa58-3c15c2da029e",
-    "created": "2015-01-16T04:11:52Z",
-    "lastModified": "2015-01-16T04:11:52Z", 
-    "hrefs": [
-       {"href": "http://newfile.test.hdfgroup.org/", "rel": "self"}, 
-       {"href": "http://newfile.test.hdfgroup.org/datasets", "rel": "database"}, 
-       {"href": "http://newfile.test.hdfgroup.org/groups", "rel": "groupbase"}, 
-       {"href": "http://newfile.test.hdfgroup.org/datatypes", "rel": "typebase"}, 
-       {"href": "http://newfile.test.hdfgroup.org/groups/cd31cfdc-9d35-11e4-aa58-3c15c2da029e", "rel": "root"}
-       ]    
-  }
-    
+    {
+        "root": "g-a6915d1a-85ef-11e8-8659-0242ac12000c",
+        "created": 1531412497.967022,
+        "owner": "test_user1",
+        "lastModified": 1531412497.967022,
+        "acls": {
+            "default": {"updateACL": false, "read": true, "delete": false, "update": false, "create": false, "readACL": false},
+            "test_user1": {"updateACL": true, "read": true, "delete": true, "update": true, "create": true, "readACL": true}
+        }
+    }
+
 Related Resources
 =================
 

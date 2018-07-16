@@ -17,25 +17,40 @@ To get an attribute of a group:
 .. code-block:: http
 
     GET /groups/<id>/attributes/<name> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /groups/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 To get an attribute of a dataset:
 
 .. code-block:: http
 
     GET /datasets/<id>/attributes/<name> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /datasets/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 To get an attribute of a datatype:
 
 .. code-block:: http
 
     GET /datatypes/<id>/attributes/<name> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
- 
+
+.. code-block:: http
+
+    GET /datatypes/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 where:    
     
 * *<id>* is the UUID of the dataset/group/committed datatype
@@ -105,51 +120,57 @@ Examples
 Sample Request
 --------------
 
-Get an attribute named "attr1" from a group with UUID: "1a956e54-...".
+Get an attribute named "attr1" from a group with UUID: "g-be5996fa-...".
 
 .. code-block:: http
 
-    GET /groups/1a956e54-abf6-11e4-b878-3c15c2da029e/attributes/attr1 HTTP/1.1
-    host: tall.test.hdfgroup.org
+    GET /groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes/attr1 HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes/attr1
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Tue, 03 Feb 2015 22:44:04 GMT
-    Content-Length: 648
+    Date: Sun, 15 Jul 2018 16:17:44 GMT
+    Content-Length: 522
     Etag: "55b2e2ce2d3a2449a49cfd76c4dae635ec43a150"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
     {
-    "name": "attr1", 
-    "type": {
-        "class": "H5T_INTEGER",
-        "base": "H5T_STD_I8LE" 
-    },
-    "shape": {
-        "class": "H5S_SIMPLE",
-        "dims": [10]
-    }, 
-    "value": [97, 98, 99, 100, 101, 102, 103, 104, 105, 0], 
-    "created": "2015-02-03T22:40:09Z", 
-    "lastModified": "2015-02-03T22:40:09Z",   
-    "hrefs": [
-        {"href": "http://tall.test.hdfgroup.org/groups/1a956e54-abf6-11e4-b878-3c15c2da029e/attributes/attr1", "rel": "self"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/1a956e54-abf6-11e4-b878-3c15c2da029e", "rel": "owner"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/1a956e54-abf6-11e4-b878-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall.test.hdfgroup.org/", "rel": "home"}
-      ]
+        "name": "attr1",
+        "type": {
+            "base": "H5T_STD_I8LE",
+            "class": "H5T_INTEGER"
+        },
+        "shape": {
+            "class": "H5S_SIMPLE",
+            "dims": [10]
+        },
+        "created": 1531174596.117736,
+        "lastModified": 1531174596.117736,
+        "value": [97, 98, 99, 100, 101, 102, 103, 104, 105, 0],
+        "hrefs": [
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes/attr1", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/", "rel": "home"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016", "rel": "owner"}
+        ]
     }
-    
+
 Related Resources
 =================
 
@@ -159,6 +180,6 @@ Related Resources
 * :doc:`../DatatypeOps/GET_Datatype`
 * :doc:`../GroupOps/GET_Group`
 * :doc:`PUT_Attribute`
- 
+
 
  

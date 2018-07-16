@@ -14,10 +14,15 @@ Syntax
 ------
 .. code-block:: http
 
-    DELETE /  HTTP/1.1
-    Host: DOMAIN
+    DELETE / HTTP/1.1
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    DELETE /?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -57,10 +62,17 @@ Sample Request
 .. code-block:: http
 
    DELETE / HTTP/1.1
+   Host: hsdshdflab.hdfgroup.org
+   X-Hdf-domain: /shared/deleteme.h5
    Content-Length: 0
-   User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-   host: deleteme.test.hdfgroup.org
    Accept: */*
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X DELETE -u username:password --header "X-Hdf-domain: /shared/deleteme.h5" hsdshdflab.hdfgroup.org/
     
 Sample Response
 ---------------
@@ -68,12 +80,11 @@ Sample Response
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Fri, 16 Jan 2015 03:47:33 GMT
+    Date: Thu, 12 Jul 2018 16:33:54 GMT
     Content-Length: 0
-    Content-Type: text/html; charset=UTF-8
-    Server: TornadoServer/3.2.2
-    
- 
+    Content-Type: application/json
+    Server: nginx/1.15.0
+
     
 Related Resources
 =================

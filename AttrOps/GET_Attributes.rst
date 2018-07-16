@@ -19,29 +19,44 @@ To get the attributes of a group:
 .. code-block:: http
 
     GET /groups/<id>/attributes HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /groups/<id>/attributes?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 To get the attributes of a dataset:
 
 .. code-block:: http
 
     GET /datasets/<id>/attributes HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /datasets/<id>/attributes?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 To get the attributes of a datatype:
 
 .. code-block:: http
 
     GET /datatypes/<id>/attributes HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
- 
+
+.. code-block:: http
+
+    GET /datatypes/<id>/attributes?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 where:    
-    
+
 * *<id>* is the UUID of the dataset/group/committed datatype
-    
+
 Request Parameters
 ------------------
 This implementation of the operation uses the following request parameters (both 
@@ -104,133 +119,177 @@ Get attributes of a group with UUID: "1a956e54-...".
 
 .. code-block:: http
 
-    GET /groups/1a956e54-abf6-11e4-b878-3c15c2da029e/attributes HTTP/1.1
-    host: tall.test.hdfgroup.org
+    GET /groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Wed, 04 Feb 2015 00:49:28 GMT
-    Content-Length: 807
+    Date: Sun, 15 Jul 2018 16:23:43 GMT
+    Content-Length: 797
     Etag: "7cbeefcf8d9997a8865bdea3bf2d541a14e9bf71"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
     {
-    "attributes": [
-        {
-        "name": "attr1", 
-        "type": {
-            "base": "H5T_STD_I8LE", 
-            "class": "H5T_INTEGER"
+        "attributes": [
+            {
+                "type": {
+                    "base": "H5T_STD_I8LE",
+                    "class": "H5T_INTEGER"
+                },
+                "name": "attr1",
+                "shape": {
+                    "dims": [10],
+                    "class": "H5S_SIMPLE"
+                },
+                "created": 1531174596.117736,
+                "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes/attr1"
             },
-        "shape": {
-            "dims": [10], 
-            "class": "H5S_SIMPLE"
-            },
-        "created": "2015-02-03T22:40:09Z",
-        "lastModified": "2015-02-03T22:40:09Z", 
-        },
-        "name": "attr2", 
-         "type": {
-            "base": "H5T_STD_I32BE", 
-            "class": "H5T_INTEGER"
-            }, 
-        "shape": {
-            "dims": [2, 2], 
-            "class": "H5S_SIMPLE"
-            }, 
-        "created": "2015-02-03T22:40:09Z",
-        "lastModified": "2015-02-03T22:40:09Z",    
-        }
-      ], 
-      "hrefs": [
-        {"href": "http://tall.test.hdfgroup.org/groups/1a956e54-abf6-11e4-b878-3c15c2da029e/attributes", "rel": "self"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/1a956e54-abf6-11e4-b878-3c15c2da029e", "rel": "owner"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/1a956e54-abf6-11e4-b878-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall.test.hdfgroup.org/", "rel": "home"}
-      ]
+            {
+                "type": {
+                    "base": "H5T_STD_I32BE",
+                    "class": "H5T_INTEGER"
+                },
+                "name": "attr2",
+                "shape": {
+                    "dims": [2, 2],
+                    "class": "H5S_SIMPLE"
+                },
+                "created": 1531174596.141592,
+                "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes/attr2"
+            }
+        ],
+        "hrefs": [
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/", "rel": "home"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016", "rel": "owner"}
+        ]
     }
-    
 
 Sample Request - get Batch
 ---------------------------
 
-Get the five attributes that occur after attribute "a0004" from a group with UUID: 
-"4cecd4dc-...".
+Get the five attributes that occur after attribute "attr2" from a group with UUID: 
+"g-45f464d8-...".
 
 .. code-block:: http
 
-    GET /groups/4cecd4dc-ac0a-11e4-af59-3c15c2da029e/attributes?Marker=a0004&Limit=5 HTTP/1.1
-    host: attr1k.test.hdfgroup.org
+    GET /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes?Marker=attr2&Limit=5 HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes?Marker=attr2&Limit=5"
+
 Sample Response - get Batch
 ---------------------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Wed, 04 Feb 2015 01:08:16 GMT
+    Date: Sun, 15 Jul 2018 16:38:16 GMT
     Content-Length: 1767
     Etag: "9483f4356e08d12b719aa64ece09e659b05adaf2"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
- 
+
     {
-    "attributes": [
-        {
-        "name": "a0005", 
-        "type": {"cset": "H5T_CSET_ASCII", "order": "H5T_ORDER_NONE", "class": "H5T_STRING", "strpad": "H5T_STR_NULLTERM", "strsize": "H5T_VARIABLE"}, 
-        "shape": {"class": "H5S_SCALAR"}, 
-        "created": "2015-02-03T22:40:09Z",
-        "lastModified": "2015-02-03T22:40:09Z"
-        }, {
-        "name": "a0006", 
-        "type": {"cset": "H5T_CSET_ASCII", "order": "H5T_ORDER_NONE", "class": "H5T_STRING", "strpad": "H5T_STR_NULLTERM", "strsize": "H5T_VARIABLE"}, 
-        "shape": {"class": "H5S_SCALAR"}, 
-        "created": "2015-02-03T22:40:09Z",
-        "lastModified": "2015-02-03T22:40:09Z"
-        }, {
-        "name": "a0007",
-        "type": {"cset": "H5T_CSET_ASCII", "order": "H5T_ORDER_NONE", "class": "H5T_STRING", "strpad": "H5T_STR_NULLTERM", "strsize": "H5T_VARIABLE"}, 
-        "shape": {"class": "H5S_SCALAR"}, 
-        "created": "2015-02-03T22:40:09Z",
-        "lastModified": "2015-02-03T22:40:09Z"
-        }, {
-        "name": "a0008", 
-        "type": {"cset": "H5T_CSET_ASCII", "order": "H5T_ORDER_NONE", "class": "H5T_STRING", "strpad": "H5T_STR_NULLTERM", "strsize": "H5T_VARIABLE"}, 
-        "shape": {"class": "H5S_SCALAR"}, 
-        "created": "2015-02-03T22:40:09Z",
-        "lastModified": "2015-02-03T22:40:09Z"
-        }, {
-        "name": "a0009", 
-        "type": {"cset": "H5T_CSET_ASCII", "order": "H5T_ORDER_NONE", "class": "H5T_STRING", "strpad": "H5T_STR_NULLTERM", "strsize": "H5T_VARIABLE"}, 
-        "shape": {"class": "H5S_SCALAR"}, 
-        "created": "2015-02-03T22:40:09Z",
-        "lastModified": "2015-02-03T22:40:09Z"
-        }
-      ], 
-    "hrefs": [
-        {"href": "http://attr1k.test.hdfgroup.org/groups/4cecd4dc-ac0a-11e4-af59-3c15c2da029e/attributes", "rel": "self"}, 
-        {"href": "http://attr1k.test.hdfgroup.org/groups/4cecd4dc-ac0a-11e4-af59-3c15c2da029e", "rel": "owner"}, 
-        {"href": "http://attr1k.test.hdfgroup.org/groups/4cecd4dc-ac0a-11e4-af59-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://attr1k.test.hdfgroup.org/", "rel": "home"}
-      ]
+        "attributes": [
+            {
+                "name": "attr3",
+                "type": {
+                    "base": "H5T_STD_U32BE",
+                    "class": "H5T_INTEGER"
+                },
+                "shape": {
+                    "class": "H5S_SCALAR"
+                },
+                "created": 1531672545.5978162,
+                "href": "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr3"
+            },
+            {
+                "name": "attr4",
+                "type": {
+                    "base": "H5T_STD_I32LE",
+                    "class": "H5T_INTEGER"
+                },
+                "shape": {
+                    "class": "H5S_SCALAR"
+                },
+                "created": 1531667223.0914037,
+                "href": "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr4"
+            },
+            {
+                "name": "attr5",
+                "type": {
+                    "base": "H5T_STD_U64LE",
+                    "class": "H5T_INTEGER"
+                },
+                "shape": {
+                    "class": "H5S_SCALAR"
+                },
+                "created": 1531672562.6758137,
+                "href": "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr5"
+            },
+            {
+                "name": "attr6",
+                "type": {
+                    "strPad": "H5T_STR_NULLPAD",
+                    "charSet": "H5T_CSET_ASCII",
+                    "class": "H5T_STRING",
+                    "length": 40
+                },
+                "shape": {
+                    "class": "H5S_SIMPLE",
+                    "dims": [2]
+                },
+                "created": 1531668943.5116098,
+                "href": "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr6"
+            },
+            {
+                "name": "attr7",
+                "type": {
+                    "base": "H5T_STD_U64LE",
+                    "class": "H5T_INTEGER"
+                },
+                "shape": {
+                    "class": "H5S_SCALAR"
+                },
+                "created": 1531672573.915442,
+                "href": "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr7"
+            }
+        ],
+        "hrefs": [
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/", "rel": "home"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e", "rel": "owner"}
+        ]
     }
-    
+
 Related Resources
 =================
 
@@ -240,6 +299,5 @@ Related Resources
 * :doc:`../DatatypeOps/GET_Datatype`
 * :doc:`../GroupOps/GET_Group`
 * :doc:`PUT_Attribute`
- 
 
- 
+

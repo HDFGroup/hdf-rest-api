@@ -14,9 +14,14 @@ Syntax
 .. code-block:: http
 
     POST /datatypes  HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    POST /datatypes?domain=DOMAIN  HTTP/1.1
+    Authorization: <authorization_string>
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -66,8 +71,11 @@ On success, a JSON response will be returned with the following elements:
 
 id
 ^^
-
 The UUID of the newly created datatype object.
+
+root
+^^^^
+The root group of the domain which the datatype is within.
 
 attributeCount
 ^^^^^^^^^^^^^^
@@ -81,10 +89,6 @@ lastModified
 ^^^^^^^^^^^^
 A timestamp giving the most recent time the datatype has been modified (i.e. attributes or 
 links updated) in UTC (ISO-8601 format).
-
-hrefs
-^^^^^
-An array of links to related resources.  See :doc:`../Hypermedia`.
 
 Special Errors
 --------------
@@ -103,93 +107,100 @@ Create a new committed datatype using the "H5T_IEEE_F32LE" (32-bit float) predef
 .. code-block:: http
 
     POST /datatypes HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Content-Length: 26
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: newdtype.datatypetest.test.hdfgroup.org
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "type": "H5T_IEEE_F32LE"
+        "type": "H5T_IEEE_F32LE"
     }
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X POST -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"type\": \"H5T_IEEE_F32LE\"}" hsdshdflab.hdfgroup.org/datatypes
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Thu, 22 Jan 2015 19:06:17 GMT
-    Content-Length: 533
+    Date: Fri, 13 Jul 2018 15:35:49 GMT
+    Content-Length: 186
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-  
+
     {
-    "id": "be08d40c-a269-11e4-84db-3c15c2da029e", 
-    "attributeCount": 0, 
-    "created": "2015-01-22T19:06:17Z",
-    "lastModified": "2015-01-22T19:06:17Z",
-    "hrefs": [
-        {"href": "http://newdtype.datatypetest.test.hdfgroup.org/datatypes/be08d40c-a269-11e4-84db-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://newdtype.datatypetest.test.hdfgroup.org/groups/be00807d-a269-11e4-8d9c-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://newdtype.datatypetest.test.hdfgroup.org/datatypes/be08d40c-a269-11e4-84db-3c15c2da029e/attributes", "rel": "attributes"}
-        ]
+        "id": "t-6b0bdf9a-86b2-11e8-89f2-0242ac120009",
+        "created": 1531496149.3141127,
+        "root": "g-b116b6f0-85e9-11e8-9cc2-0242ac120008",
+        "lastModified": 1531496149.3141127,
+        "attributeCount": 0
     }
-    
-    
+
 Sample Request with Link
 ------------------------
 
-Create a new committed datatype and link to root as "linked_dtype".
+Create a new committed datatype and link to root (id "g-b116b6f0-...") as "linked_dtype".
 
 .. code-block:: http
 
     POST /datatypes HTTP/1.1
-    Content-Length: 106
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: newlinkedtype.datatypetest.test.hdfgroup.org
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Content-Length: 108
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "type": "H5T_IEEE_F64LE",
-    "link": {
-        "id": "76b0bbf8-a26c-11e4-8d4c-3c15c2da029e", 
-        "name": "linked_dtype"
-      }
+        "type": "H5T_IEEE_F64LE",
+        "link": {
+            "id": "g-b116b6f0-85e9-11e8-9cc2-0242ac120008", 
+            "name": "linked_dtype"
+        }
     }
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X POST -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"type\": \"H5T_IEEE_F64LE\", \"link\": {\"id\": \"g-b116b6f0-85e9-11e8-9cc2-0242ac120008\", \"name\": \"linked_dtype\"}}" hsdshdflab.hdfgroup.org/datatypes
+
 Sample Response with Link
 -------------------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Thu, 22 Jan 2015 19:25:46 GMT
-    Content-Length: 548
+    Date: Fri, 13 Jul 2018 15:41:44 GMT
+    Content-Length: 186
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
     {
-    "id": "76c3c33a-a26c-11e4-998c-3c15c2da029e", 
-    "attributeCount": 0, 
-    "created": "2015-01-22T19:25:46Z",
-    "lastModified": "2015-01-22T19:25:46Z", 
-    "hrefs": [
-        {"href": "http://newlinkedtype.datatypetest.test.hdfgroup.org/datatypes/76c3c33a-a26c-11e4-998c-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://newlinkedtype.datatypetest.test.hdfgroup.org/groups/76b0bbf8-a26c-11e4-8d4c-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://newlinkedtype.datatypetest.test.hdfgroup.org/datatypes/76c3c33a-a26c-11e4-998c-3c15c2da029e/attributes", "rel": "attributes"}
-      ]
+        "id": "t-3e37ab7e-86b3-11e8-bce3-0242ac12000c",
+        "root": "g-b116b6f0-85e9-11e8-9cc2-0242ac120008",
+        "attributeCount": 0,
+        "created": 1531496503.6064572,
+        "lastModified": 1531496503.6064572
     }
-    
+
 Related Resources
 =================
 
@@ -198,6 +209,6 @@ Related Resources
 * :doc:`GET_Datatypes`
 * :doc:`../DatasetOps/POST_Dataset`
 * :doc:`../AttrOps/PUT_Attribute`
- 
+
 
  

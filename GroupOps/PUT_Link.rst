@@ -20,12 +20,17 @@ Syntax
 .. code-block:: http
 
     PUT /groups/<id>/links/<name> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    PUT /groups/<id>/links/<name>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 * *<id>* is the UUID of the group that the link will be created in.
 * *<name>* is the URL-encoded name of the link.
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -86,128 +91,132 @@ Examples
 Sample Request - Create Hard Link
 ---------------------------------
 
-In group "e0309a0a-...", create a hard link named "g3" that points to the object 
-with uuid "e032ad9c-...".
+In group "g-b116b6f0-...", create a hard link named "g3" that points to the object 
+with UUID "g-b9bd362a-...".
 
 .. code-block:: http
 
-    PUT /groups/e0309a0a-a198-11e4-b127-3c15c2da029e/links/g3 HTTP/1.1
-    Content-Length: 46
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: tall_updated.test.hdfgroup.org
+    PUT /groups/g-b116b6f0-85e9-11e8-9cc2-0242ac120008/links/g3 HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Content-Length: 48
+    Content-Type: application/json
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
-    {"id": "e032ad9c-a198-11e4-8d53-3c15c2da029e"}
-    
+    {"id": "g-b9bd362a-85f4-11e8-a549-0242ac12000b"}
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"id\": \"g-b9bd362a-85f4-11e8-a549-0242ac12000b\"}" hsdshdflab.hdfgroup.org/groups/g-b116b6f0-85e9-11e8-9cc2-0242ac120008/links/g3
+
 Sample Response - Create Hard Link
 ----------------------------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Wed, 21 Jan 2015 18:11:09 GMT
-    Content-Length: 418
+    Date: Thu, 12 Jul 2018 19:25:16 GMT
+    Content-Length: 13
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
+    Server: nginx/1.15.0
 
-    
+
 .. code-block:: json
-  
-    {
-    "hrefs": [
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/e0309a0a-a198-11e4-b127-3c15c2da029e/links/g3", "rel": "self"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/e0309a0a-a198-11e4-b127-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/", "rel": "home"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/e0309a0a-a198-11e4-b127-3c15c2da029e", "rel": "owner"}
-      ]
-    }
-    
+
+    {"hrefs": []}
+
 Sample Request - Create Soft Link
 ---------------------------------
 
-In group "e0309a0a-...", create a soft link named "softlink" that contains the path 
+In group "g-b116b6f0-...", create a soft link named "softlink" that contains the path 
 "/somewhere".
 
 .. code-block:: http
 
-    PUT /groups/e0309a0a-a198-11e4-b127-3c15c2da029e/links/softlink HTTP/1.1
+    PUT /groups/g-b116b6f0-85e9-11e8-9cc2-0242ac120008/links/softlink HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Content-Length: 24
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: tall_updated.test.hdfgroup.org
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
-   
+
     {"h5path": "/somewhere"}
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"h5path\": \"/somewhere\"}" hsdshdflab.hdfgroup.org/groups/g-b116b6f0-85e9-11e8-9cc2-0242ac120008/links/softlink
+
 Sample Response - Create Soft Link
 ----------------------------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Wed, 21 Jan 2015 18:35:26 GMT
-    Content-Length: 424
+    Date: Thu, 12 Jul 2018 19:30:28 GMT
+    Content-Length: 13
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-  
+    Server: nginx/1.15.0
+
 .. code-block:: json
-      
-    {
-    "hrefs": [
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/e0309a0a-a198-11e4-b127-3c15c2da029e/links/softlink", "rel": "self"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/e0309a0a-a198-11e4-b127-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/", "rel": "home"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/e0309a0a-a198-11e4-b127-3c15c2da029e", "rel": "owner"}
-      ]
-    }
-    
+
+    {"hrefs": []}
+
 Sample Request - Create External Link
 -------------------------------------
 
-In group "d2f8bd6b-...", create an external link named "extlink" that references the  
-object at path: "/dset1" in domain: "external_target.test.hdfgroup.org".
+In group "g-b116b6f0-...", create an external link named "extlink" that references the  
+object at path: "/dset1" in domain: "/shared/ext_file.h5".
 
 .. code-block:: http
 
-    PUT /groups/d2f8bd6b-a1b1-11e4-ae1c-3c15c2da029e/links/extlink HTTP/1.1
-    Content-Length: 69
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: tall_updated.test.hdfgroup.org
+    PUT /groups/g-b116b6f0-85e9-11e8-9cc2-0242ac120008/links/extlink HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Content-Length: 51
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
-   
-    {"h5domain": "external_target.test.hdfgroup.org", "h5path": "/dset1"}
-    
+
+    {"h5domain": "/shared/ext_file.h5", "h5path": "/dset1"}
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"h5domain\": \"/shared/ext_file.h5\", \"h5path\": \"/dset1\"}" hsdshdflab.hdfgroup.org/groups/g-b116b6f0-85e9-11e8-9cc2-0242ac120008/links/extlink
+
 Sample Response - Create External Link
 --------------------------------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Wed, 21 Jan 2015 21:09:45 GMT
-    Content-Length: 423
+    Date: Thu, 12 Jul 2018 19:34:57 GMT
+    Content-Length: 13
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-  
+    Server: nginx/1.15.0
+
 .. code-block:: json
-         
-    {
-    "hrefs": [
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/d2f8bd6b-a1b1-11e4-ae1c-3c15c2da029e/links/extlink", "rel": "self"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/d2f8bd6b-a1b1-11e4-ae1c-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/", "rel": "home"}, 
-        {"href": "http://tall_updated.test.hdfgroup.org/groups/d2f8bd6b-a1b1-11e4-ae1c-3c15c2da029e", "rel": "owner"}
-        ]
-    }
-    
-    
+
+    {"hrefs": []}
+
+
 Related Resources
 =================
 
@@ -215,6 +224,4 @@ Related Resources
 * :doc:`GET_Link`
 * :doc:`GET_Links`
 * :doc:`GET_Group`
- 
 
- 
