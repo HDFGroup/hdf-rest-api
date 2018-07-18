@@ -14,11 +14,16 @@ Syntax
 .. code-block:: http
 
     GET /datasets/<id>/shape HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /datasets/<id>/shape?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 *<id>* is the UUID of the dataset that shape is requested for.
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -62,10 +67,6 @@ dataspace.  The value of each element gives the maximum size of each dimension. 
 of 0 indicates that the dimension has *unlimited* extent.  maxdims is not returned for
 H5S_SIMPLE dataspaces which are not extensible or for H5S_NULL or H5S_SCALAR dataspaces.
 
-fillvalue: A value, of a type compatible with the dataset's type, which gives the *fill* value
-for the dataset (the value which elements will be initialized to when a dataspace
-is extended).  fillvalue is only returned for extensible dataspaces.
-
 created
 ^^^^^^^
 A timestamp giving the time the datashape (same as the dataset) was created in 
@@ -94,86 +95,100 @@ Sample Request
 
 .. code-block:: http
 
-    GET /datasets/3b57b6d4-a6a8-11e4-96b5-3c15c2da029e/shape HTTP/1.1
-    host: tall.test.hdfgroup.org
+    GET /datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/shape HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/shape
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Wed, 28 Jan 2015 04:43:41 GMT
-    Content-Length: 445
+    Date: Wed, 18 Jul 2018 22:01:40 GMT
+    Content-Length: 440
     Etag: "76ed777f151c70d0560d1414bffe1515a3df86b0"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-    
-   {    
-   "shape": {
-        "class": "H5S_SIMPLE"
-        "dims": [10], 
-    },
-    "created": "2015-01-28T04:40:23Z",
-    "lastModified": "2015-01-28T04:40:23Z", 
-    "hrefs": [
-        {"href": "http://tall.test.hdfgroup.org/datasets/3b57b6d4-a6a8-11e4-96b5-3c15c2da029e", "rel": "self"},
-        {"href": "http://tall.test.hdfgroup.org/datasets/3b57b6d4-a6a8-11e4-96b5-3c15c2da029e", "rel": "owner"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/3b56ee54-a6a8-11e4-b2ae-3c15c2da029e", "rel": "root"}
-      ], 
+
+    {
+        "shape": {
+            "class": "H5S_SIMPLE",
+            "maxdims": [10, 10],
+            "dims": [10, 10]
+        },
+        "lastModified": 1531174596,
+        "created": 1531174596,
+        "hrefs": [
+            {"href": "hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/shape", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013", "rel": "owner"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016", "rel": "root"}
+        ]
     }
-    
+
 Sample Request - Resizable
 --------------------------
 
 .. code-block:: http
 
-    GET /datasets/a64010e8-a6aa-11e4-98c8-3c15c2da029e/shape HTTP/1.1
-    host: resizable.test.hdfgroup.org
+    GET /datasets/d-20388136-8ad5-11e8-8126-0242ac12000d/shape HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/datasets/d-20388136-8ad5-11e8-8126-0242ac12000d/shape
+
 Sample Response - Resizable
 ----------------------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Wed, 28 Jan 2015 05:00:59 GMT
-    Content-Length: 500
+    Date: Wed, 18 Jul 2018 22:05:23 GMT
+    Content-Length: 432
     Etag: "1082800980d6809a8008b22e225f1adde8afc73f"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-       
+
     {
-    "shape": {
-        "class": "H5S_SIMPLE",
-        "dims": [10, 10], 
-        "maxdims": [10, 0],
-    }, 
-    "created": "2015-01-28T04:40:23Z",
-    "lastModified": "2015-01-28T04:40:23Z", 
-    "hrefs": [
-        {"href": "http://resizable.test.hdfgroup.org/datasets/a64010e8-a6aa-11e4-98c8-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://resizable.test.hdfgroup.org/datasets/a64010e8-a6aa-11e4-98c8-3c15c2da029e", "rel": "owner"}, 
-        {"href": "http://resizable.test.hdfgroup.org/groups/a63f5dcf-a6aa-11e4-ab68-3c15c2da029e", "rel": "root"}
-      ] 
+        "shape": {
+            "dims": [10, 25],
+            "class": "H5S_SIMPLE",
+            "maxdims": [0, 0]
+        },
+        "lastModified": 1531950860,
+        "created": 1531950860,
+        "hrefs": [
+            {"href": "hsdshdflab.hdfgroup.org/datasets/d-20388136-8ad5-11e8-8126-0242ac12000d/shape", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/datasets/d-20388136-8ad5-11e8-8126-0242ac12000d", "rel": "owner"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e", "rel": "root"}
+        ]
     }
-    
+
 Related Resources
 =================
 
 * :doc:`GET_Dataset`
 * :doc:`GET_DatasetType`
 * :doc:`PUT_DatasetShape`
- 
 
- 
+

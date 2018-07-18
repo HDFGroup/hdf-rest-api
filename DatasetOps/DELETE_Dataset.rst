@@ -16,11 +16,16 @@ Syntax
 .. code-block:: http
 
     DELETE /datasets/<id> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    DELETE /datasets/<id>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 *<id>* is the UUID of the requested dataset to be deleted.
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -62,34 +67,31 @@ Sample Request
 
 .. code-block:: http
 
-    DELETE /datasets/289bb654-a2c6-11e4-97d8-3c15c2da029e HTTP/1.1
+    DELETE /datasets/d-11dac970-8ace-11e8-8126-0242ac12000d HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Content-Length: 0
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: tall_dset112_deleted.test.hdfgroup.org
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X DELETE -u username:pasword --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/datasets/d-11dac970-8ace-11e8-8126-0242ac12000d
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Fri, 23 Jan 2015 06:07:49 GMT
-    Content-Length: 287
+    Date: Wed, 18 Jul 2018 21:15:42 GMT
+    Content-Length: 0
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
-.. code-block:: json
+    Server: nginx/1.15.0
 
-    {
-    "hrefs": [
-        {"href": "http://tall_dset112_deleted.test.hdfgroup.org/datasets", "rel": "self"}, 
-        {"href": "http://tall_dset112_deleted.test.hdfgroup.org/groups/289b4873-a2c6-11e4-adfb-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall_dset112_deleted.test.hdfgroup.org/", "rel": "home"}
-      ]
-    }
-    
 Related Resources
 =================
 

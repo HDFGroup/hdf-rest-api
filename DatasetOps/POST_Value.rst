@@ -15,11 +15,16 @@ Syntax
 .. code-block:: http
 
     POST /datasets/<id>/value HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    POST /datasets/<id>/value?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 *<id>* is the UUID of the requested dataset t
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -76,41 +81,48 @@ Sample Request
 .. code-block:: http
 
     POST /datasets/4e83ad1c-ab6e-11e4-babb-3c15c2da029e/value HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Content-Length: 92
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: tall.test.hdfgroup.org
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "points": [19, 17, 13, 11, 7, 5, 3, 2]
+        "points": [19, 17, 13, 11, 7, 5, 3, 2]
     }
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X POST --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"points\": [19, 17, 13, 11, 7, 5, 3, 2]}" hsdshdflab.hdfgroup.org/datasets/d-be9c3582-83c5-11e8-947e-0242ac120014/value
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Tue, 03 Feb 2015 06:31:38 GMT
-    Content-Length: 47
+    Date: Wed, 18 Jul 2018 21:23:45 GMT
+    Content-Length: 40
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
- 
+
     {
-    "value": [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+        "value": [0, 1, 4, 9, 16, 25, 36, 49]
     }
-    
+
 Related Resources
 =================
 
 * :doc:`GET_Dataset`
 * :doc:`GET_Value`
 * :doc:`PUT_Value`
- 
 
- 
+

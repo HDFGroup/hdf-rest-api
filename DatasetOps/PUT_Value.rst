@@ -14,11 +14,16 @@ Syntax
 .. code-block:: http
 
     PUT /datasets/<id>/value HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    PUT /datasets/<id>/value?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 *<id>* is the UUID of the requested dataset.
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -110,42 +115,52 @@ This example writes a 10x10 integer dataset with the values 0-99 inclusive.
 
 .. code-block:: http
 
-    PUT /datasets/817e2280-ab5d-11e4-afe6-3c15c2da029e/value HTTP/1.1
-    Content-Length: 465
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: valueput.datasettest.test.hdfgroup.org
+    PUT /datasets/d-d13cddf0-8ad1-11e8-8126-0242ac12000d/value HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Content-Length: 421
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "value": [
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 
-        [10, 11, 12, 13, 14, 15, 16, 17, 18, 19], 
-        [20, 21, 22, 23, 24, 25, 26, 27, 28, 29], 
-        [30, 31, 32, 33, 34, 35, 36, 37, 38, 39], 
-        [40, 41, 42, 43, 44, 45, 46, 47, 48, 49], 
-        [50, 51, 52, 53, 54, 55, 56, 57, 58, 59], 
-        [60, 61, 62, 63, 64, 65, 66, 67, 68, 69], 
-        [70, 71, 72, 73, 74, 75, 76, 77, 78, 79], 
-        [80, 81, 82, 83, 84, 85, 86, 87, 88, 89], 
-        [90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
-      ]
+        "value": [
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 
+            [10, 11, 12, 13, 14, 15, 16, 17, 18, 19], 
+            [20, 21, 22, 23, 24, 25, 26, 27, 28, 29], 
+            [30, 31, 32, 33, 34, 35, 36, 37, 38, 39], 
+            [40, 41, 42, 43, 44, 45, 46, 47, 48, 49], 
+            [50, 51, 52, 53, 54, 55, 56, 57, 58, 59], 
+            [60, 61, 62, 63, 64, 65, 66, 67, 68, 69], 
+            [70, 71, 72, 73, 74, 75, 76, 77, 78, 79], 
+            [80, 81, 82, 83, 84, 85, 86, 87, 88, 89], 
+            [90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+        ]
     }
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"value\": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [10, 11, 12, 13, 14, 15, 16, 17, 18, 19], [20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+      [30, 31, 32, 33, 34, 35, 36, 37, 38, 39], [40, 41, 42, 43, 44, 45, 46, 47, 48, 49], [50, 51, 52, 53, 54, 55, 56, 57, 58, 59],
+      [60, 61, 62, 63, 64, 65, 66, 67, 68, 69], [70, 71, 72, 73, 74, 75, 76, 77, 78, 79], [80, 81, 82, 83, 84, 85, 86, 87, 88, 89], [90, 91, 92, 93, 94, 95, 96, 97, 98, 99]]}"
+      hsdshdflab.hdfgroup.org/datasets/d-d13cddf0-8ad1-11e8-8126-0242ac12000d/value
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Tue, 03 Feb 2015 04:31:22 GMT
+    Date: Wed, 18 Jul 2018 21:34:41 GMT
     Content-Length: 0
     Content-Type: text/html; charset=UTF-8
-    Server: TornadoServer/3.2.2
-    
-    
+    Server: nginx/1.15.0
+
 Sample Request - Selection
 --------------------------
 
@@ -154,39 +169,45 @@ request.
 
 .. code-block:: http
 
-    PUT /datasets/b2d0af00-ab65-11e4-a874-3c15c2da029e/value HTTP/1.1
-    Content-Length: 92
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: valueputsel.datasettest.test.hdfgroup.org
+    PUT /datasets/d-d13cddf0-8ad1-11e8-8126-0242ac12000d/value HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Content-Length: 64
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
-    {     
-    "start": 5, 
-    "stop": 10,
-    "value": [13, 17, 19, 23, 29]
+    {
+        "start": [0, 4], 
+        "stop": [1, 9],
+        "value": [13, 17, 19, 23, 29]
     }
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"start\": [0, 4], \"stop\": [1, 9], \"value\": [13, 17, 19, 23, 29]}" hsdshdflab.hdfgroup.org/datasets/d-d13cddf0-8ad1-11e8-8126-0242ac12000d/value
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Tue, 03 Feb 2015 05:30:01 GMT
+    Date: Wed, 18 Jul 2018 21:46:48 GMT
     Content-Length: 0
     Content-Type: text/html; charset=UTF-8
-    Server: TornadoServer/3.2.2
-    
-    
+    Server: nginx/1.15.0
+
 Related Resources
 =================
 
 * :doc:`GET_Dataset`
 * :doc:`GET_Value`
 * :doc:`POST_Value`
- 
 
- 
+

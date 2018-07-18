@@ -18,11 +18,16 @@ Syntax
 .. code-block:: http
 
     PUT /datasets/<id>/shape HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    PUT /datasets/<id>/shape?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 *<id>* is the UUID of the dataset whose shape will be modified.
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -72,40 +77,42 @@ Sample Request
 
 .. code-block:: http
 
-    PUT /datasets/b9b6acc0-a839-11e4-aa86-3c15c2da029e/shape HTTP/1.1
+    PUT /datasets/d-20388136-8ad5-11e8-8126-0242ac12000d/shape HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Content-Length: 19
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: resized.test.hdfgroup.org
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "shape": [10, 25]
+        "shape": [10, 25]
     }
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"shape\": [10, 25]}" hsdshdflab.hdfgroup.org/datasets/d-20388136-8ad5-11e8-8126-0242ac12000d/shape
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Fri, 30 Jan 2015 04:47:47 GMT
-    Content-Length: 331
+    Date: Wed, 18 Jul 2018 21:54:47 GMT
+    Content-Length: 13
     Content-Type: application/json
-    Server: TornadoServer/3.2.2   
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
-    {
-    "hrefs": [
-        {"href": "http://resized.test.hdfgroup.org/datasets/22e1b235-a83b-11e4-97f4-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://resized.test.hdfgroup.org/datasets/22e1b235-a83b-11e4-97f4-3c15c2da029e", "rel": "owner"}, 
-        {"href": "http://resized.test.hdfgroup.org/groups/22dfff8f-a83b-11e4-883d-3c15c2da029e", "rel": "root"}
-      ]
-    }
-    
+    {"hrefs": []}
+
 Related Resources
 =================
 
@@ -114,6 +121,6 @@ Related Resources
 * :doc:`GET_Value`
 * :doc:`POST_Value`
 * :doc:`PUT_Value`
- 
+
 
  
