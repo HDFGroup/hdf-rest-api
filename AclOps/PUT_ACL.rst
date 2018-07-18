@@ -17,7 +17,12 @@ To update a user's access information for a domain:
 .. code-block:: http
 
     PUT /acls/<userid> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    PUT /acls/<userid>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
 To update a user's access information for a group:
@@ -25,32 +30,45 @@ To update a user's access information for a group:
 .. code-block:: http
 
     PUT /groups/<id>/acls/<userid> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
 
-To get a user's access information for a dataset:
+.. code-block:: http
+
+    PUT /groups/<id>/acls/<userid>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
+To update a user's access information for a dataset:
 
 .. code-block:: http
 
     PUT /datasets/<id>/acls/<userid> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
 
-To get a user's access information for a committed datatype:
+.. code-block:: http
+
+    PUT /datasets/<id>/acls/<userid>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
+To update a user's access information for a committed datatype:
 
 .. code-block:: http
 
     PUT /datatypes/<id>/acls/<userid> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    PUT /datatypes/<id>/acls/<userid>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
 where:
-    
+
 * <id> is the UUID of the requested dataset/group/committed datatype
 * <userid> is the userid for the requested user.  Use the special userid "default" to get the default access permisions for the object
-    
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -65,20 +83,16 @@ Request Elements
 
 The request body most include a JSON object that has the following keys and boolean values:
 
- { 
- 'read': <True or False>, 
- 
- 'create': <True or False>, 
- 
- 'update': <True or False>, 
- 
- 'delete': <True or False>, 
- 
- 'readACL': <True or False>, 
- 
- 'updateACL': <True or False> 
- 
- }
+.. code-block:: json
+
+    { 
+        "read": <true or false>, 
+        "create": <true or false>, 
+        "update": <true or false>, 
+        "delete": <true or false>, 
+        "readACL": <true or false>, 
+        "updateACL": <true or false> 
+    }
 
 Responses
 =========
@@ -113,55 +127,50 @@ Sample Request
 
 .. code-block:: http
 
-    PUT /groups/052dcbbd-9d33-11e4-86ce-3c15c2da029e/acls/test_user1 HTTP/1.1
-    host: tall.test.hdfgroup.org
+    PUT /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/acls/test_user1 HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
-    { 'read': True, 'create': False, 'update': False, 
-             'delete': False, 'readACL': False, 'updateACL': False }
-    
+
+.. code-block:: json
+
+    {
+        "read": true,
+        "create": false,
+        "update": false, 
+        "delete": false,
+        "readACL": false,
+        "updateACL": false
+    }
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/tall.h5"
+      -d "{\"read\": true, \"create\": false, \"update\": false, \"delete\": false, \"readACL\": false, \"updateACL\": false}"
+      hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/acls/test_user1
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Fri, 16 Jan 2015 20:06:08 GMT
+    Date: Wed, 18 Jul 2018 16:06:13 GMT
     Content-Length: 660
     Etag: "2c410d1c469786f25ed0075571a8e7a3f313cec1"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
-.. code-block:: json
+    Server: nginx/1.15.0
 
-    
-    "hrefs": [
-        {
-            "href": "http://tall_acl.test.hdfgroup.org/groups/eb8f6959-8775-11e5-96b6-3c15c2da029e/acls/test_user1",
-            "rel": "self"
-        },
-        {
-            "href": "http://tall_acl.test.hdfgroup.org/groups/eb8f6959-8775-11e5-96b6-3c15c2da029e",
-            "rel": "root"
-        },
-        {
-            "href": "http://tall_acl.test.hdfgroup.org/",
-            "rel": "home"
-        },
-        {
-            "href": "http://tall_acl.test.hdfgroup.org/groups/eb8f6959-8775-11e5-96b6-3c15c2da029e",
-            "rel": "owner"
-        }
-    ]
-    
 Related Resources
 =================
 
 * :doc:`GET_ACL`
 * :doc:`GET_ACLs`
 
- 
+
 
  
