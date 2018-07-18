@@ -83,9 +83,9 @@ Request Elements
 
 The request body most include a JSON object that has the following keys and boolean values:
 
-.. code-block:: json
+::
 
-    { 
+    {
         "read": <true or false>, 
         "create": <true or false>, 
         "update": <true or false>, 
