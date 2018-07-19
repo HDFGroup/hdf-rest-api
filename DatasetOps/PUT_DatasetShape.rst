@@ -26,7 +26,7 @@ Syntax
     PUT /datasets/<id>/shape?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-*<id>* is the UUID of the dataset whose shape will be modified.
+* *<id>* is the UUID of the dataset whose shape will be modified.
 
 Request Parameters
 ------------------

@@ -24,7 +24,7 @@ Syntax
     DELETE /datasets/<id>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-*<id>* is the UUID of the requested dataset to be deleted.
+* *<id>* is the UUID of the requested dataset to be deleted.
 
 Request Parameters
 ------------------

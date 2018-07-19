@@ -94,7 +94,32 @@ The UUID of the newly created dataset.
 
 root
 ^^^^
-The UUID of the root group of the domain which the new dataset is within.
+The UUID of the root group for the domain which the new dataset is within.
+
+type
+^^^^
+A JSON object representing the type definition for the dataset. See :doc:`../Types/index`
+for information on how different types are represented.
+
+shape
+^^^^^
+
+A JSON object with the following keys:
+
+class: A string with one of the following values:
+
+ * H5S_NULL: A null dataspace, which has no elements
+ * H5S_SCALAR: A dataspace with a single element (although possibly of a complex datatype)
+ * H5S_SIMPLE: A dataspace that consists of a regular array of elements
+ 
+dims: An integer array whose length is equal to the number of dimensions (rank) of the 
+dataspace.  The value of each element gives the current size of each dimension.  Dims
+is not returned for H5S_NULL or H5S_SCALAR dataspaces.
+
+maxdims: An integer array whose length is equal to the number of dimensions of the 
+dataspace.  The value of each element gives the maximum size of each dimension. A value
+of 0 indicates that the dimension has *unlimited* extent.  maxdims is not returned for
+H5S_SIMPLE dataspaces which are not extensible or for H5S_NULL or H5S_SCALAR dataspaces.
 
 attributeCount
 ^^^^^^^^^^^^^^

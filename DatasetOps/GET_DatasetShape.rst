@@ -22,7 +22,7 @@ Syntax
     GET /datasets/<id>/shape?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-*<id>* is the UUID of the dataset that shape is requested for.
+* *<id>* is the UUID of the dataset that shape is requested for.
 
 Request Parameters
 ------------------

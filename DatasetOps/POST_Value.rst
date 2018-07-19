@@ -23,7 +23,7 @@ Syntax
     POST /datasets/<id>/value?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-*<id>* is the UUID of the requested dataset t
+* *<id>* is the UUID of the requested dataset
 
 Request Parameters
 ------------------
@@ -80,7 +80,7 @@ Sample Request
 
 .. code-block:: http
 
-    POST /datasets/4e83ad1c-ab6e-11e4-babb-3c15c2da029e/value HTTP/1.1
+    POST /datasets/d-be9c3582-83c5-11e8-947e-0242ac120014/value HTTP/1.1
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Content-Length: 92

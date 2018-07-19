@@ -66,8 +66,8 @@ To update a user's access information for a committed datatype:
 
 where:
 
-* <id> is the UUID of the requested dataset/group/committed datatype
-* <userid> is the userid for the requested user.  Use the special userid "default" to get the default access permisions for the object
+* *<id>* is the UUID of the requested dataset/group/committed datatype
+* *<userid>* is the userid for the requested user.  Use the special userid "default" to get the default access permisions for the object
 
 Request Parameters
 ------------------
@@ -81,7 +81,7 @@ to most requests.  See :doc:`../CommonRequestHeaders`
 Request Elements
 ----------------
 
-The request body most include a JSON object that has the following keys and boolean values:
+The request body must include a JSON object that has the following keys and boolean values:
 
 ::
 

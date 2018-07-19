@@ -22,7 +22,7 @@ Syntax
     GET /datasets/<id>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-**<id>** is the UUID of the requested dataset.
+* *<id>* is the UUID of the requested dataset.
 
 Request Parameters
 ------------------
@@ -50,6 +50,10 @@ On success, a JSON response will be returned with the following elements:
 id
 ^^
 The UUID of the dataset object.
+
+root
+^^^^
+The UUID of the root group for the domain which the dataset is within.
 
 type
 ^^^^

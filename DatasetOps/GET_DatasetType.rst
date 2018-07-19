@@ -22,7 +22,7 @@ Syntax
     GET /datasets/<id>/type?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-*<id>* is the UUID of the dataset the type information is requested for.
+* *<id>* is the UUID of the dataset the type information is requested for.
 
 Request Parameters
 ------------------

@@ -22,7 +22,7 @@ Syntax
     PUT /datasets/<id>/value?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-*<id>* is the UUID of the requested dataset.
+* *<id>* is the UUID of the requested dataset.
 
 Request Parameters
 ------------------

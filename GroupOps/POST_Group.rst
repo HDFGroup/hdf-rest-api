@@ -71,7 +71,7 @@ The UUID of the newly created group.
 
 root
 ^^^^
-The root group of the domain which the group was created in.
+The UUID of the root group for the domain which the group was created in.
 
 attributeCount
 ^^^^^^^^^^^^^^

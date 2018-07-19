@@ -67,7 +67,7 @@ To get the ACL for a committed datatype:
 
 where:
 
-* <id> is the UUID of the requested dataset/group/committed datatype
+* *<id>* is the UUID of the requested dataset/group/committed datatype
 
 Request Parameters
 ------------------

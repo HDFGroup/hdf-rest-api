@@ -22,7 +22,7 @@ Syntax
     GET /datatypes/<id>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-*<id>* is the UUID of the requested datatype.
+* *<id>* is the UUID of the requested datatype.
 
 Request Parameters
 ------------------
@@ -53,7 +53,7 @@ The UUID of the datatype object.
 
 root
 ^^^^
-The root group of the domain which the datatype is within.
+The UUID of the root group for the domain which the datatype is within.
 
 type
 ^^^^

@@ -22,15 +22,11 @@ Syntax
     GET /groups/<id>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-*<id>* is the UUID of the requested group.
+* *<id>* is the UUID of the requested group.
 
 Request Parameters
 ------------------
-
-include_links
-^^^^^^^^^^^^^
-
-If this request parameter is provided, the links of the group are included in the response.
+This implementation of the operation does not use request parameters.
 
 Request Headers
 ---------------
@@ -57,7 +53,7 @@ The UUID of the requested group.
 
 root
 ^^^^
-The root group of the domain that the group is within.
+The UUID of the root group for the domain that the group is within.
 
 attributeCount
 ^^^^^^^^^^^^^^
