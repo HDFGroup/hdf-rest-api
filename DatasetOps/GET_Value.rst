@@ -4,13 +4,19 @@ GET Value
 
 Description
 ===========
-Gets data values of a dataset.
+Gets data values of a dataset or attribute.
 
 Requests
 ========
 
 Syntax
 ------
+
+Datasets
+::::::::
+
+To get the data values of a dataset:
+
 .. code-block:: http
 
     GET /datasets/<id>/value HTTP/1.1
@@ -24,12 +30,60 @@ Syntax
 
 * *<id>* is the UUID of the requested dataset.
 
+Attributes
+::::::::::
+
+To get the data values of an attribute attached to a group:
+
+.. code-block:: http
+
+    GET /groups/<id>/attributes/<attr_name>/value HTTP/1.1
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    GET /groups/<id>/attributes/<attr_name>/value?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
+To get the data values of an attribute attached to a dataset:
+
+.. code-block:: http
+
+    GET /datasets/<id>/attributes/<attr_name>/value HTTP/1.1
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    GET /datasets/<id>/attributes/<attr_name>/value?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
+To get the data values of an attribute attached to a committed datatype:
+
+.. code-block:: http
+
+    GET /datatypes/<id>/attributes/<attr_name>/value HTTP/1.1
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    GET /datatypes/<id>/attributes/<attr_name>/value?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
+* *<id>* is the UUID of the requested dataset.
+* *<attr_name>* is the name of the requested attribute
+
 Request Parameters
 ------------------
 
+Datasets
+::::::::
+
 select
 ^^^^^^
-Optionally the request can provide a select value to indicate a hyperslab selection for
+Optionally, the request can provide a select value to indicate a hyperslab selection for
 the values to be returned - i.e. a rectangular (in 1, 2, or more dimensions) region of 
 the dataset.   Format is the following as a url-encoded value:
 
@@ -65,13 +119,17 @@ Limit
 If provided, a positive integer value specifying the maximum number of elements to return.
 Only has an effect if used in conjunction with the query parameter.
 
+Attributes
+::::::::::
+
+This implementation of the operation does not use request parameters.
 
 Request Headers
 ---------------
 This implementation of the operation supports the common headers in addition to the "Accept" header value
 of "application/octet-stream".  Use this accept value if a binary response is desired.  Binary data will be
 more efficient for large data requests.  If a binary response can be returned, the "Content-Type" response
-header will be "application/octet-stream".  Otherwise the response header will be "json".
+header will be "application/octet-stream".  Otherwise the response header will be "application/json".
 
 Note: Binary responses are only supported for datasets that have a fixed-length type
 (i.e. either a fixed length primitive type or compound type that in turn consists of fixed-length types).  Namely
@@ -94,12 +152,16 @@ most responses.  See :doc:`../CommonResponseHeaders`.
 Response Elements
 -----------------
 
+JSON Response
+:::::::::::::
+
 On success, a JSON response will be returned with the following elements:
 
 value
 ^^^^^
-A json array (integer or string for scalar datasets) giving the values of the requested 
-dataset region.
+A json array (integer or string for scalar datasets or attributes) giving the values
+of the requested region for datasets or the entire set of values for attributes
+(attributes can't be partially read).
 
 index
 ^^^^^
@@ -110,14 +172,21 @@ hrefs
 ^^^^^
 An array of links to related resources.  See :doc:`../Hypermedia`.
 
+Binary Response
+:::::::::::::::
+
+On success, a binary response will be returned with only the binary data values of the
+requested region for datasets or the entire set of binary data values for attributes (attributes
+can't be partially read). No data representing "hrefs" is returned.
+
 Special Errors
 --------------
 
 This implementation of the operation does not return special errors.  For general 
 information on standard error codes, see :doc:`../CommonErrorResponses`.
 
-Examples
-========
+Dataset Examples
+================
 
 Sample Request
 --------------
@@ -331,6 +400,155 @@ Sample Response - Query Batch
             {"rel": "owner", "href": "hsdshdflab.hdfgroup.org/datasets/d-a6d2ee5c-807b-11e8-947e-0242ac120014"}
         ]
     }
+
+Sample Request - Binary
+-----------------------
+
+.. code-block:: http
+
+    GET /datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/value HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Accept-Encoding: gzip, deflate
+    Accept: application/octet-stream
+
+Sample cURL command
+-------------------
+
+*Note the use of "--output -" to redirect output to the terminal. This is not advised,
+as it can mess up the terminal, and "--output <FILE>" should be used instead.*
+
+.. code-block:: bash
+
+    $ curl --output - -X GET --header "X-Hdf-domain: /shared/tall.h5" --header "Accept: application/octet-stream"
+      hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/value
+
+Sample Response
+---------------
+
+.. code-block:: http
+
+    HTTP/1.1 200 OK
+    Date: Fri, 20 Jul 2018 16:54:15 GMT
+    Content-Length: 400
+    Etag: "788efb3caaba7fd2ae5d1edb40b474ba94c877a8"
+    Content-Type: application/octet-stream
+    Server: nginx/1.15.0
+
+Hexdump of output as captured to file
+
+::
+
+    00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    *
+    00000020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 01  |................|
+    00000030  00 00 00 02 00 00 00 03  00 00 00 04 00 00 00 05  |................|
+    00000040  00 00 00 06 00 00 00 07  00 00 00 08 00 00 00 09  |................|
+    00000050  00 00 00 00 00 00 00 02  00 00 00 04 00 00 00 06  |................|
+    00000060  00 00 00 08 00 00 00 0a  00 00 00 0c 00 00 00 0e  |................|
+    00000070  00 00 00 10 00 00 00 12  00 00 00 00 00 00 00 03  |................|
+    00000080  00 00 00 06 00 00 00 09  00 00 00 0c 00 00 00 0f  |................|
+    00000090  00 00 00 12 00 00 00 15  00 00 00 18 00 00 00 1b  |................|
+    000000a0  00 00 00 00 00 00 00 04  00 00 00 08 00 00 00 0c  |................|
+    000000b0  00 00 00 10 00 00 00 14  00 00 00 18 00 00 00 1c  |................|
+    000000c0  00 00 00 20 00 00 00 24  00 00 00 00 00 00 00 05  |... ...$........|
+    000000d0  00 00 00 0a 00 00 00 0f  00 00 00 14 00 00 00 19  |................|
+    000000e0  00 00 00 1e 00 00 00 23  00 00 00 28 00 00 00 2d  |.......#...(...-|
+    000000f0  00 00 00 00 00 00 00 06  00 00 00 0c 00 00 00 12  |................|
+    00000100  00 00 00 18 00 00 00 1e  00 00 00 24 00 00 00 2a  |...........$...*|
+    00000110  00 00 00 30 00 00 00 36  00 00 00 00 00 00 00 07  |...0...6........|
+    00000120  00 00 00 0e 00 00 00 15  00 00 00 1c 00 00 00 23  |...............#|
+    00000130  00 00 00 2a 00 00 00 31  00 00 00 38 00 00 00 3f  |...*...1...8...?|
+    00000140  00 00 00 00 00 00 00 08  00 00 00 10 00 00 00 18  |................|
+    00000150  00 00 00 20 00 00 00 28  00 00 00 30 00 00 00 38  |... ...(...0...8|
+    00000160  00 00 00 40 00 00 00 48  00 00 00 00 00 00 00 09  |...@...H........|
+    00000170  00 00 00 12 00 00 00 1b  00 00 00 24 00 00 00 2d  |...........$...-|
+    00000180  00 00 00 36 00 00 00 3f  00 00 00 48 00 00 00 51  |...6...?...H...Q|
+    00000190
+
+Attribute Examples
+==================
+
+Sample Request
+--------------
+
+.. code-block:: http
+
+    GET /datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/attributes/attr1/value HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Accept-Encoding: gzip, deflate
+    Accept: */*
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/attributes/attr1/value
+
+Sample Response
+---------------
+
+.. code-block:: http
+
+    HTTP/1.1 200 OK
+    Date: Fri, 20 Jul 2018 16:37:58 GMT
+    Content-Length: 415
+    Etag: "788efb3caaba7fd2ae5d1edb40b474ba94c877a8"
+    Content-Type: application/json
+    Server: nginx/1.15.0
+
+.. code-block:: json
+
+    {
+        "value": [49, 115, 116, 32, 97, 116, 116, 114, 105, 98, 117, 116, 101, 32, 111, 102, 32, 100, 115, 101, 116, 49, 46, 49, 46, 49, 0],
+        "hrefs": [
+            {"href": "hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/attributes/attr1", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/", "rel": "home"},
+            {"href": "hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013", "rel": "owner"}
+        ]
+    }
+
+Sample Request - Binary
+-----------------------
+
+.. code-block:: http
+
+    GET /datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/attributes/attr1/value HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Accept-Encoding: gzip, deflate
+    Accept: application/octet-stream
+
+Sample cURL command
+-------------------
+
+*Note the use of "--output -" to redirect output to the terminal. This is not advised,
+as it can mess up the terminal, and "--output <FILE>" should be used instead.*
+
+.. code-block:: bash
+
+    $ curl --output - -X GET --header "X-Hdf-domain: /shared/tall.h5" --header "Accept: application/octet-stream"
+      hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/attributes/attr1/value
+
+Sample Response
+---------------
+
+.. code-block:: http
+
+    HTTP/1.1 200 OK
+    Date: Fri, 20 Jul 2018 16:40:42 GMT
+    Content-Length: 27
+    Etag: "788efb3caaba7fd2ae5d1edb40b474ba94c877a8"
+    Content-Type: application/octet-stream
+    Server: nginx/1.15.0
+
+Output as captured to file
+
+::
+
+    1st attribute of dset1.1.1\0
 
 Related Resources
 =================

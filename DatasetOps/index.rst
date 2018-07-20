@@ -27,7 +27,7 @@ Writing data to a dataset
 -------------------------
 To write data into the dataset, use the :doc:`PUT_Value` operation.  The request can
 either provide values for the entire dataset, or values for a hyperslab (rectangular
-sub-region) selection.  In addition, if it desired to update a specific list of 
+sub-region) selection.  In addition, if it is desired to update a specific list of 
 data elements, a point selection (series of element coordinates) can be passed to the 
 :doc:`PUT_Value` operation.
  

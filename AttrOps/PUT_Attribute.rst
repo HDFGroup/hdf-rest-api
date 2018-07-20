@@ -135,6 +135,7 @@ The value of the attribute will be 42.
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Content-Length: 38
+    Content-Type: application/json
     Accept: */*
     Accept-Encoding: gzip, deflate
 
@@ -182,6 +183,7 @@ The attributes values will be "Hello, ..." and "Goodbye!".
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Content-Length: 178
+    Content-Type: application/json
     Accept: */*
     Accept-Encoding: gzip, deflate
 
@@ -234,12 +236,12 @@ and a floating point element.
     PUT /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr_compound HTTP/1.1
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
-    Content-Length: 187
+    Content-Length: 0
+    Content-Type: application/json
     Accept: */*
     Accept-Encoding: gzip, deflate
 
 .. code-block:: json
-
 
     {
         "shape": 2, 
