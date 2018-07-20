@@ -30,8 +30,15 @@ This implementation of the operation does not use request parameters.
 
 Request Headers
 ---------------
-This implementation of the operation uses only the request headers that are common
-to most requests.  See :doc:`../CommonRequestHeaders`
+This implementation of the operation supports the common headers in addition to the "Content-Type" header value
+of "application/octet-stream".  Use this Content-Type value if a binary transfer is desired.  Binary data will be
+more efficient for large data requests.
+
+Note: Binary responses are only supported for datasets that have a fixed-length type
+(i.e. either a fixed length primitive type or compound type that in turn consists of fixed-length types).  Namely
+variable length strings and variable length data types will be unsupported for binary transfers.
+
+For other request headers, see :doc:`../CommonRequestHeaders`
 
 Request Body
 ------------
