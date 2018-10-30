@@ -28,6 +28,7 @@ one of the following strings:
  * ``H5T_STD_I32{LE|BE}``: a four byte signed integer
  * ``H5T_STD_U64{LE|BE}``: an eight byte unsigned integer
  * ``H5T_STD_I64{LE|BE}``: an eight byte signed integer
+ * ``H5T_IEEE_F16{LE|BE}``: a two byte floating-point value
  * ``H5T_IEEE_F32{LE|BE}``: a four byte floating-point value
  * ``H5T_IEEE_F64{LE|BE}``: an eight byte floating-point value
 
