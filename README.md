@@ -22,4 +22,4 @@ There are also various packages and libraries that utilize the REST API as a cli
 
 The following diagram illustrates the various resources and operations of the HDF REST API:
 
-![RESTful HDF Diagram](/Users/jreadey/hdfcloud/hdf-rest-api/RESTful_HDF5.png)
+![RESTful HDF Diagram](./RESTful_HDF5.png)
