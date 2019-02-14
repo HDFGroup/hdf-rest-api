@@ -1,9 +1,10 @@
 # HDF REST API
 
+The HDF REST API is an interface to HDF5 data stored on network-based architectures. The HDF REST API has provisions to support CRUD (create, read, update and delete) operations on the full spectrum of HDF5 objects including: groups, links, datasets, attributes, and committed data types. See <https://support.hdfgroup.org/pubs/papers/RESTful_HDF5.pdf> for background on the design principles that guided the development of the RESTful HDF5 interface.
 
-The HDF REST API is an interface to HDF5 data stored on network-based architectures. The HDF REST API has provisions to support CRUD (create, read, update and delete) operations on the full spectrum of HDF5 objects including: groups, links, datasets, attributes, and committed data types. See <https://support.hdfgroup.org/pubs/papers/RESTful_HDF5.pdf> for more information on the RESTful HDF5 interface.
+This repository provides documentation on what operations are supported by the HDF REST API and some guidelines as to how to effectively use these. 
 
-As a REST-based API, implementations can be developed in a variety of languages, such as JavaScript, Python, C, and other common languages. Some services which implement the HDF REST API are:
+As a REST-based API, different servers can be developed that support the HDF REST API. Some services which have implemented the HDF REST API are:
 
 * HDF Kita: <https://www.hdfgroup.org/hdf-kita>
 * HSDS:  <https://github.com/HDFGroup/hsds>
@@ -16,3 +17,9 @@ There are also various packages and libraries that utilize the REST API as a cli
 * Python SDK - h5pyd:  <https://github.com/HDFGroup/h5pyd>
 * C/Fortran  HDF5 REST VOL: <https://bitbucket.hdfgroup.org/users/jhenderson/repos/rest-vol/browse>
 * R SDK - restfulSE: <https://github.com/vjcitn/restfulSE>
+
+
+
+The following diagram illustrates the various resources and operations of the HDF REST API:
+
+![RESTful HDF Diagram](/Users/jreadey/hdfcloud/hdf-rest-api/RESTful_HDF5.png)
