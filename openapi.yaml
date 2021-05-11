@@ -1,23 +1,22 @@
 openapi: '3.0.0'
 
 info:
-  title: HDF Scalable Data Service REST API
-  description: RESTful application programming interface documentation for HDF Scalable Data Service (HSDS).
+  title: BioSimulations Data Service 
+  description: RESTful application programming interface documentation for the Biosimulations Data Service, based on the HDF Scalable Data Service (HSDS) from the HDF Group.
   contact:
-    name: The HDF Group
-    url: https://www.hdfgroup.org
-    email: info@hdfgroup.org
-# termsOfService: TODO url
-# license
-#   name: TODO
-#   url: TODO
-  version: '2.0'
+    name: BioSimulation Team
+    url: https://biosimulations.org
+    email: info@biosimulations.org
+  termsOfService: https://www.biosimulations.org/help/terms
+  license:
+   name: MIT
+   url: https://raw.githubusercontent.com/biosimulations/Biosimulations/dev/LICENSE
+  version: '1.0'
 
 
 externalDocs:
   description: HSDS REST API documentation
   url: 'http://h5serv.readthedocs.io/en/latest/index.html'
-
 
 tags:
   - name: Domain
@@ -37,8 +36,10 @@ tags:
 
 
 servers:
-  - url: http://hsdshdflab.hdfgroup.org
-    description: HSDS default server
+  - url: https://data.biosimulations.dev
+    description: Biosimulations Data Service Dev Server
+  - url: https://data.biosimulations.org
+    description: Biosimulations Data Service Production Server
 
 
 components:
