@@ -2130,7 +2130,22 @@ paths:
                         type:
                           type: object # TODO: specify?
                         value:
-                          type: string # TODO: whatever the user put there
+                          oneOf:
+                          - type: string
+                          - type: number
+                          - type: boolean 
+                          - type: array
+                            items:
+                              type: string
+                          - type: array
+                            items:
+                              type: string
+                          - type: array
+                            items:
+                              type: string
+                          - type: array
+                            items:
+                              type: string
                   hrefs:
                     type: array
                     items:
