@@ -195,24 +195,6 @@ paths:
           description: If present and `1`, creates a Folder instead of a Domain.
         - $ref: '#/components/parameters/accept_json'
         - $ref: '#/components/parameters/authorization'
-        - name: FolderSpec
-          in: path
-          required: true
-          description: >
-              Optional JSON object indicating whether the domain should not
-              possess a root group -- a Folder.
-
-              Default by absence is `false`, resulting in a Domain with a root
-              group.
-
-              TODO: determine interaction with query parameter.
-          schema:
-            type: object
-            properties:
-              folder:
-                type: boolean
-            example:
-              folder: True
       responses:
         '201':
           description: Created.
@@ -2378,10 +2360,30 @@ paths:
         - Domain
       summary: Set user's access to the Domain.
       requestBody:
+        required: true
+        description: >
+            JSON object with one or more keys from the set: 'create', 'read',
+            'update', 'delete', 'readACL', 'updateACL'.  Each key should have
+            a boolean value.  Based on keys provided, the user's ACL will be 
+            updated for those keys.  If no ACL exist for the given user, it
+            will be created.
         content:
           application/json:
             schema:
               type: object
+              properties:
+                create:
+                  type: boolean
+                update:
+                  type: boolean
+                delete:
+                  type: boolean
+                updateACL:
+                  type: boolean
+                read:
+                  type: boolean
+                readACL:
+                  type: boolean
       parameters:
         - name: user
           in: path
@@ -2392,27 +2394,7 @@ paths:
         - $ref: '#/components/parameters/query_domain'
         - $ref: '#/components/parameters/accept_json'
         - $ref: '#/components/parameters/authorization'
-        - name: ACLDefinition
-          in: path
-          description: >
-              Permissions granted to the user.
-              Not all need be set. (TODO: what are the defaults?)
-          required: true
-          schema:
-            type: object
-            properties:
-              create:
-                type: boolean
-              update:
-                type: boolean
-              delete:
-                type: boolean
-              updateACL:
-                type: boolean
-              read:
-                type: boolean
-              readACL:
-                type: boolean
+         
       responses:
         '200':
           description: OK
