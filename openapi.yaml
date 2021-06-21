@@ -2353,10 +2353,14 @@ paths:
         - Domain
       summary: Set user's access to the Domain.
       requestBody:
-        description: >
-          Permissions granted to the user. Not all need be set. (TODO: what
-          are the defaults?)
+
         required: true
+        description: >
+            JSON object with one or more keys from the set: 'create', 'read',
+            'update', 'delete', 'readACL', 'updateACL'.  Each key should have
+            a boolean value.  Based on keys provided, the user's ACL will be 
+            updated for those keys.  If no ACL exist for the given user, it
+            will be created.
         content:
           application/json:
             schema:
@@ -2384,7 +2388,6 @@ paths:
         - $ref: '#/components/parameters/query_domain'
         - $ref: '#/components/parameters/accept_json'
         - $ref: '#/components/parameters/authorization'
-
       responses:
         '200':
           description: OK
