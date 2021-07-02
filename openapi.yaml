@@ -1,5 +1,5 @@
-openapi: "3.0.0"
-
+$schema: “https://spec.openapis.org/oas/3.1/dialect/base”
+openapi: "3.1.0"
 info:
   title: HDF Scalable Data Service REST API
   description: RESTful application programming interface documentation for HDF Scalable Data Service (HSDS).
@@ -64,21 +64,21 @@ components:
       properties:
         forWhom:
           $ref: "#/components/schemas/ACL"
-      example:
-        test_user1:
-          create: true
-          update: true
-          delete: true
-          updateACL: true
-          read: true
-          readACL: true
-        default:
-          create: false
-          update: false
-          delete: false
-          updateACL: false
-          read: true
-          readACL: false
+      examples:
+        - test_user1:
+            create: true
+            update: true
+            delete: true
+            updateACL: true
+            read: true
+            readACL: true
+          default:
+            create: false
+            update: false
+            delete: false
+            updateACL: false
+            read: true
+            readACL: false
 
   parameters:
     authorization:
@@ -199,19 +199,23 @@ paths:
                   created:
                     description: When domain was created.
                     type: number
-                    example: 1521482043.5271084
+                    examples:
+                      - 1521482043.5271084
                   lastModified:
                     description: When object was last modified.
                     type: number
-                    example: 1521482043.5271084
+                    examples:
+                      - 1521482043.5271084
                   owner:
                     description: Name of owner.
                     type: string
-                    example: "test_user1"
+                    examples:
+                      - "test_user1"
                   root:
                     description: ID of root group.
                     type: string
-                    example: "g-82da0346-2b9e-11e8-9391-0242ac110009"
+                    examples:
+                      - "g-82da0346-2b9e-11e8-9391-0242ac110009"
         default:
           description: Operation unsuccessful.
 
@@ -256,10 +260,12 @@ paths:
                       UUID of root Group.
                       If Domain is of class 'folder', this entry is not present.
                     type: string
-                    example: "g-82da0346-2b9e-11e8-9391-0242ac110009"
+                    examples:
+                      - "g-82da0346-2b9e-11e8-9391-0242ac110009"
                   owner:
                     type: string
-                    example: "test_user1"
+                    examples:
+                      - "test_user1"
                   class:
                     description: >
                       Category of Domain.
@@ -268,13 +274,16 @@ paths:
                     enum:
                       - domain
                       - folder
-                    example: domain
+                    examples:
+                      - domain
                   created:
                     type: number
-                    example: 1521476710.039304
+                    examples:
+                      - 1521476710.039304
                   lastModified:
                     type: number
-                    example: 1521476710.039304
+                    examples:
+                      - 1521476710.039304
                   hrefs:
                     description: >
                       Array of url references and their relation to this Domain.
@@ -296,7 +305,7 @@ paths:
                         rel:
                           description: Relation to this Domain.
                           type: string
-                    example:
+                    examples:
                       - rel: acls
                         href: "http://myfile.test_user1.home/acls"
                       - rel: database
@@ -356,7 +365,8 @@ paths:
                   domain:
                     type: string
                     description: domain path
-                    example: "/home/test_user/some_path/some_file"
+                    examples:
+                      - "/home/test_user/some_path/some_file"
         default:
           description: Operation unsuccessful.
 
@@ -409,11 +419,13 @@ paths:
                     id:
                       description: "UUID of Group to link from."
                       type: string
-                      example: "g-a613ed48-2c86-11e8-9391-0242ac110009"
+                      examples:
+                        - "g-a613ed48-2c86-11e8-9391-0242ac110009"
                     name:
                       description: Title of Link.
                       type: string
-                      example: "g2"
+                      examples:
+                        - "g2"
       responses:
         "201":
           description: New Group created.
@@ -434,23 +446,29 @@ paths:
                   id:
                     description: UUID of new Group.
                     type: string
-                    example: "g-a613ed48-2c86-11e8-9391-0242ac110009"
+                    examples:
+                      - "g-a613ed48-2c86-11e8-9391-0242ac110009"
                   root:
                     description: UUID of root Group in Domain.
                     type: string
-                    example: "g-37aa76f6-2c86-11e8-9391-0242ac110009"
+                    examples:
+                      - "g-37aa76f6-2c86-11e8-9391-0242ac110009"
                   lastModified:
                     type: number
-                    example: 1521581745.9365487
+                    examples:
+                      - 1521581745.9365487
                   created:
                     type: number
-                    example: 1521581745.9365487
+                    examples:
+                      - 1521581745.9365487
                   attributeCount:
                     type: number
-                    example: 0
+                    examples:
+                      - 0
                   linkCount:
                     type: number
-                    example: 0
+                    examples:
+                      - 0
         default:
           description: Operation unsuccessful.
 
@@ -496,7 +514,7 @@ paths:
                     items:
                       description: UUID of each Group.
                       type: string
-                    example:
+                    examples:
                       - "g-a613ed48-2c86-11e8-9391-0242ac110009"
                       - "g-37aa76f6-2c86-11e8-9391-0242ac110009"
                   hrefs:
@@ -519,7 +537,7 @@ paths:
                         rel:
                           description: Relation to this object.
                           type: string
-                    example:
+                    examples:
                       - rel: "attributes"
                         href: "http://localhost:5101/groups/g-ee2f6a2c-3847-11e8-a123-0242ac110009/attributes?domain=/home/test_user1/file"
                       - rel: "home"
@@ -581,11 +599,13 @@ paths:
                   id:
                     description: UUID of this Group.
                     type: string
-                    example: g-37aa76f6-2c86-11e8-9391-0242ac110009
+                    examples:
+                      - g-37aa76f6-2c86-11e8-9391-0242ac110009
                   root:
                     description: UUID of root Group.
                     type: string
-                    example: g-37aa76f6-2c86-11e8-9391-0242ac110009
+                    examples:
+                      - g-37aa76f6-2c86-11e8-9391-0242ac110009
                   alias:
                     description: >
                       List of aliases for the Group, as reached by _hard_ Links.
@@ -595,22 +615,28 @@ paths:
                     type: array
                     items:
                       type: string
-                    example: ["/g1/g1.1"]
+                    examples:
+                      - ["/g1/g1.1"]
                   created:
                     type: number
-                    example: 1521581560.6883142
+                    examples:
+                      - 1521581560.6883142
                   lastModified:
                     type: number
-                    example: 1521644498.984212
+                    examples:
+                      - 1521644498.984212
                   domain:
                     type: string
-                    example: "/home/test_user1/file"
+                    examples:
+                      - "/home/test_user1/file"
                   attributeCount:
                     type: number
-                    example: 4
+                    examples:
+                      - 4
                   linkCount:
                     type: number
-                    example: 2
+                    examples:
+                      - 2
                   hrefs:
                     description: List of references to other objects.
                     type: array
@@ -629,12 +655,14 @@ paths:
                         rel:
                           description: Relation to this object.
                           type: string
-                          example: "self"
+                          examples:
+                            - "self"
                         href:
                           description: URL to reference.
                           type: string
-                          example: "http://myfile.test_user1.home/"
-                    example:
+                          examples:
+                            - "http://myfile.test_user1.home/"
+                    examples:
                       - rel: "attributes"
                         href: "http://localhost:5101/groups/g-37aa76f6-2c86-11e8-9391-0242ac110009/attributes?domain=/home/test_user1/file"
                       - rel: "home"
@@ -730,10 +758,12 @@ paths:
                         id:
                           description: UUID of Link target.
                           type: string
-                          example: "g-a613ed48-2c86-11e8-9391-0242ac110009"
+                          examples:
+                            - "g-a613ed48-2c86-11e8-9391-0242ac110009"
                         created:
                           type: number
-                          example: 1521644498.984212
+                          examples:
+                            - 1521644498.984212
                         class:
                           description: >
                             Indicate whether this Link is hard, soft, or
@@ -743,21 +773,27 @@ paths:
                             - "H5L_TYPE_HARD"
                             - "H5L_TYPE_SOFT"
                             - "H5L_TYPE_EXTERNAL"
-                          example: "H5L_TYPE_HARD"
+                          examples:
+                            - "H5L_TYPE_HARD"
+                            - "H5L_TYPE_SOFT"
+                            - "H5L_TYPE_EXTERNAL"
                         title:
                           description: >
                             Name/label/title of the Link, as provided upon
                             creation.
                           type: string
-                          example: "g1"
+                          examples:
+                            - "g1"
                         target:
                           description: URL of Link target.
                           type: string
-                          example: "http://localhost:5101/groups/g-a613ed48-2c86-11e8-9391-0242ac110009?domain=/home/test_user1/file"
+                          examples:
+                            - "http://localhost:5101/groups/g-a613ed48-2c86-11e8-9391-0242ac110009?domain=/home/test_user1/file"
                         href:
                           description: URL to origin of Link.
                           type: string
-                          example: "http://localhost:5101/groups/g-37aa76f6-2c86-11e8-9391-0242ac110009/links/g1?domain=/home/test_user1/file"
+                          examples:
+                            - "http://localhost:5101/groups/g-37aa76f6-2c86-11e8-9391-0242ac110009/links/g1?domain=/home/test_user1/file"
                         collection:
                           description: >
                             What kind of object is the target. (TODO)
@@ -767,7 +803,9 @@ paths:
                             - "datasets"
                           #  - 'datatypes' TODO
                           #  - 'attributes' TODO
-                          example: "groups"
+                          examples:
+                            - "groups"
+                            - "datasets"
                   hrefs:
                     type: array
                     description: >
@@ -786,7 +824,7 @@ paths:
                         href:
                           description: URL to reference.
                           type: string
-                    example:
+                    examples:
                       - rel: home
                         href': http://localhost:5101/?domain=/home/test_user1/file
                       - rel: owner
@@ -845,7 +883,8 @@ paths:
 
                     Overrides other fields.
                   type: string
-                  example: "g-37aa76f6-2c86-11e8-9391-0242ac110009"
+                  examples:
+                    - "g-37aa76f6-2c86-11e8-9391-0242ac110009"
                 h5path:
                   description: >
                     Path to an object relative to a Domain's root.
@@ -858,7 +897,8 @@ paths:
 
                     If used, will create a soft or external Link.
                   type: string
-                  example: "/dset1"
+                  examples:
+                    - "/dset1"
                 h5domain:
                   description: >
                     URL of external domain.
@@ -867,7 +907,8 @@ paths:
 
                     Requires `h5path` be present.
                   type: string
-                  example: "external_target.test.hdfgroup.org"
+                  examples:
+                    - "external_target.test.hdfgroup.org"
       responses:
         "201":
           description: New Link created.
@@ -876,8 +917,8 @@ paths:
               schema:
                 type: object
                 description: 'Always returns `{"hrefs": []}`.'
-                example:
-                  hrefs: []
+                examples:
+                  - hrefs: []
         default:
           description: Operation unsuccessful.
 
@@ -909,16 +950,20 @@ paths:
                     properties:
                       id:
                         type: string
-                        example: "g-a613ed48-2c86-11e8-9391-0242ac110009"
+                        examples:
+                          - "g-a613ed48-2c86-11e8-9391-0242ac110009"
                       title:
                         type: string
-                        example: "g1"
+                        examples:
+                          - "g1"
                       collection:
                         type: string
-                        example: "group"
+                        examples:
+                          - "group"
                       class:
                         type: string
-                        example: "H5L_TYPE_HARD"
+                        examples:
+                          - "H5L_TYPE_HARD"
                   hrefs:
                     type: array
                     description: >
@@ -938,7 +983,7 @@ paths:
                         rel:
                           description: Relation to this object.
                           type: string
-                    example:
+                    examples:
                       - rel: "home"
                         href: "http://localhost:5101/?domain=/home/test_user1/file"
                       - rel: "owner"
@@ -969,8 +1014,8 @@ paths:
               schema:
                 type: object
                 description: 'Always returns `{"hrefs": []}`.'
-                example:
-                  href: []
+                examples:
+                  - href: []
         default:
           description: Operation unsuccessful.
 
@@ -1034,7 +1079,8 @@ paths:
                     For now, see:
                     http://h5serv.readthedocs.io/en/latest/Types/index.html
                   type: string # TODO: ambiguous string or object
-                  example: "H5T_STD_U32LE"
+                  examples:
+                    - "H5T_STD_U32LE"
                 shape:
                   description: >
                     Either an integer array giving the initial dimensions of
@@ -1050,7 +1096,8 @@ paths:
                     If `shape` is omitted or empty (`[]`), will create a scalar
                     dataset -- dataset comprised of a single entity.
                   type: string
-                  example: [128, 64]
+                  examples:
+                    - [128, 64]
                 maxdims:
                   description: >
                     Integer array diving the maximum allowed extent for each
@@ -1061,7 +1108,8 @@ paths:
                   type: array
                   items:
                     type: number
-                  example: [0, 512]
+                  examples:
+                    - [0, 512]
                 creationProperties:
                   description: TODO
                   type: object
@@ -1084,11 +1132,13 @@ paths:
                     id:
                       description: "UUID of Group to link from."
                       type: string
-                      example: "g-a613ed48-2c86-11e8-9391-0242ac110009"
+                      examples:
+                        - "g-a613ed48-2c86-11e8-9391-0242ac110009"
                     name:
                       description: Title of Link.
                       type: string
-                      example: "dset2"
+                      examples:
+                        - "dset2"
       responses:
         "201":
           description: Dataset created.
@@ -1115,17 +1165,13 @@ paths:
                   shape:
                     description: (See `GET /datasets/{id}`)
                     type: object
-        default:
-          description: Operation unsuccessful.
 
     get:
       tags:
         - Domain
         - Dataset
       summary: List Datasets.
-      description: >
-        Only includes Datasets that are part of the tree linked to the root
-        Group in the Domain.
+      description: Only includes Datasets that are part of the tree linked to the root  Group in the Domain.
       parameters:
         - $ref: "#/components/parameters/query_domain"
         - $ref: "#/components/parameters/authorization"
@@ -1142,7 +1188,8 @@ paths:
                     items:
                       description: UUID of each Dataset.
                       type: string
-                      example: "d-21ae0bbe-2dea-11e8-9391-0242ac110009"
+                      examples:
+                        - "d-21ae0bbe-2dea-11e8-9391-0242ac110009"
                   hrefs:
                     type: array
                     description: >
@@ -1163,7 +1210,7 @@ paths:
                         rel:
                           description: Relation to this object.
                           type: string
-                    example:
+                    examples:
                       - rel: "attributes"
                         href: "http://localhost:5101/datasets/d-d257f938-3854-11e8-a123-0242ac110009/attributes?domain=/home/test_user_1/file"
                       - rel': "data"
@@ -1199,23 +1246,29 @@ paths:
                   id:
                     description: UUID of this Dataset.
                     type: string
-                    example: "d-21ae0bbe-2dea-11e8-9391-0242ac110009"
+                    examples:
+                      - "d-21ae0bbe-2dea-11e8-9391-0242ac110009"
                   root:
                     description: UUID of root Group in Domain.
                     type: string
-                    example: "g-d313d498-2de4-11e8-9391-0242ac110009"
+                    examples:
+                      - "g-d313d498-2de4-11e8-9391-0242ac110009"
                   domain:
                     type: string
-                    example: "/home/test_user1/file"
+                    examples:
+                      - "/home/test_user1/file"
                   created:
                     type: number
-                    example: 1521734424.3
+                    examples:
+                      - 1521734424.3
                   lastModified:
                     type: number
-                    example: 1521734424.3
+                    examples:
+                      - 1521734424.3
                   attributeCount:
                     type: number
-                    example: 0
+                    examples:
+                      - 0
                   "type":
                     description: TODO
                     type: object
@@ -1253,9 +1306,9 @@ paths:
                               description: >
                                 Enum of pre-defined type, UUID of committed type,
                                 or type definition. (TODO: see `POST Dataset`?)
-                    example:
-                      base: H5T_STD_U32LE
-                      class: H5T_INTEGER
+                    examples:
+                      - base: H5T_STD_U32LE
+                        class: H5T_INTEGER
                   shape:
                     description: TODO
                     type: object
@@ -1295,16 +1348,16 @@ paths:
                           `maxdims` was included upon Dataset creation.
                         items:
                           type: number
-                    example:
-                      class: H5S_SIMPLE
-                      dims: [4, 4, 4]
-                      maxdims: [4, 4, 4]
+                    examples:
+                      - class: H5S_SIMPLE
+                        dims: [4, 4, 4]
+                        maxdims: [4, 4, 4]
                   layout:
                     description: TODO
                     type: object
-                    example:
-                      dims: [4, 4, 4]
-                      class: H5D_CHUNKED
+                    examples:
+                      - dims: [4, 4, 4]
+                        class: H5D_CHUNKED
                   creationProperties:
                     description: >
                       Dataset creation properties as provided upon creation.
@@ -1406,8 +1459,8 @@ paths:
                     type: array
                     items:
                       type: string # never relevant
-                example:
-                  hrefs: []
+                examples:
+                  - hrefs: []
         default:
           description: Operation unsuccessful.
 
@@ -1568,7 +1621,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  example: [[4, 3, 1], [6, 1, 2], [12, 0, 0]]
+                  examples:
+                    - [[4, 3, 1], [6, 1, 2], [12, 0, 0]]
                 value:
                   description: >
                     JSON array containing values to write.
@@ -1577,7 +1631,8 @@ paths:
                   type: array
                   items:
                     type: string # TODO: not really...
-                  example: [323, 16, 44]
+                  examples:
+                    - [323, 16, 44]
                 value_base64:
                   description: >
                     Base64-encoded binary data.
@@ -1705,11 +1760,11 @@ paths:
       ##        step:
       ##          description: Positive, non-zero integer. Default `1`.
       ##          type: number
-      ##    example: # array of 'objects'
-      ##      - {}
-      ##      - {"start": 3, "stop": 19, "step": 4}
-      ##      - {"stop": 10, "step: 3}
-      ##      - {"start": 126}
+      ##    examples: # array of 'objects'
+      ##      - [{},
+      ##       {"start": 3, "stop": 19, "step": 4},
+      ##       {"stop": 10, "step: 3},
+      ##       {"start": 126}]
       ##    # would get [[0,1,..,n], [3,7,11,15], [0,3,6,9], [126,127,..,n]]
       ##  query:
       ##    description: >
@@ -1749,19 +1804,22 @@ paths:
                     type: array
                     items:
                       type: string # TODO: integer or array of integers WISHLIST: arrays
-                    example: [0, 1, 2, 3, 4, 5, 6, 7]
+                    examples:
+                      - [0, 1, 2, 3, 4, 5, 6, 7]
                   values:
                     type: array
                     items: {}
-                    example: # yaml syntax for easy-readable array of arrays
-                      - [1, 3, 5, 7]
-                      - [2, 6, 10, 14]
-                      - [3, 9, 15, 21]
-                      - [4, 12, 20, 28]
-                      - [5, 15, 25, 35]
-                      - [6, 18, 30, 42]
-                      - [7, 21, 35, 49]
-                      - [8, 24, 40, 56]
+                    examples:
+                      - [
+                          [1, 3, 5, 7],
+                          [2, 6, 10, 14],
+                          [3, 9, 15, 21],
+                          [4, 12, 20, 28],
+                          [5, 15, 25, 35],
+                          [6, 18, 30, 42],
+                          [7, 21, 35, 49],
+                          [8, 24, 40, 56],
+                        ]
         default:
           description: Operation unsuccessful.
 
@@ -1788,7 +1846,8 @@ paths:
                     type: array # TODO: verify array of arrays; esp. in single-coordinate case... [[5,3]], vs [5,3]
                     items:
                       type: number
-                  example: [[0, 0], [0, 1], [1, 0], [1, 1]]
+                  examples:
+                    - [[0, 0], [0, 1], [1, 0], [1, 1]]
       responses:
         "200":
           description: OK
@@ -1800,7 +1859,8 @@ paths:
                   value:
                     type: array
                     items: {}
-                    example: [0, 1, 1, 2]
+                    examples:
+                      - [0, 1, 1, 2]
         default:
           description: Operation unsuccessful.
 
@@ -1836,7 +1896,8 @@ paths:
                       type: string
                       description: >
                         Must be "H5T_COMPOUND"?
-                      example: H5T_COMPOUND
+                      examples:
+                        - H5T_COMPOUND
                     fields:
                       type: array
                       items:
@@ -1852,11 +1913,11 @@ paths:
 
                               TODO: pre-defined enum string vs type object?
                             type: string
-                      example:
-                        - name: temp
-                          type: "H5T_STD_I32LE"
-                        - name: pressure
-                          type: "H5T_IEEE_F32LE"
+                      examples:
+                        - [
+                            { name: temp, type: "H5T_STD_I32LE" },
+                            { name: pressure, type: "H5T_IEEE_F32LE" },
+                          ]
       responses:
         "201":
           description: CREATED
@@ -1954,7 +2015,8 @@ paths:
                         rel:
                           type: string
                           description: relation to this object
-                    example: []
+                    examples:
+                      - []
         default:
           description: Operation unsuccessful.
 
@@ -2041,7 +2103,8 @@ paths:
                         rel:
                           type: string
                           description: relation to this object
-                    example: []
+                    examples:
+                      - []
         default:
           description: Operation unsuccessful.
 
@@ -2107,7 +2170,8 @@ paths:
         #                    rel:
         #                      type: string
         #                      description: relation to this object
-        #                example: []
+        #                examples:
+        #4                - []
         default:
           description: Operation unsuccessful.
 
@@ -2176,7 +2240,8 @@ paths:
                         rel:
                           type: string
                           description: relation to this object
-                    example: []
+                    examples:
+                      - []
         default:
           description: Operation unsuccessful.
 
@@ -2214,7 +2279,8 @@ paths:
                         rel:
                           type: string
                           description: relation to this object
-                    example: []
+                    examples:
+                      - []
         default:
           description: Operation unsuccessful.
 
@@ -2257,7 +2323,8 @@ paths:
                         rel:
                           type: string
                           description: relation to this object
-                    example: []
+                    examples:
+                      - []
         default:
           description: Operation unsuccessful.
 
@@ -2323,7 +2390,8 @@ paths:
                         rel:
                           type: string
                           description: relation to this object
-                example: []
+                examples:
+                  - []
         default:
           description: Operation unsuccessful.
 
@@ -2362,7 +2430,8 @@ paths:
                         rel:
                           type: string
                           description: relation to this object
-                    example: []
+                    examples:
+                      - []
         default:
           description: Operation unsuccessful.
 
@@ -2406,7 +2475,8 @@ paths:
                         rel:
                           type: string
                           description: relation to this object
-                    example: []
+                    examples:
+                      - []
         default:
           description: Operation unsuccessful.
 
@@ -2444,7 +2514,8 @@ paths:
                         rel:
                           type: string
                           description: relation to this object
-                    example: []
+                    examples:
+                      - []
         default:
           description: Operation unsuccessful.
 
@@ -2483,7 +2554,8 @@ paths:
                         rel:
                           type: string
                           description: Relation to `href`.
-                    example: []
+                    examples:
+                      - []
         default:
           description: Operation unsuccessful.
 
