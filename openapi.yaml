@@ -1806,7 +1806,7 @@ paths:
                       type: string # TODO: integer or array of integers WISHLIST: arrays
                     examples:
                       - [0, 1, 2, 3, 4, 5, 6, 7]
-                  values:
+                  value:
                     type: array
                     items: {}
                     examples:
