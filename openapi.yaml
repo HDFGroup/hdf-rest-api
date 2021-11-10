@@ -1785,10 +1785,6 @@ paths:
         "200":
           description: OK
           content:
-            application/octet-stream:
-              schema:
-                type: string
-                format: binary
             application/json:
               schema:
                 type: object
@@ -1820,6 +1816,10 @@ paths:
                           [7, 21, 35, 49],
                           [8, 24, 40, 56],
                         ]
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
         default:
           description: Operation unsuccessful.
 
