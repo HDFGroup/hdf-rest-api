@@ -56,6 +56,10 @@ Response Elements
 
 On success, a JSON response will be returned with the following elements:
 
+datatypes
+^^^^^^^^^
+An array of UUIDs, one for each datatype in the domain.
+
 hrefs
 ^^^^^
 An array of links to related resources.  See :doc:`../Hypermedia`.

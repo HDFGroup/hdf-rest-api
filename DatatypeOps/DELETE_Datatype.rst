@@ -5,7 +5,7 @@ DELETE Datatype
 Description
 ===========
 The implementation of the DELETE operation deletes the committed datatype
- named in the URI.  All attributes of the datatype will also be deleted.
+named in the URI.  All attributes of the datatype will also be deleted.
 
 Requests
 ========
@@ -23,7 +23,7 @@ Syntax
     DELETE /datatypes/<id>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-*<id>* is the UUID of the datatype to be deleted.
+* *<id>* is the UUID of the datatype to be deleted.
 
 Request Parameters
 ------------------

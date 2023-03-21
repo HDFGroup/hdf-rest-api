@@ -20,9 +20,14 @@ attributes) is included in the request.
 
 Reading and Writing Data
 -------------------------
-Unlike datasets, an attribute's data can not be
-read or written partially.  Data can only be written as part of the PUT request.  
-Reading the data of an attribute is done by :doc:`GET_Attribute`.
+To write data to an attribute, use the :doc:`../DatasetOps/PUT_Value` operation.
+
+To read data from an attribute, use the :doc:`../DatasetOps/GET_Value` operation.
+
+Unlike datasets, an attribute's data can not be read or written partially. As part of
+the :doc:`../DatasetOps/GET_Value` operation, the entire set of data values for the
+attribute is returned. As part of the :doc:`../DatasetOps/PUT_Value` operation, the
+entire set of data values for the attribute must be updated.
 
 Listing attributes
 ------------------
@@ -44,6 +49,6 @@ List of Operations
    GET_Attribute
    GET_Attributes
    PUT_Attribute
- 
-    
-    
+   ../DatasetOps/GET_Value
+   ../DatasetOps/PUT_Value
+

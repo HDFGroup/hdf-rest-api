@@ -14,11 +14,16 @@ Syntax
 .. code-block:: http
 
     GET /datasets/<id> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
-**<id>** is the UUID of the requested dataset.
-    
+
+.. code-block:: http
+
+    GET /datasets/<id>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
+* *<id>* is the UUID of the requested dataset.
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -45,6 +50,10 @@ On success, a JSON response will be returned with the following elements:
 id
 ^^
 The UUID of the dataset object.
+
+root
+^^^^
+The UUID of the root group for the domain which the dataset is within.
 
 type
 ^^^^
@@ -93,55 +102,69 @@ Sample Request
 
 .. code-block:: http
 
-    GET /datasets/c8d83759-a2c6-11e4-8713-3c15c2da029e HTTP/1.1
-    host: tall.test.hdfgroup.org
+    GET /datasets/d-bf1cb98c-83c5-11e8-b9ee-0242ac12000a HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/datasets/d-bf1cb98c-83c5-11e8-b9ee-0242ac12000a
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Fri, 23 Jan 2015 06:15:33 GMT
-    Content-Length: 755
+    Date: Thu, 19 Jul 2018 16:14:29 GMT
+    Content-Length: 966
     Etag: "ecbd7e52654b0a8f4ccbebac06175ce5df5f8c79"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-       
+
     {
-    "id": "c8d83759-a2c6-11e4-8713-3c15c2da029e",
-    "shape": {
-        "dims": [10], 
-        "class": "H5S_SIMPLE"
-    },
-    "type": {
-        "base": "H5T_IEEE_F32BE", 
-        "class": "H5T_FLOAT"
-    },
-    "creationProperties": {
-        "allocTime": "H5D_ALLOC_TIME_LATE",
-        "fillTime": "H5D_FILL_TIME_IFSET",
+        "id": "d-bf1cb98c-83c5-11e8-b9ee-0242ac12000a",
+        "root": "g-be5996fa-83c5-11e8-a8e6-0242ac120016",
         "layout": {
-            "class": "H5D_CONTIGUOUS"
-        }
-    },
-    "attributeCount": 0,  
-    "created": "2015-01-23T06:12:18Z", 
-    "lastModified": "2015-01-23T06:12:18Z",     
-    "hrefs": [
-        {"href": "http://tall.test.hdfgroup.org/datasets/c8d83759-a2c6-11e4-8713-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/c8d7842b-a2c6-11e4-b4f1-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall.test.hdfgroup.org/datasets/c8d83759-a2c6-11e4-8713-3c15c2da029e/attributes", "rel": "attributes"}, 
-        {"href": "http://tall.test.hdfgroup.org/datasets/c8d83759-a2c6-11e4-8713-3c15c2da029e/value", "rel": "data"}, 
-        {"href": "http://tall.test.hdfgroup.org/", "rel": "home"}
-      ] 
+            "class": "H5D_CHUNKED",
+            "dims": [10]
+        },
+        "creationProperties": {
+            "fillTime": "H5D_FILL_TIME_ALLOC",
+            "layout": {
+                "class": "H5D_CHUNKED",
+                "dims": [10]
+            }
+        },
+        "shape": {
+            "class": "H5S_SIMPLE",
+            "dims": [10],
+            "maxdims": [10]
+        },
+        "type": {
+            "class": "H5T_FLOAT",
+            "base": "H5T_IEEE_F32BE"
+        },
+        "attributeCount": 0,
+        "domain": "/shared/tall.h5",
+        "created": 1531174597,
+        "lastModified": 1531174597,
+        "hrefs": [
+            {"rel": "self", "href": "hsdshdflab.hdfgroup.org/datasets/d-bf1cb98c-83c5-11e8-b9ee-0242ac12000a"},
+            {"rel": "root", "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016"},
+            {"rel": "home", "href": "hsdshdflab.hdfgroup.org/"},
+            {"rel": "attributes", "href": "hsdshdflab.hdfgroup.org/datasets/d-bf1cb98c-83c5-11e8-b9ee-0242ac12000a/attributes"},
+            {"rel": "data", "href": "hsdshdflab.hdfgroup.org/datasets/d-bf1cb98c-83c5-11e8-b9ee-0242ac12000a/value"}
+        ]
     }
-    
+
 Related Resources
 =================
 

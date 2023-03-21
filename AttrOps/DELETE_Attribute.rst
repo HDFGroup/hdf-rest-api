@@ -11,37 +11,44 @@ Requests
 
 Syntax
 ------
+
+To delete an attribute of a group:
+
 .. code-block:: http
 
-    DELETE /groups/<id>/<name> HTTP/1.1
+    DELETE /groups/<id>/attributes/<name> HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    DELETE /groups/<id>/<name>?domain=DOMAIN HTTP/1.1
+    DELETE /groups/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
+
+To delete an attribute of a dataset:
 
 .. code-block:: http
 
-    DELETE /datasets/<id>/<name> HTTP/1.1
+    DELETE /datasets/<id>/attributes/<name> HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    DELETE /datasets/<id>/<name>?domain=DOMAIN HTTP/1.1
+    DELETE /datasets/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
+
+To delete an attribute of a committed datatype:
 
 .. code-block:: http
 
-    DELETE /datatypess/<id>/<name> HTTP/1.1
+    DELETE /datatypes/<id>/attributes/<name> HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    DELETE /datatypes/<id>/<name>?domain=DOMAIN HTTP/1.1
+    DELETE /datatypes/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
 * *<id>* is the UUID of the dataset/group/committed datatype
