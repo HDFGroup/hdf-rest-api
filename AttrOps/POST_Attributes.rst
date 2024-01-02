@@ -1,12 +1,12 @@
 **********************************************
-GET Attributes
+POST Attributes
 **********************************************
 
 Description
 ===========
-Gets all the attributes of a dataset, group, or committed datatype.
+Gets a collection of attributes from a dataset, group, or committed datatype.
 For each attribute the request returns the attribute's name, type, and shape.  To get 
-the attribute data use the parameter `IncludeData` or :doc:`GET_Attribute`.
+the attribute data use the parameter `IncludeData`.
 
 Requests
 ========
@@ -18,39 +18,39 @@ To get the attributes of a group:
 
 .. code-block:: http
 
-    GET /groups/<id>/attributes HTTP/1.1
+    POST /groups/<id>/attributes HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    GET /groups/<id>/attributes?domain=DOMAIN HTTP/1.1
+    POST /groups/<id>/attributes?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
 To get the attributes of a dataset:
 
 .. code-block:: http
 
-    GET /datasets/<id>/attributes HTTP/1.1
+    POST /datasets/<id>/attributes HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    GET /datasets/<id>/attributes?domain=DOMAIN HTTP/1.1
+    POST /datasets/<id>/attributes?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
 To get the attributes of a datatype:
 
 .. code-block:: http
 
-    GET /datatypes/<id>/attributes HTTP/1.1
+    POST /datatypes/<id>/attributes HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    GET /datatypes/<id>/attributes?domain=DOMAIN HTTP/1.1
+    POST /datatypes/<id>/attributes?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
 where:    
@@ -59,22 +59,33 @@ where:
 
 Request Parameters
 ------------------
-This implementation of the operation uses the following request parameters (all 
-optional):
+A collection of attributes to be read must be provided in one of two ways.
 
-Limit
+If the same attributes are to be read from each target object, the attributes'
+names should be provided under `attr_names`.
+
+If each target object has a unique set of attributes which you wish to read, then
+the target attribute names should be provided as the value of each key within the
+dictionary `obj_ids`.
+
+attr_names
 ^^^^^
-If provided, a positive integer value specifying the maximum number of attributes to return.
+The names of the attributes which should be read from the target object(s).
+This parameter is used when the same attributes are to be read from all
+target objects.
 
-Marker
-^^^^^^
-If provided, a string value indicating that only attributes that occur after the
-marker value will be returned.
-*Note:* the marker expression should be url-encoded.
+obj_ids
+^^^^^
+The collection of objects to read attributes from.
+
+If the same attribute names are to be read from all objects, `obj_ids` is a list.
+
+If each target object has a different set of attributes which should be read from it, `obj_ids` is
+a dictionary mapping each target object id to the names of the attributes to read from it.
 
 domain
 ^^^^^
-The domain containing the attribute's parent object. This 
+The domain containing the attributes' parent object. This 
 parameter is optional if the domain is specified in the request headers.
 
 ignore_nan
@@ -84,18 +95,13 @@ with None instances. This parameter is optional and defaults to false.
 
 IncludeData
 ^^^^^
-This parameter specifies whether to return the data of the attributein 
+This parameter specifies whether to return the data of the attributes in 
 addition to the metadata. This parameter is optional and defaults to true.
 
 encoding
 ^^^^^
-What encoding the attribute is stored in. This parameter is optional, 
+What encoding the attributes are stored in. This parameter is optional, 
 and defaults to no encoding.
-
-CreateOrder
-^^^^^
-Whether the attributes should be returned in their relative order of creation.
-This parameter is optional and defaults to false.
 
 Request Headers
 ---------------
@@ -122,7 +128,7 @@ attributes
 
 An array of JSON objects with an element for each returned attribute.
 Each element will have keys: name, type, shape, created, and lastModified.  See 
-:doc:`GET_Attribute` for a description of these keys.
+:doc:`POST_Attribute` for a description of these keys.
 
 hrefs
 ^^^^^
@@ -144,7 +150,7 @@ Get attributes of a group with UUID: "1a956e54-...".
 
 .. code-block:: http
 
-    GET /groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes HTTP/1.1
+    POST /groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes HTTP/1.1
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
@@ -155,7 +161,7 @@ Sample cURL command
 
 .. code-block:: bash
 
-    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes
+    $ curl -X POST --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes
 
 Sample Response
 ---------------
@@ -215,7 +221,7 @@ Get the five attributes that occur after attribute "attr2" from a group with UUI
 
 .. code-block:: http
 
-    GET /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes?Marker=attr2&Limit=5 HTTP/1.1
+    POST /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes?Marker=attr2&Limit=5 HTTP/1.1
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
@@ -226,7 +232,7 @@ Sample cURL command
 
 .. code-block:: bash
 
-    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes?Marker=attr2&Limit=5"
+    $ curl -X POST --header "X-Hdf-domain: /shared/tall.h5" "hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes?Marker=attr2&Limit=5"
 
 Sample Response - get Batch
 ---------------------------
@@ -319,10 +325,10 @@ Related Resources
 =================
 
 * :doc:`DELETE_Attribute`
-* :doc:`GET_Attributes`
-* :doc:`../DatasetOps/GET_Dataset`
-* :doc:`../DatatypeOps/GET_Datatype`
-* :doc:`../GroupOps/GET_Group`
+* :doc:`POST_Attributes`
+* :doc:`../DatasetOps/POST_Dataset`
+* :doc:`../DatatypeOps/POST_Datatype`
+* :doc:`../GroupOps/POST_Group`
 * :doc:`PUT_Attribute`
 
 

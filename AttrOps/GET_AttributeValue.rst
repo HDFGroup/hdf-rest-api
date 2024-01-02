@@ -1,10 +1,10 @@
 **********************************************
-GET Attribute
+GET AttributeValue
 **********************************************
 
 Description
 ===========
-Gets the specified attribute of a dataset, group, or committed datatype.
+Gets the value of a specified attribute of a dataset, group, or committed datatype.
 
 Requests
 ========
@@ -12,43 +12,43 @@ Requests
 Syntax
 ------
 
-To get an attribute of a group:
+To get the value of an attribute of a group:
 
 .. code-block:: http
 
-    GET /groups/<id>/attributes/<name> HTTP/1.1
+    GET /groups/<id>/attributes/<name>/value HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    GET /groups/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
+    GET /groups/<id>/attributes/<name>/value?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-To get an attribute of a dataset:
+To get the value of an attribute of a dataset:
 
 .. code-block:: http
 
-    GET /datasets/<id>/attributes/<name> HTTP/1.1
+    GET /datasets/<id>/attributes/<name>/value HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    GET /datasets/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
+    GET /datasets/<id>/attributes/<name>/value?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-To get an attribute of a datatype:
+To get the value of an attribute of a datatype:
 
 .. code-block:: http
 
-    GET /datatypes/<id>/attributes/<name> HTTP/1.1
+    GET /datatypes/<id>/attributes/<name>/value HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    GET /datatypes/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
+    GET /datatypes/<id>/attributes/<name>/value?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
 where:    
@@ -71,7 +71,7 @@ with None instances. This parameter is optional and defaults to false.
 
 IncludeData
 ^^^^^
-This parameter specifies whether to return the data of the attributein 
+This parameter specifies whether to return the data of the attribute in 
 addition to the metadata. This parameter is optional and defaults to true.
 
 encoding
@@ -127,6 +127,9 @@ hrefs
 ^^^^^
 An array of links to related resources.  See :doc:`../Hypermedia`.
 
+..
+    TODO - Encoding for encoded attributes?
+
 Special Errors
 --------------
 
@@ -139,11 +142,11 @@ Examples
 Sample Request
 --------------
 
-Get an attribute named "attr1" from a group with UUID: "g-be5996fa-...".
+Get the value of an attribute named "attr1" from a group with UUID: "g-be5996fa-...".
 
 .. code-block:: http
 
-    GET /groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes/attr1 HTTP/1.1
+    GET /groups/g-6e51a375-8f3c0647-be19-aaa940-fa2484/attributes/attr1/value HTTP/1.1
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
@@ -154,7 +157,7 @@ Sample cURL command
 
 .. code-block:: bash
 
-    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes/attr1
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-6e51a375-8f3c0647-be19-aaa940-fa2484/attributes/attr1/value
 
 Sample Response
 ---------------
@@ -170,31 +173,22 @@ Sample Response
 
 .. code-block:: json
 
-    {
-        "name": "attr1",
-        "type": {
-            "base": "H5T_STD_I8LE",
-            "class": "H5T_INTEGER"
-        },
-        "shape": {
-            "class": "H5S_SIMPLE",
-            "dims": [10]
-        },
-        "created": 1531174596.117736,
-        "lastModified": 1531174596.117736,
-        "value": [97, 98, 99, 100, 101, 102, 103, 104, 105, 0],
-        "hrefs": [
-            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/attributes/attr1", "rel": "self"},
-            {"href": "hsdshdflab.hdfgroup.org/", "rel": "home"},
-            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016", "rel": "owner"}
+{
+    'value': [0, 1, 2, 3, 4, 5], 
+    'hrefs': 
+        [
+            {'rel': 'self', 'href': 'http://localhost:5101/groups/g-6e51a375-8f3c0647-be19-aaa940-fa2484/attributes/attr1'}, 
+            {'rel': 'home', 'href': 'http://localhost:5101/'}, 
+            {'rel': 'owner', 'href': 'http://localhost:5101/groups/g-6e51a375-8f3c0647-be19-aaa940-fa2484'}
         ]
-    }
+}
+
 
 Related Resources
 =================
 
 * :doc:`DELETE_Attribute`
-* :doc:`GET_AttributeValue`
+* :doc:`GET_Attribute`
 * :doc:`GET_Attributes`
 * :doc:`../DatasetOps/GET_Dataset`
 * :doc:`../DatatypeOps/GET_Datatype`

@@ -1,12 +1,12 @@
 **********************************************
-PUT Attribute
+PUT Attributes
 **********************************************
 
 Description
 ===========
-Creates a new attribute in a group, dataset, or committed datatype.
+Creates a collections of new attributes in a group, dataset, or committed datatype.
 
-*Note*: The new attribute will replace any existing attribute with the same name if the `replace` parameter is provided.
+*Note*: The new attributes will replace any existing attributes with the same names if the `replace` parameter is provided.
 
 Requests
 ========
@@ -14,7 +14,7 @@ Requests
 Syntax
 ------
 
-To create a group attribute:
+To create a collection of group attributes:
 
 .. code-block:: http
 
@@ -27,7 +27,7 @@ To create a group attribute:
     PUT /groups/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-To create a dataset attribute:
+To create a collection of dataset attributes:
 
 .. code-block:: http
 
@@ -40,7 +40,7 @@ To create a dataset attribute:
     PUT /datasets/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-To create a committed datatype attribute:
+To create a collection of committed datatype attributes:
 
 .. code-block:: http
 
@@ -68,7 +68,7 @@ the request will fail with code 409. This parameter is optional and defaults to 
 
 domain
 ^^^^^
-The domain containing the attribute's parent object. This 
+The domain containing the attributes' parent objects. This 
 parameter is optional if the domain is specified in the request headers.
 
 Request Headers
@@ -79,20 +79,39 @@ to most requests.  See :doc:`../CommonRequestHeaders`
 Request Elements
 ----------------
 
-The request body must include a JSON object with "type" key.  Optionally a "shape"
-key can be provided to make a non-scalar attribute.
+The request must provide at least one attribute to be written. This may be done in one of three ways: As 
+a list of attribute items named `attributes`, a dictionary `obj_ids` mapping a set of 
+target object ids to the attribute objects which are to be written to those
+objects, or a single attribute item desribe by a `type` and optional `shape`/`value`.
 
+obj_ids
+^^^^^
+A collection of objects to which the attributes are to be written. 
+
+If the same set of attributes is to be written to each target object, `obj_ids` should
+be a list. If each target object has a unique collection of attributes which should 
+be written to it, `obj_ids` should map each target object id
+to a set of attributes to write to that object.
+
+If this is not provided, the attributes in `attr_names` will be written to the object
+with the id specified in the query.
+
+attributes
+^^^^
+A dictionary mapping the name of each new attribute to its information. Each individual
+attribute is required to provide a `type`, and may optionally provide a `shape` and `value`.
 
 type
 ^^^^
 
-Specifies the desired type of the attribute.  Either a string that is one of the 
+Specifies the desired type of a single attribute to create.  Either a string that is one of the 
 predefined type values, a UUID of a committed type, or a JSON object describing the type.
 See :doc:`../Types/index` for details of the type specification.
 
 shape
 ^^^^^^
 
+Specifies the desired shape of a single attribute to create.
 Either a string with the value ``H5S_NULL`` or an
 integer array describing the dimensions of the attribute. 
 If shape is not provided, a scalar attribute will be created.
@@ -102,6 +121,7 @@ If a shape value of ``H5S_NULL`` is specified a null space attribute will be cre
 value
 ^^^^^
 
+Specifies the desired value of a single attribute to create.
 A JSON array (or number or string for scalar attributes with primitive types) that 
 specifies the initial values for the attribute.  The elements of the array must be 
 compatible with the type of the attribute.
@@ -175,6 +195,9 @@ Sample Response - scalar attribute
    Content-Length: 13
    Content-Type: application/json
    Server: nginx/1.15.0
+
+..
+    TODO
 
 .. code-block:: json
 
@@ -286,6 +309,7 @@ Sample Response - compound type
     Content-Length: 13
     Content-Type: application/json
     Server: nginx/1.15.0
+
 ..
     TODO
 
