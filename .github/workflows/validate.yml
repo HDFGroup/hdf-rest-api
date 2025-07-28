@@ -15,6 +15,6 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: 12
+        node-version: 16
     - run: npm install -g ibm-openapi-validator
     - run: lint-openapi openapi.yaml
