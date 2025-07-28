@@ -1,12 +1,10 @@
 **********************************************
-PUT Attribute
+PUT AttributeValue
 **********************************************
 
 Description
 ===========
-Creates a new attribute in a group, dataset, or committed datatype.
-
-*Note*: The new attribute will replace any existing attribute with the same name if the `replace` parameter is provided.
+Update the value of an attribute in a group, dataset, or committed datatype.
 
 Requests
 ========
@@ -14,43 +12,43 @@ Requests
 Syntax
 ------
 
-To create a group attribute:
+To update the value of a group attribute:
 
 .. code-block:: http
 
-    PUT /groups/<id>/attributes/<name> HTTP/1.1
+    PUT /groups/<id>/attributes/<name>/value HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    PUT /groups/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
+    PUT /groups/<id>/attributes/<name>/value?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-To create a dataset attribute:
+To update the value of a dataset attribute:
 
 .. code-block:: http
 
-    PUT /datasets/<id>/attributes/<name> HTTP/1.1
+    PUT /datasets/<id>/attributes/<name>/value HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    PUT /datasets/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
+    PUT /datasets/<id>/attributes/<name>/value?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-To create a committed datatype attribute:
+To update the value of a committed datatype attribute:
 
 .. code-block:: http
 
-    PUT /datatypes/<id>/attributes/<name> HTTP/1.1
+    PUT /datatypes/<id>/attributes/<name>/value HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    PUT /datatypes/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
+    PUT /datatypes/<id>/attributes/<name>/value?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
 * *<id>* is the UUID of the dataset/group/committed datatype
@@ -60,11 +58,6 @@ Request Parameters
 ------------------
 
 This implementation of the operation uses several request parameters, all optional:
-
-replace
-^^^^^
-Whether existing attributes on the same name on the target object should be replaced. If such an attribute already exists and `replace` is false,
-the request will fail with code 409. This parameter is optional and defaults to false. 
 
 domain
 ^^^^^
@@ -79,33 +72,21 @@ to most requests.  See :doc:`../CommonRequestHeaders`
 Request Elements
 ----------------
 
-The request body must include a JSON object with "type" key.  Optionally a "shape"
-key can be provided to make a non-scalar attribute.
-
-
-type
-^^^^
-
-Specifies the desired type of the attribute.  Either a string that is one of the 
-predefined type values, a UUID of a committed type, or a JSON object describing the type.
-See :doc:`../Types/index` for details of the type specification.
-
-shape
-^^^^^^
-
-Either a string with the value ``H5S_NULL`` or an
-integer array describing the dimensions of the attribute. 
-If shape is not provided, a scalar attribute will be created.
-If a shape value of ``H5S_NULL`` is specified a null space attribute will be created.
-(Null space attributes can not contain any data values.)
+The request body must include a JSON object with a 'value' key. The request body
+may include an optional `encoding` parameter.
 
 value
 ^^^^^
 
 A JSON array (or number or string for scalar attributes with primitive types) that 
-specifies the initial values for the attribute.  The elements of the array must be 
+specifies the new values for the attribute.  The elements of the array must be 
 compatible with the type of the attribute.
 Not valid to provide if the shape is ``H5S_NULL``.
+
+
+encoding
+^^^^^
+Specifies the encoding that the new attribute value is in. Defaults to `None`.
 
 Responses
 =========
@@ -142,7 +123,7 @@ The value of the attribute will be 42.
 
 .. code-block:: http
 
-    PUT /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr4 HTTP/1.1
+    PUT /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr4/value HTTP/1.1
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Content-Length: 38
@@ -153,7 +134,6 @@ The value of the attribute will be 42.
 .. code-block:: json
 
     {
-        "type": "H5T_STD_I32LE", 
         "value": 42
     }
 
@@ -163,7 +143,7 @@ Sample cURL command
 .. code-block:: bash
 
     $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
-      -d "{\"type\": \"H5T_STD_I32LE\",\"value\": 42}" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr4
+      -d "{\"type\": \"H5T_STD_I32LE\",\"value\": 42}" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr4/value
 
 Sample Response - scalar attribute
 -----------------------------------
@@ -189,7 +169,7 @@ The attributes values will be "Hello, ..." and "Goodbye!".
 
 .. code-block:: http
 
-    PUT /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr6 HTTP/1.1
+    PUT /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr6/value HTTP/1.1
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Content-Length: 178
@@ -199,13 +179,6 @@ The attributes values will be "Hello, ..." and "Goodbye!".
 .. code-block:: json
 
     {
-        "shape": [2], 
-        "type": {
-            "class": "H5T_STRING",
-            "cset": "H5T_CSET_ASCII",  
-            "strpad": "H5T_STR_NULLPAD", 
-            "strsize": 40
-        }, 
         "value": ["Hello, I'm a fixed-width string!", "Goodbye!"]
     }
 
@@ -216,7 +189,7 @@ Sample cURL command
 
     $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
       -d "{\"shape\": [2], \"type\": {\"class\": \"H5T_STRING\", \"charSet\": \"H5T_CSET_ASCII\", \"strPad\": \"H5T_STR_NULLPAD\", \"length\": 40},
-      \"value\": [\"Hello, I'm a fixed-width string"'!'"\", \"Goodbye"'!'"\"]}" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr6
+      \"value\": [\"Hello, I'm a fixed-width string"'!'"\", \"Goodbye"'!'"\"]}" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr6/value
 
 Sample Response - string attribute
 -----------------------------------
@@ -245,7 +218,7 @@ and a floating point element.
 
 .. code-block:: http
 
-    PUT /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr_compound HTTP/1.1
+    PUT /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr_compound/value HTTP/1.1
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Content-Length: 187
@@ -256,14 +229,6 @@ and a floating point element.
 
 
     {
-        "shape": 2, 
-        "type": {
-            "class": "H5T_COMPOUND",
-            "fields": [
-                {"type": "H5T_STD_I32LE", "name": "temp"}, 
-                {"type": "H5T_IEEE_F32LE", "name": "pressure"}
-            ] 
-        }, 
         "value": [[55, 32.34], [59, 29.34]]
     }
 
@@ -274,7 +239,7 @@ Sample cURL command
 
     $ curl -X PUT -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
       -d "{\"shape\": 2, \"type\": {\"class\": \"H5T_COMPOUND\", \"fields\": [{\"type\": \"H5T_STD_I32LE\", \"name\": \"temp\"},
-      {\"type\": \"H5T_IEEE_F32LE\", \"name\": \"pressure\"}]}, \"value\": [[55, 32.34], [59, 29.34]]}" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr_compound
+      {\"type\": \"H5T_IEEE_F32LE\", \"name\": \"pressure\"}]}, \"value\": [[55, 32.34], [59, 29.34]]}" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr_compound/value
 
 Sample Response - compound type 
 -----------------------------------

@@ -1,11 +1,11 @@
 **********************************************
-DELETE Attribute
+DELETE Link
 **********************************************
 
 Description
 ===========
-The implementation of the DELETE operation deletes the attribute named in the URI. For attributes with 
-names containing '/' or '#', :docs:`DELETE_Attributes` must be used.
+The implementation of the DELETE operation deletes the link named in the URI. For links with 
+names containing '/' or '#', :docs:`DELETE_Links` must be used.
 
 Requests
 ========
@@ -14,46 +14,29 @@ Syntax
 ------
 .. code-block:: http
 
-    DELETE /groups/<id>/<name> HTTP/1.1
+    DELETE /groups/<id>/<links> HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    DELETE /groups/<id>/<name>?domain=DOMAIN HTTP/1.1
+    DELETE /groups/<id>/<links>/<title> HTTP/1.1
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    DELETE /datasets/<id>/<name> HTTP/1.1
-    X-Hdf-domain: DOMAIN
+    DELETE /groups/<id>/<links>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-.. code-block:: http
-
-    DELETE /datasets/<id>/<name>?domain=DOMAIN HTTP/1.1
-    Authorization: <authorization_string>
-
-.. code-block:: http
-
-    DELETE /datatypess/<id>/<name> HTTP/1.1
-    X-Hdf-domain: DOMAIN
-    Authorization: <authorization_string>
-
-.. code-block:: http
-
-    DELETE /datatypes/<id>/<name>?domain=DOMAIN HTTP/1.1
-    Authorization: <authorization_string>
-
-* *<id>* is the UUID of the dataset/group/committed datatype
-* *<name>* is the url-encoded name of the requested attribute
+* *<id>* is the UUID of the group containing the link to delete
+* *<title>* is the url-encoded name of the requested link
 
 Request Parameters
 ------------------
 
 domain
 ^^^^^
-The domain containing the attribute's parent object. This parameter is optional if the domain is specified in the request headers.
+The domain containing the link's parent object. This parameter is optional if the domain is specified in the request headers.
 
 Request Headers
 ---------------
@@ -92,7 +75,7 @@ Sample Request
 
 .. code-block:: http
 
-    DELETE /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr1 HTTP/1.1
+    DELETE /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/links/lnk1 HTTP/1.1
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Accept: */*
@@ -103,7 +86,7 @@ Sample cURL command
 
 .. code-block:: bash
 
-    $ curl -X DELETE -u username:password --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr1
+    $ curl -X DELETE -u username:password --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/links/lnk1
 
 Sample Response
 ---------------
@@ -118,18 +101,18 @@ Sample Response
 
 .. code-block:: json
 
-    {"hrefs": []}
+    {}
 
 Related Resources
 =================
 
-* :docs:`DELETE_Attributes`
-* :doc:`GET_Attributes`
-* :doc:`GET_Attribute`
+* :docs:`DELETE_Links`
+* :doc:`GET_Links`
+* :doc:`GET_Link`
 * :doc:`../DatasetOps/GET_Dataset`
 * :doc:`../DatatypeOps/GET_Datatype`
 * :doc:`../GroupOps/GET_Group`
-* :doc:`PUT_Attribute`
+* :doc:`PUT_Link`
 
 
  

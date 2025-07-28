@@ -1,59 +1,75 @@
 **********************************************
-DELETE Attribute
+DELETE Attributes
 **********************************************
 
 Description
 ===========
-The implementation of the DELETE operation deletes the attribute named in the URI. For attributes with 
-names containing '/' or '#', :docs:`DELETE_Attributes` must be used.
+Delete a collection of attributes specified by name as a parameter. 
 
-Requests
 ========
 
 Syntax
 ------
 .. code-block:: http
 
-    DELETE /groups/<id>/<name> HTTP/1.1
+    DELETE /groups/<id>/attributes?attr_names=<name>/<name>/.../<name> HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    DELETE /groups/<id>/<name>?domain=DOMAIN HTTP/1.1
-    Authorization: <authorization_string>
-
-.. code-block:: http
-
-    DELETE /datasets/<id>/<name> HTTP/1.1
+    DELETE /groups/<id>/attributes?separator=:&attr_names=<name>:<name>:...:<name> HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    DELETE /datasets/<id>/<name>?domain=DOMAIN HTTP/1.1
-    Authorization: <authorization_string>
-
-.. code-block:: http
-
-    DELETE /datatypess/<id>/<name> HTTP/1.1
+    DELETE /datasets/<id>/attributes?attr_names=<name>/<name>/.../<name> HTTP/1.1
     X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
 
 .. code-block:: http
 
-    DELETE /datatypes/<id>/<name>?domain=DOMAIN HTTP/1.1
+    DELETE /datasets/<id>/attributes?separator=:&attr_names=<name>:<name>:...:<name> HTTP/1.1
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
+
+.. code-block:: http
+
+    DELETE /datatypes/<id>/attributes?attr_names=<name>/<name>/.../<name> HTTP/1.1
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    DELETE /datatypes/<id>/attributes?separator=:&attr_names=<name>:<name>:...:<name> HTTP/1.1
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
 
 * *<id>* is the UUID of the dataset/group/committed datatype
-* *<name>* is the url-encoded name of the requested attribute
+* *<name>* is the url-encoded name of a requested attribute
 
 Request Parameters
 ------------------
 
+This operation requires the parameter `attr_names` to specify the attributes to delete. Other parameters are optional.
+
+attr_names
+^^^^^
+The names of the attributes to delete, as a single query parameter. Each individual attribute name is separated by a separator string. This parameter is required.
+
+separator
+^^^^^
+The string that separates individual attribute names in the `attr_names` parameter. This parameter is optional, with a default value of `/`.
+
 domain
 ^^^^^
-The domain containing the attribute's parent object. This parameter is optional if the domain is specified in the request headers.
+The domain containing the attributes' parent object. This parameter is optional if the domain is specified in the request headers.
+
+encoding
+^^^^^
+The type of encoding used for the attribute names. This parameter is optional.
 
 Request Headers
 ---------------
@@ -92,7 +108,7 @@ Sample Request
 
 .. code-block:: http
 
-    DELETE /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr1 HTTP/1.1
+    DELETE /groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/?attr_names=attr1/attr2/attr3 HTTP/1.1
     Host: hsdshdflab.hdfgroup.org
     X-Hdf-domain: /shared/tall.h5
     Accept: */*
@@ -103,7 +119,7 @@ Sample cURL command
 
 .. code-block:: bash
 
-    $ curl -X DELETE -u username:password --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/attr1
+    $ curl -X DELETE -u username:password --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-45f464d8-883e-11e8-a9dc-0242ac12000e/attributes/?attr_names=attr1/attr2/attr3
 
 Sample Response
 ---------------
@@ -123,7 +139,7 @@ Sample Response
 Related Resources
 =================
 
-* :docs:`DELETE_Attributes`
+* :doc:`DELETE_Attribute`
 * :doc:`GET_Attributes`
 * :doc:`GET_Attribute`
 * :doc:`../DatasetOps/GET_Dataset`
