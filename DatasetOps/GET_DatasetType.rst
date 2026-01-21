@@ -14,11 +14,16 @@ Syntax
 .. code-block:: http
 
     GET /datasets/<id>/type HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
-*<id>* is the UUID of the dataset the type information is requested for.
-    
+
+.. code-block:: http
+
+    GET /datasets/<id>/type?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
+* *<id>* is the UUID of the dataset the type information is requested for.
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -65,128 +70,128 @@ Sample Request - Predefined Type
 
 .. code-block:: http
 
-    GET /datasets/ba06ce68-a6b5-11e4-8ed3-3c15c2da029e/type HTTP/1.1
-    host: scalar.test.hdfgroup.org
+    GET /datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/type HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/type
+
 Sample Response - Predefined Type
 ---------------------------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Wed, 28 Jan 2015 06:20:16 GMT
-    Content-Length: 519
+    Date: Thu, 19 Jul 2018 16:04:48 GMT
+    Content-Length: 374
     Etag: "802b160bf786596a9cb9f6d5cd6faa4fe1127e8c"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
     {
-    "type": {
-        "class": "H5T_INTEGER", 
-        "order": "H5T_ORDER_LE", 
-        "base_size": 4, 
-        "base": "H5T_STD_I32LE", 
-        "size": 4
-    }, 
-    "hrefs": [
-        {"href": "http://scalar.test.hdfgroup.org/datasets/ba06ce68-a6b5-11e4-8ed3-3c15c2da029e/type", "rel": "self"}, 
-        {"href": "http://scalar.test.hdfgroup.org/datasets/ba06ce68-a6b5-11e4-8ed3-3c15c2da029e", "rel": "owner"}, 
-        {"href": "http://scalar.test.hdfgroup.org/groups/ba06992e-a6b5-11e4-9ba5-3c15c2da029e", "rel": "root"}
-      ] 
+        "type": {
+            "base": "H5T_STD_I32BE",
+            "class": "H5T_INTEGER"
+        },
+        "hrefs": [
+            {"href": "hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013/type", "rel": "self"},
+            {"href": "hsdshdflab.hdfgroup.org/datasets/d-be8bace4-83c5-11e8-90e7-0242ac120013", "rel": "owner"},
+            {"href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016", "rel": "root"}
+        ]
     }
-    
+
 Sample Request - Compound Type
 --------------------------------
 
 .. code-block:: http
 
-    GET /datasets/b9edddd7-a6b5-11e4-9afd-3c15c2da029e/type HTTP/1.1
-    host: compound.test.hdfgroup.org
+    GET /datasets/d-a6d2ee5c-807b-11e8-947e-0242ac120014/type HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /home/test_user1/h5pyd_test/3.4/query_compound_dset.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /home/test_user1/h5pyd_test/3.4/query_compound_dset.h5"
+      hsdshdflab.hdfgroup.org/datasets/d-a6d2ee5c-807b-11e8-947e-0242ac120014/type
+
 Sample Response - Compound Type
 --------------------------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Wed, 28 Jan 2015 06:20:16 GMT
-    Content-Length: 1199
+    Date: Thu, 19 Jul 2018 16:08:38 GMT
+    Content-Length: 763
     Etag: "1f97eac24aa18d3c462a2f2797c4782a1f2a0aa2"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
     {
-    "type": {
-        "class": "H5T_COMPOUND",
-        "fields": [
-            {
-            "type": {
-                "order": "H5T_ORDER_LE", 
-                "base_size": 8, 
-                "class": "H5T_INTEGER", 
-                "base": "H5T_STD_I64LE", 
-                "size": 8}, 
-            "name": "date"
-            }, {
-            "type": {
-                "strpad": "H5T_STR_NULLPAD", 
-                "base_size": 6, "order": "H5T_ORDER_NONE", 
-                "cset": "H5T_CSET_ASCII", 
-                "strsize": 6, 
-                "class": "H5T_STRING", 
-                "size": 6}, 
-            "name": "time"
-            }, {
-            "type": {
-                "order": "H5T_ORDER_LE", 
-                "base_size": 8, 
-                "class": "H5T_INTEGER", 
-                "base": "H5T_STD_I64LE", 
-                "size": 8}, 
-            "name": "temp"
-            }, {
-            "type": {
-                "order": "H5T_ORDER_LE", 
-                "base_size": 8, 
-                "class": "H5T_FLOAT", 
-                "base": "H5T_IEEE_F64LE", 
-                "size": 8}, 
-            "name": "pressure"
-            }, {
-                "type": {
-                    "strpad": "H5T_STR_NULLPAD", 
-                    "base_size": 6, 
-                    "order": "H5T_ORDER_NONE", 
-                    "cset": "H5T_CSET_ASCII", 
-                    "strsize": 6, 
-                    "class": "H5T_STRING", 
-                    "size": 6}, 
-                "name": "wind"}
-            ] 
-        }, 
+        "type": {
+            "class": "H5T_COMPOUND",
+            "fields": [
+                {
+                    "type": {
+                        "strPad": "H5T_STR_NULLPAD",
+                        "length": 4,
+                        "class": "H5T_STRING",
+                        "charSet": "H5T_CSET_ASCII"
+                    },
+                    "name": "symbol"
+                },
+                {
+                    "type": {
+                        "strPad": "H5T_STR_NULLPAD",
+                        "length": 8,
+                        "class": "H5T_STRING",
+                        "charSet": "H5T_CSET_ASCII"
+                    },
+                    "name": "date"
+                },
+                {
+                    "type": {
+                        "class": "H5T_INTEGER",
+                        "base": "H5T_STD_I32LE"
+                    },
+                    "name": "open"
+                },
+                {
+                    "type": {
+                        "class": "H5T_INTEGER",
+                        "base": "H5T_STD_I32LE"
+                    },
+                    "name": "close"
+                }
+            ]
+        },
         "hrefs": [
-            {"href": "http://compound.test.hdfgroup.org/datasets/b9edddd7-a6b5-11e4-9afd-3c15c2da029e/type", "rel": "self"}, 
-            {"href": "http://compound.test.hdfgroup.org/datasets/b9edddd7-a6b5-11e4-9afd-3c15c2da029e", "rel": "owner"}, 
-            {"href": "http://compound.test.hdfgroup.org/groups/b9eda805-a6b5-11e4-aa52-3c15c2da029e", "rel": "root"}
-          ] 
-        }
-    
+            {"rel": "self", "href": "hsdshdflab.hdfgroup.org/datasets/d-a6d2ee5c-807b-11e8-947e-0242ac120014/type"},
+            {"rel": "owner", "href": "hsdshdflab.hdfgroup.org/datasets/d-a6d2ee5c-807b-11e8-947e-0242ac120014"},
+            {"rel": "root", "href": "hsdshdflab.hdfgroup.org/groups/g-a6b9f118-807b-11e8-a81a-0242ac12000b"}
+        ]
+    }
+
 Related Resources
 =================
 
 * :doc:`GET_Dataset`
 * :doc:`GET_DatasetShape`
 * :doc:`POST_Dataset`
- 
 
- 
+

@@ -40,7 +40,7 @@ To get the attributes of a dataset:
     GET /datasets/<id>/attributes?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-To get the attributes of a datatype:
+To get the attributes of a committed datatype:
 
 .. code-block:: http
 
@@ -115,7 +115,7 @@ Examples
 Sample Request
 --------------
 
-Get attributes of a group with UUID: "1a956e54-...".
+Get attributes of a group with UUID: "g-be5996fa-...".
 
 .. code-block:: http
 

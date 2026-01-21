@@ -14,9 +14,14 @@ Syntax
 .. code-block:: http
 
     GET /datasets HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /datasets?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 Request Parameters
 ------------------
 This implementation of the operation uses the following request parameters (both 
@@ -73,40 +78,46 @@ Sample Request
 .. code-block:: http
 
     GET /datasets HTTP/1.1
-    host: tall.test.hdfgroup.org
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/datasets
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Fri, 23 Jan 2015 06:33:36 GMT
-    Content-Length: 413
+    Date: Thu, 19 Jul 2018 16:29:14 GMT
+    Content-Length: 405
     Etag: "977e96c7bc63a6e05d10d56565df2ab8d30e404d"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-  
-    
+
     {
-    "datasets": [
-        "c8d7dd14-a2c6-11e4-a68c-3c15c2da029e", 
-        "c8d7f159-a2c6-11e4-99af-3c15c2da029e", 
-        "c8d83759-a2c6-11e4-8713-3c15c2da029e", 
-        "c8d84a8a-a2c6-11e4-b457-3c15c2da029e"
-      ],
-    "hrefs": [
-        {"href": "http://tall.test.hdfgroup.org/datasets", "rel": "self"}, 
-        {"href": "http://tall.test.hdfgroup.org/groups/c8d7842b-a2c6-11e4-b4f1-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://tall.test.hdfgroup.org/", "rel": "home"}
-      ]
+        "datasets": [
+            "d-be8bace4-83c5-11e8-90e7-0242ac120013",
+            "d-be9c3582-83c5-11e8-947e-0242ac120014",
+            "d-bf1cb98c-83c5-11e8-b9ee-0242ac12000a",
+            "d-bf2af63c-83c5-11e8-87e1-0242ac12000c"
+        ],
+        "hrefs": [
+            {"rel": "self", "href": "hsdshdflab.hdfgroup.org/datasets"},
+            {"rel": "root", "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016"},
+            {"rel": "home", "href": "hsdshdflab.hdfgroup.org/"}
+        ]
     }
-    
+
 Sample Request with Marker and Limit
 ------------------------------------
 
@@ -116,47 +127,55 @@ The "Limit" request parameter is used to limit the number of UUIDs in the respon
 
 .. code-block:: http
 
-    GET /datasets?Marker=817db263-a2cc-11e4-87f2-3c15c2da029e&Limit=5 HTTP/1.1
-    host: dset1k.test.hdfgroup.org
+    GET /datasets?Marker=d-85641798-8b73-11e8-bad6-0242ac120009&Limit=5 HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/many_datasets.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
- 
+
+Sample cURL command
+-------------------
+
+*URL enclosed in quotes to prevent shell from seeing ampersand*
+
+.. code-block:: bash
+
+    $ curl -X GET --header "X-Hdf-domain: /shared/many_datasets.h5" "hsdshdflab.hdfgroup.org/datasets?Marker=d-85641798-8b73-11e8-bad6-0242ac120009&Limit=5"
+
 Sample Response with Marker and Limit
 -------------------------------------
 
 .. code-block:: http
- 
+
     HTTP/1.1 200 OK
-    Date: Fri, 23 Jan 2015 06:53:52 GMT
-    Content-Length: 459
+    Date: Thu, 19 Jul 2018 16:51:42 GMT
+    Content-Length: 408
     Etag: "cb708d4839cc1e165fe6bb30718e49589ef140f4"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-   
+    Server: nginx/1.15.0
+
 .. code-block:: json
-     
+
     {
-    "datasets": [
-        "817dcfb8-a2cc-11e4-9197-3c15c2da029e", 
-        "817de9ee-a2cc-11e4-8378-3c15c2da029e", 
-        "817e028a-a2cc-11e4-8ce3-3c15c2da029e", 
-        "817e1b61-a2cc-11e4-ba39-3c15c2da029e", 
-        "817e341c-a2cc-11e4-a16f-3c15c2da029e"
-      ],
-    "hrefs": [
-        {"href": "http://dset1k.test.hdfgroup.org/datasets", "rel": "self"}, 
-        {"href": "http://dset1k.test.hdfgroup.org/groups/81760a80-a2cc-11e4-bb55-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://dset1k.test.hdfgroup.org/", "rel": "home"}
-      ]
-    } 
-    
+        "datasets": [
+            "d-8652ac0a-8b73-11e8-827b-0242ac120007",
+            "d-875c8206-8b73-11e8-a0b6-0242ac12000e",
+            "d-88567b8a-8b73-11e8-9d44-0242ac12000b",
+            "d-8908c7cc-8b73-11e8-bad6-0242ac120009",
+            "d-89a73f9c-8b73-11e8-827b-0242ac120007"
+        ],
+        "hrefs": [
+            {"href": "hsds.local/datasets", "rel": "self"},
+            {"href": "hsds.local/groups/g-0e8ddffa-8b73-11e8-a0b6-0242ac12000e", "rel": "root"},
+            {"href": "hsds.local/", "rel": "home"}
+        ]
+    }
+
 Related Resources
 =================
 
 * :doc:`DELETE_Dataset`
 * :doc:`GET_Dataset`
 * :doc:`POST_Dataset`
- 
 
- 
+

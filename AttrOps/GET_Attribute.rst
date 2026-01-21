@@ -38,7 +38,7 @@ To get an attribute of a dataset:
     GET /datasets/<id>/attributes/<name>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
-To get an attribute of a datatype:
+To get an attribute of a committed datatype:
 
 .. code-block:: http
 
@@ -103,6 +103,14 @@ value
 ^^^^^
 A JSON array (or string or number for scalar datasets) giving the values of the requested 
 attribute.
+
+created
+^^^^^^^
+A timestamp giving the time the attribute was created in UTC (ISO-8601 format).
+
+lastModified
+^^^^^^^^^^^^
+A timestamp giving the most recent time the attribute has been modified (i.e. value updated) in UTC (ISO-8601 format).
 
 hrefs
 ^^^^^

@@ -75,7 +75,7 @@ The UUID of the newly created datatype object.
 
 root
 ^^^^
-The root group of the domain which the datatype is within.
+The UUID of the root group for the domain which the datatype is within.
 
 attributeCount
 ^^^^^^^^^^^^^^

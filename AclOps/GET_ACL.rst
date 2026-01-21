@@ -17,7 +17,12 @@ To get a user's default access for a domain:
 .. code-block:: http
 
     GET /acls/<userid> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    GET /acls/<userid>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
 To get a user's access information for a group:
@@ -25,31 +30,45 @@ To get a user's access information for a group:
 .. code-block:: http
 
     GET /groups/<id>/acls/<userid> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>   
+
+.. code-block:: http
+
+    GET /groups/<id>/acls/<userid>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
 
 To get a user's access information for a dataset:
 
 .. code-block:: http
 
     GET /datasets/<id>/acls/<userid> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    GET /datasets/<id>/acls/<userid>?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
 
 To get a user's access information for a committed datatype:
 
 .. code-block:: http
 
     GET /datatypes/<id>/acls/<userid> HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
+    Authorization: <authorization_string>
+
+.. code-block:: http
+
+    GET /datatypes/<id>/acls/<userid>?domain=DOMAIN HTTP/1.1
     Authorization: <authorization_string>
 
 where:
-    
-* <id> is the UUID of the requested dataset/group/committed datatype
-* <userid> is the userid for the requested user.  Use the special userid "default" to get the default access permisions for the object
-    
+
+* *<id>* is the UUID of the requested dataset/group/committed datatype
+* *<userid>* is the userid for the requested user.  Use the special userid "default" to get the default access permisions for the object
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -111,61 +130,57 @@ Sample Request
 
 .. code-block:: http
 
-    GET /groups/052dcbbd-9d33-11e4-86ce-3c15c2da029e/acls/test_user1 HTTP/1.1
-    host: tall.test.hdfgroup.org
+    GET /groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/acls/default HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Accept-Encoding: gzip, deflate
     Accept: */*
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X GET -u username:password --header "X-Hdf-domain: /shared/tall.h5" hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016/acls/default
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 200 OK
-    Date: Fri, 16 Jan 2015 20:06:08 GMT
-    Content-Length: 660
+    Date: Wed, 18 Jul 2018 16:21:21 GMT
+    Content-Length: 408
     Etag: "2c410d1c469786f25ed0075571a8e7a3f313cec1"
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
     {
-    "acl": {
-        "create": false,
-        "delete": false,
-        "read": true,
-        "readACL": false,
-        "update": false,
-        "updateACL": false,
-        "userName": "test_user1"
-    },
-    "hrefs": [
-        {
-            "href": "http://tall_acl.test.hdfgroup.org/groups/eb8f6959-8775-11e5-96b6-3c15c2da029e/acls/test_user1",
-            "rel": "self"
+        "acl": {
+            "userName": "default",
+            "create": false,
+            "update": false,
+            "updateACL": false,
+            "read": true,
+            "readACL": false,
+            "delete": false
         },
-        {
-            "href": "http://tall_acl.test.hdfgroup.org/groups/eb8f6959-8775-11e5-96b6-3c15c2da029e",
-            "rel": "root"
-        },
-        {
-            "href": "http://tall_acl.test.hdfgroup.org/",
-            "rel": "home"
-        },
-        {
-            "href": "http://tall_acl.test.hdfgroup.org/groups/eb8f6959-8775-11e5-96b6-3c15c2da029e",
-            "rel": "owner"
-        }
-    ]
-    
+        "hrefs": [
+            {"rel": "self", "href": "hsdshdflab.hdfgroup.org/acls"},
+            {"rel": "root", "href": "hsdshdflab.hdfgroup.org/groups/g-be5996fa-83c5-11e8-a8e6-0242ac120016"},
+            {"rel": "home", "href": "hsdshdflab.hdfgroup.org/"},
+            {"rel": "owner", "href": "hsdshdflab.hdfgroup.org/"}
+        ]
+    }
+
 Related Resources
 =================
 
 * :doc:`PUT_ACL`
 * :doc:`GET_ACLs`
 
- 
+
 
  

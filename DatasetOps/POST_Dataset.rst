@@ -14,9 +14,14 @@ Syntax
 .. code-block:: http
 
     POST /datasets HTTP/1.1
-    Host: DOMAIN
+    X-Hdf-domain: DOMAIN
     Authorization: <authorization_string>
-    
+
+.. code-block:: http
+
+    POST /datasets?domain=DOMAIN HTTP/1.1
+    Authorization: <authorization_string>
+
 Request Parameters
 ------------------
 This implementation of the operation does not use request parameters.
@@ -29,7 +34,7 @@ to most requests.  See :doc:`../CommonRequestHeaders`
 Request Elements
 ----------------
 The request body must include a JSON object with a "type" key.  Optionally "shape", 
-"maxdims", and "link" keys can be provided.
+"maxdims", "creationProperties" and "link" keys can be provided.
 
 type
 ^^^^
@@ -87,6 +92,35 @@ id
 ^^
 The UUID of the newly created dataset.
 
+root
+^^^^
+The UUID of the root group for the domain which the new dataset is within.
+
+type
+^^^^
+A JSON object representing the type definition for the dataset. See :doc:`../Types/index`
+for information on how different types are represented.
+
+shape
+^^^^^
+
+A JSON object with the following keys:
+
+class: A string with one of the following values:
+
+ * H5S_NULL: A null dataspace, which has no elements
+ * H5S_SCALAR: A dataspace with a single element (although possibly of a complex datatype)
+ * H5S_SIMPLE: A dataspace that consists of a regular array of elements
+ 
+dims: An integer array whose length is equal to the number of dimensions (rank) of the 
+dataspace.  The value of each element gives the current size of each dimension.  Dims
+is not returned for H5S_NULL or H5S_SCALAR dataspaces.
+
+maxdims: An integer array whose length is equal to the number of dimensions of the 
+dataspace.  The value of each element gives the maximum size of each dimension. A value
+of 0 indicates that the dimension has *unlimited* extent.  maxdims is not returned for
+H5S_SIMPLE dataspaces which are not extensible or for H5S_NULL or H5S_SCALAR dataspaces.
+
 attributeCount
 ^^^^^^^^^^^^^^
 The number of attributes belonging to the dataset.
@@ -121,281 +155,327 @@ Create a one-dimensional dataset with 10 floating point elements.
 .. code-block:: http
 
     POST /datasets HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Content-Length: 39
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: newdset.datasettest.test.hdfgroup.org
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "shape": 10, 
-    "type": "H5T_IEEE_F32LE"
+        "shape": 10, 
+        "type": "H5T_IEEE_F32LE"
     }
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X POST -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"shape\": 10, \"type\": \"H5T_IEEE_F32LE\"}" hsdshdflab.hdfgroup.org/datasets
+
 Sample Response
 ---------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Thu, 29 Jan 2015 06:14:02 GMT
+    Date: Wed, 18 Jul 2018 19:46:30 GMT
     Content-Length: 651
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-   
+
     {
-    "id": "0568d8c5-a77e-11e4-9f7a-3c15c2da029e", 
-    "attributeCount": 0, 
-    "created": "2015-01-29T06:14:02Z",
-    "lastModified": "2015-01-29T06:14:02Z",
-    "hrefs": [
-        {"href": "http://newdset.datasettest.test.hdfgroup.org/datasets/0568d8c5-a77e-11e4-9f7a-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://newdset.datasettest.test.hdfgroup.org/groups/055fe7de-a77e-11e4-bbe9-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://newdset.datasettest.test.hdfgroup.org/datasets/0568d8c5-a77e-11e4-9f7a-3c15c2da029e/attributes", "rel": "attributes"}, 
-        {"href": "http://newdset.datasettest.test.hdfgroup.org/datasets/0568d8c5-a77e-11e4-9f7a-3c15c2da029e/value", "rel": "value"}
-      ]
+        "id": "d-438f976c-8ac3-11e8-9ac3-0242ac12000c",
+        "type": {
+            "class": "H5T_FLOAT",
+            "base": "H5T_IEEE_F32LE"
+        },
+        "shape": {
+            "class": "H5S_SIMPLE",
+            "dims": [10]
+        },
+        "lastModified": 1531943189,
+        "created": 1531943189,
+        "attributeCount": 0,
+        "root": "g-45f464d8-883e-11e8-a9dc-0242ac12000e"
     }
-    
+
 Sample Request with Link
 ------------------------
 
 Create a dataset with 10 variable length string elements.  Create link in group: 
-"5e441dcf-..." with name: "linked_dset".
+"g-45f464d8-..." with name: "linked_dset".
 
 .. code-block:: http
 
     POST /datasets HTTP/1.1
-    Content-Length: 235
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: newdsetwithlink.datasettest.test.hdfgroup.org
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Content-Length: 239
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "type": {
-        "class": "H5T_STRING",
-        "strsize": "H5T_VARIABLE", 
-        "cset": "H5T_CSET_ASCII", 
-        "order": "H5T_ORDER_NONE", 
-        "strpad": "H5T_STR_NULLTERM"
-    },
-    "shape": 10, 
-    "link": {
-        "id": "5e441dcf-a782-11e4-bd6b-3c15c2da029e", 
-        "name": "linked_dset"
-      }
-    
+        "type": {
+            "class": "H5T_STRING",
+            "length": "H5T_VARIABLE", 
+            "charSet": "H5T_CSET_ASCII", 
+            "order": "H5T_ORDER_NONE", 
+            "strPad": "H5T_STR_NULLTERM"
+        },
+        "shape": 10, 
+        "link": {
+            "id": "g-45f464d8-883e-11e8-a9dc-0242ac12000e", 
+            "name": "linked_dset"
+        }
     }
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X POST -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"type\": {\"class\": \"H5T_STRING\", \"length\": \"H5T_VARIABLE\", \"charSet\": \"H5T_CSET_ASCII\", \"order\": \"H5T_ORDER_NONE\", \"strPad\": \"H5T_STR_NULLTERM\"},
+      \"shape\": 10, \"link\": {\"id\": \"g-45f464d8-883e-11e8-a9dc-0242ac12000e\", \"name\": \"linked_dset\"}}" hsdshdflab.hdfgroup.org/datasets
+
 Sample Response with Link
 -------------------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Thu, 29 Jan 2015 06:45:09 GMT
-    Content-Length: 683
+    Date: Wed, 18 Jul 2018 19:54:02 GMT
+    Content-Length: 363
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-   
-    
+
     {
-    "id": "5e579297-a782-11e4-93f9-3c15c2da029e",
-    "attributeCount": 0,
-    "created": "2015-01-29T06:45:09Z",
-    "lastModified": "2015-01-29T06:45:09Z",
-    "hrefs": [
-        {"href": "http://newdsetwithlink.datasettest.test.hdfgroup.org/datasets/5e579297-a782-11e4-93f9-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://newdsetwithlink.datasettest.test.hdfgroup.org/groups/5e441dcf-a782-11e4-bd6b-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://newdsetwithlink.datasettest.test.hdfgroup.org/datasets/5e579297-a782-11e4-93f9-3c15c2da029e/attributes", "rel": "attributes"}, 
-        {"href": "http://newdsetwithlink.datasettest.test.hdfgroup.org/datasets/5e579297-a782-11e4-93f9-3c15c2da029e/value", "rel": "value"}
-      ]
+        "id": "d-5154aed6-8ac4-11e8-9db9-0242ac120007",
+        "shape": {
+            "class": "H5S_SIMPLE",
+            "dims": [10]
+        },
+        "type": {
+            "charSet": "H5T_CSET_ASCII",
+            "order": "H5T_ORDER_NONE",
+            "strPad": "H5T_STR_NULLTERM",
+            "class": "H5T_STRING",
+            "length": "H5T_VARIABLE"
+        },
+        "created": 1531943641,
+        "attributeCount": 0,
+        "lastModified": 1531943641,
+        "root": "g-45f464d8-883e-11e8-a9dc-0242ac12000e"
     }
-    
+
 Sample Request - Resizable Dataset
 ----------------------------------
 
   Create a one-dimensional dataset with 10 elements, but extendable to an unlimited
   dimension.
-  
+
 .. code-block:: http
 
     POST /datasets HTTP/1.1
-    Content-Length: 54
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: resizabledset.datasettest.test.hdfgroup.org
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Content-Length: 53
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "type": "H5T_IEEE_F32LE",
-    "shape": 10,
-    "maxdims": 0
+        "type": "H5T_IEEE_F32LE",
+        "shape": 10,
+        "maxdims": 0
     }
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X POST -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"type\": \"H5T_IEEE_F32LE\", \"shape\": 10, \"maxdims\": 0}" hsdshdflab.hdfgroup.org/datasets
+
 Sample Response - Resizable Dataset
 -----------------------------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Thu, 29 Jan 2015 08:28:19 GMT
-    Content-Length: 675
+    Date: Wed, 18 Jul 2018 20:25:45 GMT
+    Content-Length: 292
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-     
-   {
-   "id": "c79933ab-a790-11e4-b36d-3c15c2da029e", 
-   "attributeCount": 0, 
-   "created": "2015-01-29T08:28:19Z",
-   "lastModified": "2015-01-29T08:28:19Z", 
-   "hrefs": [
-        {"href": "http://resizabledset.datasettest.test.hdfgroup.org/datasets/c79933ab-a790-11e4-b36d-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://resizabledset.datasettest.test.hdfgroup.org/groups/c7759c11-a790-11e4-ae03-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://resizabledset.datasettest.test.hdfgroup.org/datasets/c79933ab-a790-11e4-b36d-3c15c2da029e/attributes", "rel": "attributes"}, 
-        {"href": "http://resizabledset.datasettest.test.hdfgroup.org/datasets/c79933ab-a790-11e4-b36d-3c15c2da029e/value", "rel": "value"}
-      ]
+
+    {
+        "id": "d-bf2a5b64-8ac8-11e8-8126-0242ac12000d",
+        "type": {
+            "class": "H5T_FLOAT",
+            "base": "H5T_IEEE_F32LE"
+        },
+        "shape": {
+            "maxdims": [0],
+            "class": "H5S_SIMPLE",
+            "dims": [10]
+        },
+        "root": "g-45f464d8-883e-11e8-a9dc-0242ac12000e",
+        "attributeCount": 0,
+        "lastModified": 1531945544,
+        "created": 1531945544
     }
-    
+
 Sample Request - Committed Type
 ----------------------------------
 
   Create a two-dimensional dataset which uses a committed type with UUID: 
-  
+
 .. code-block:: http
 
     POST /datasets HTTP/1.1
-    Content-Length: 67
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: committedtype.datasettest.test.hdfgroup.org
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
+    Content-Length: 69
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "type": "accd0b1e-a792-11e4-bada-3c15c2da029e",
-    "shape": [10, 10]
+        "type": "accd0b1e-a792-11e4-bada-3c15c2da029e",
+        "shape": [10, 10]
     }
-    
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X POST -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"type\": \"t-9bd41cc6-8ac9-11e8-b72d-0242ac12000a\", \"shape\": [10, 10]}" hsdshdflab.hdfgroup.org/datasets
+
 Sample Response - Committed Type
 -----------------------------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Thu, 29 Jan 2015 08:41:53 GMT
-    Content-Length: 675
+    Date: Wed, 18 Jul 2018 20:33:23 GMT
+    Content-Length: 328
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
-     
+
     {
-    "id": "ace8cdca-a792-11e4-ad88-3c15c2da029e", 
-    "attributeCount": 0, 
-    "created": "2015-01-29T08:41:53Z",
-    "lastModified": "2015-01-29T08:41:53Z",
-    "hrefs": [
-        {"href": "http://committedtype.datasettest.test.hdfgroup.org/datasets/ace8cdca-a792-11e4-ad88-3c15c2da029e", "rel": "self"}, 
-        {"href": "http://committedtype.datasettest.test.hdfgroup.org/groups/acc4d37d-a792-11e4-b326-3c15c2da029e", "rel": "root"}, 
-        {"href": "http://committedtype.datasettest.test.hdfgroup.org/datasets/ace8cdca-a792-11e4-ad88-3c15c2da029e/attributes", "rel": "attributes"}, 
-        {"href": "http://committedtype.datasettest.test.hdfgroup.org/datasets/ace8cdca-a792-11e4-ad88-3c15c2da029e/value", "rel": "value"}
-      ]
+        "id": "d-d04c4d2a-8ac9-11e8-9db9-0242ac120007",
+        "shape": {
+            "class": "H5S_SIMPLE",
+            "dims": [10, 10]
+        },
+        "type": {
+            "base": "H5T_IEEE_F32LE",
+            "id": "t-9bd41cc6-8ac9-11e8-b72d-0242ac12000a", 
+            "class": "H5T_FLOAT"
+        },
+        "created": 1531946002,
+        "attributeCount": 0,
+        "lastModified": 1531946002,
+        "root": "g-45f464d8-883e-11e8-a9dc-0242ac12000e"
     }
-    
+
 Sample Request - SZIP Compression with chunking
 -----------------------------------------------
 
 .. code-block:: http
 
     POST /datasets HTTP/1.1
+    Host: hsdshdflab.hdfgroup.org
+    X-Hdf-domain: /shared/tall.h5
     Content-Length: 67
-    User-Agent: python-requests/2.3.0 CPython/2.7.8 Darwin/14.0.0
-    host: szip.datasettest.test.hdfgroup.org
     Accept: */*
     Accept-Encoding: gzip, deflate
-    
+
 .. code-block:: json
 
     {
-    "creationProperties": {
-        "filters": [
-            {
-                "bitsPerPixel": 8,
-                "coding": "H5_SZIP_EC_OPTION_MASK",
-                "id": 4,
-                "pixelsPerBlock": 32,
-                "pixelsPerScanline": 100
+        "creationProperties": {
+            "filters": [
+                {
+                    "bitsPerPixel": 8,
+                    "coding": "H5_SZIP_EC_OPTION_MASK",
+                    "id": 4,
+                    "pixelsPerBlock": 32,
+                    "pixelsPerScanline": 100
+                }
+            ],
+            "layout": {
+                "class": "H5D_CHUNKED",
+                "dims": [
+                    100,
+                    100
+                ]
             }
+        },
+        "shape": [
+            1000,
+            1000
         ],
-        "layout": {
-            "class": "H5D_CHUNKED",
-            "dims": [
-                100,
-                100
-            ]
-        }
-    },
-    "shape": [
-        1000,
-        1000
-    ],
-    "type": "H5T_IEEE_F32LE"
-   }
-   
+        "type": "H5T_IEEE_F32LE"
+    }
+
+Sample cURL command
+-------------------
+
+.. code-block:: bash
+
+    $ curl -X POST -u username:password --header "X-Hdf-domain: /shared/tall.h5" --header "Content-Type: application/json"
+      -d "{\"creationProperties\": {\"filters\": [{\"bitsPerPixel\": 8, \"coding\": \"H5_SZIP_EC_OPTION_MASK\", \"id\": 4, \"pixelsPerBlock\": 32, \"pixelsPerScanline\": 100}],
+      \"layout\": {\"class\": \"H5D_CHUNKED\", \"dims\": [100, 100]}}, \"shape\": [1000, 1000], \"type\": \"H5T_IEEE_F32LE\"}" hsdshdflab.hdfgroup.org/datasets
+
 Sample Response - SZIP Compression with chunking
 ------------------------------------------------
 
 .. code-block:: http
 
     HTTP/1.1 201 Created
-    Date: Thu, 18 Jun 2015 08:41:53 GMT
-    Content-Length: 975
+    Date: Wed, 18 Jul 2018 21:03:51 GMT
+    Content-Length: 284
     Content-Type: application/json
-    Server: TornadoServer/3.2.2
-    
+    Server: nginx/1.15.0
+
 .. code-block:: json
 
     {
-    "id": "ad283c05-158c-11e5-bd67-3c15c2da029e",
-    "attributeCount": 0,
-    "created": "2015-06-18T07:36:04Z",
-    "lastModified": "2015-06-18T07:36:04Z",
-    "hrefs": [
-        {
-            "href": "http://newdset_szip.datasettest.test.hdfgroup.org/datasets/ad283c05-158c-11e5-bd67-3c15c2da029e",
-            "rel": "self"
+        "id": "d-11dac970-8ace-11e8-8126-0242ac12000d",
+        "attributeCount": 0,
+        "type": {
+            "class": "H5T_FLOAT",
+            "base": "H5T_IEEE_F32LE"
         },
-        {
-            "href": "http://newdset_szip.datasettest.test.hdfgroup.org/groups/ad2746d4-158c-11e5-a083-3c15c2da029e",
-            "rel": "root"
+        "shape": {
+            "class": "H5S_SIMPLE",
+            "dims": [1000, 1000]
         },
-        {
-            "href": "http://newdset_szip.datasettest.test.hdfgroup.org/datasets/ad283c05-158c-11e5-bd67-3c15c2da029e/attributes",
-            "rel": "attributes"
-        },
-        {
-            "href": "http://newdset_szip.datasettest.test.hdfgroup.org/datasets/ad283c05-158c-11e5-bd67-3c15c2da029e/value",
-            "rel": "value"
-        }
-    ]
+        "lastModified": 1531947830,
+        "created": 1531947830,
+        "root": "g-45f464d8-883e-11e8-a9dc-0242ac12000e"
     }
 
-
-    
 Related Resources
 =================
 
@@ -404,6 +484,5 @@ Related Resources
 * :doc:`GET_Value`
 * :doc:`POST_Value`
 * :doc:`PUT_Value`
- 
 
- 
+
